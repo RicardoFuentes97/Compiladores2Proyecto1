@@ -23,6 +23,7 @@
     "@ctrl/ngx-codemirror": "^4.1.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "angular-bootstrap-md": "11.0.0",
+    "angular-cli-ghpages": "^1.0.0-rc.2",
     "chart.js": "^2.5.0",
     "codemirror": "^5.61.0",
     "d3-graphviz": "^4.0.0",

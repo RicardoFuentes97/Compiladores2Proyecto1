@@ -186,12 +186,6 @@ instruccion :  declaracion {$$ = $1; }
             | RETURN PYC { $$ = new retornar.default(null)}
             | RETURN e PYC { $$ = new retornar.default($2)}
             | sw {$$=$1}
-            | error         { console.log("Error Sintactico" + yytext 
-                                    + "linea: " + this._$.first_line 
-                                    + "columna: " + this._$.first_column); 
-                        
-                                          
-                            }
             ;
 
 sw: SWITCH PARA e PARC LLAVA lista_case  LLAVC {$$=new sw.default($3,$6,[])}
