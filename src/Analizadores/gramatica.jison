@@ -10,7 +10,7 @@ id      [a-zñA-ZÑ_][a-zñA-ZÑ0-9_]*
 escapechar  [\'\"\\ntr]
 escape      \\{escapechar}
 aceptacion  [^\"\\]+
-cadena      (\'({escape} | {aceptacion})*\')
+cadena      (\"({escape} | {aceptacion})*\")
 
 %%
 
@@ -24,7 +24,7 @@ cadena      (\'({escape} | {aceptacion})*\')
 "@"                     { console.log("Reconocio : "+ yytext); return 'ARROBA'}
 "."                     { console.log("Reconocio : "+ yytext); return 'PUNTO'}
 ".."                    { console.log("Reconocio : "+ yytext); return 'PUNTOPUNTO'}
-"|"                     { console.log("Reconocio : "+ yytext); return 'O'}
+"|"                     { console.log("Reconocio : "+ yytext); return 'SIGNOO'}
 "::"                    { console.log("Reconocio : "+ yytext); return 'DOSPUNTOS'}
 
 /* Operadores Aritmeticos */
@@ -50,21 +50,18 @@ cadena      (\'({escape} | {aceptacion})*\')
 /* Palabras reservadas */
 "last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}
 "position()"            { console.log("Reconocio : "+ yytext); return 'POSITION'}
-"antecestor"            { console.log("Reconocio : "+ yytext); return 'ANTECESTOR'}
+"ancestor"            { console.log("Reconocio : "+ yytext); return 'ANCESTOR'}
 "attribute"             { console.log("Reconocio : "+ yytext); return 'ATTRIBUTE'}
-"antecestor-or-self"    { console.log("Reconocio : "+ yytext); return 'ANTECESORSELF'} 
+"self"    { console.log("Reconocio : "+ yytext); return 'SELF'} 
 "child"                 { console.log("Reconocio : "+ yytext); return 'CHILD'}
 "descendant"            { console.log("Reconocio : "+ yytext); return 'DESCENDANT'}
-"descendant-or-self"    { console.log("Reconocio : "+ yytext); return 'DESCENDANTSELF'}
 "following"             { console.log("Reconocio : "+ yytext); return 'FOLLOWING'}
-"following-sibling"     { console.log("Reconocio : "+ yytext); return 'FOLLOWINGSIBLING'}
+"sibling"     { console.log("Reconocio : "+ yytext); return 'SIBLING'}
 "namespace"             { console.log("Reconocio : "+ yytext); return 'NAMESPACE'}
 "parent"                { console.log("Reconocio : "+ yytext); return 'PARENT'}
 "preceding"             { console.log("Reconocio : "+ yytext); return 'PRECENDING'}
-"preceding-sibling"     { console.log("Reconocio : "+ yytext); return 'PRECEDINGSIBLING'}
-"self"                  { console.log("Reconocio : "+ yytext); return 'SELF'}
-"text"                  { console.log("Reconocio : "+ yytext); return 'TEXT'}
-"node"                  { console.log("Reconocio : "+ yytext); return 'NODE'}
+"text()"                  { console.log("Reconocio : "+ yytext); return 'TEXT'}
+"node()"                  { console.log("Reconocio : "+ yytext); return 'NODE'}
 
 
 /* SIMBOLOS ER */
@@ -72,6 +69,8 @@ cadena      (\'({escape} | {aceptacion})*\')
 {num}                       { console.log("Reconocio : "+ yytext); return 'ENTERO'}
 {id}                        { console.log("Reconocio : "+ yytext); return 'ID'}
 {cadena}                    { console.log("Reconocio : "+ yytext); return 'CADENA'}
+
+[\s\r\n\t]                  { /* skip whitespace */ }
 
 <<EOF>>               return 'EOF'
 
@@ -86,7 +85,34 @@ cadena      (\'({escape} | {aceptacion})*\')
 
 /* Area de imports */
 %{
-    
+    const evaluar = require('../Clases/Evaluar');
+    const aritmetica= require('../Clases/Expreciones/Operaciones/Aritmetica');
+    const relacional = require('../Clases/Expreciones/Operaciones/Relaciones');
+    const logica = require('../Clases/Expreciones/Operaciones/Logicas');
+    const primitivo= require('../Clases/Expreciones/Primitivo');
+    const identificador= require('../Clases/Expreciones/Identificador');
+    const ternario= require('../Clases/Expreciones/Ternario');
+
+    const ast =require('../Clases/AST/Ast');
+    const declaracion = require ('../Clases/Instrucciones/Declaracion');
+    const asignacion = require ('../Clases/Instrucciones/Asignacion');
+    const funcion = require ('../Clases/Instrucciones/Funcion');
+    const llamada = require ('../Clases/Instrucciones/Llamada');
+    const ejecutar = require ('../Clases/Instrucciones/Ejecutar');
+    const Print = require ('../Clases/Instrucciones/Print');
+    const Ifs = require ('../Clases/Instrucciones/SentenciaControl/Ifs');
+    const While = require ('../Clases/Instrucciones/SentenciaCiclos/While');
+    const dowhile =require ('../Clases/Instrucciones/SentenciaCiclos/DoWhile');
+    const For =require ('../Clases/Instrucciones/SentenciaCiclos/For');
+    const simbolo= require ('../Clases/TablaSimbolos/Simbolos');
+    const tipo= require ('../Clases/TablaSimbolos/Tipo');
+
+    const detener = require ('../Clases/Instrucciones/SentenciaTransferencia/Break');
+    const continuar = require ('../Clases/Instrucciones/SentenciaTransferencia/continuar');
+    const retornar = require ('../Clases/Instrucciones/SentenciaTransferencia/retornar');
+
+    const sw = require ('../Clases/Instrucciones/SentenciaControl/SW');
+    const cs = require ('../Clases/Instrucciones/SentenciaControl/CS');
 %}
 
 /* Precedencia de operadores */
@@ -96,8 +122,8 @@ cadena      (\'({escape} | {aceptacion})*\')
 %left 'AND'
 %right 'NOT'
 %left 'IGUALIGUAL' 'DIFERENTE' 'MENORQUE' 'MENORIGUAL' 'MAYORQUE'  'MAYORIGUAL' 
-%left 'MAS' 'MENOS'
 %left  'DIV' 'MODULO' 'ASTERISCO'
+%left 'MAS' 'MENOS'
 
 
  
@@ -117,27 +143,32 @@ instrucciones : instrucciones instruccion   { $$ = $1; $$.push($2); }
 instruccion : BARRA e
             | BARRABARRA e
             | RESERV DOSPUNTOS e
+            |  SIGNOO instruccion 
+            | BARRA RESERV DOSPUNTOS e
             ;
+
+
 
 RESERV :  LAST
         |  POSITION
-        |  ANTECESTOR
+        |  ANCESTOR RESERVLARGE
         |  ATTRIBUTE
-        |  ANTECESORSELF
+        |  ANCESORSELF
         |  CHILD
-        |  DESCENDANT
-        |  DESCENDANTSELF
+        |  DESCENDANT RESERVLARGE
         |  FOLLOWING
-        |  FOLLOWINGSIBLING
         |  NAMESPACE
         |  PARENT
         |  PRECENDING
-        |  PRECEDINGSIBLING
         |  SELF
         |  TEXT
         |  NODE
+        | SIBLING 
         ;
 
+RESERVLARGE :  MENOS OR MENOS SELF
+            |  MENOS SIBLING
+            ;
 
 
 e : e MAS e             {$$ = new aritmetica.default($1, '+', $3, $1.first_line, $1.last_column, false);}
@@ -146,13 +177,12 @@ e : e MAS e             {$$ = new aritmetica.default($1, '+', $3, $1.first_line,
     | e DIV e           {$$ = new aritmetica.default($1, '/', $3, $1.first_line, $1.last_column, false);}
     | e MODULO e        {$$ = new aritmetica.default($1, '%', $3, $1.first_line, $1.last_column, false);}
     | e AND e           {$$ = new logica.default($1, '&&', $3, $1.first_line, $1.last_column, false);}
-    | e OR e            {$$ = new logica.default($1, '||', $3, $1.first_line, $1.last_column, false);}
+    | e OR e            {$$ = new logica.default($1, 'OR', $3, $1.first_line, $1.last_column, false);}
     | NOT e             {$$ = new logica.default($2, '@', null, $1.first_line, $1.last_column, true);}
     | e MAYORQUE e      {$$ = new relacional.default($1,'>', $3, $1.first_line, $1.last_column, false);}
     | e MAYORIGUAL e    {$$ = new relacional.default($1,'>=', $3, $1.first_line, $1.last_column, false);}
     | e MENORQUE e      {$$ = new relacional.default($1,'<', $3, $1.first_line, $1.last_column, false);}
     | e MENORIGUAL e    {$$ = new relacional.default($1,'<=', $3, $1.first_line, $1.last_column, false);}
-    | e IGUALIGUAL e    {$$ = new relacional.default($1,'==', $3, $1.first_line, $1.last_column, false);}
     | e DIFERENTE e     {$$ = new relacional.default($1,'!=', $3, $1.first_line, $1.last_column, false);}
     | MENOS e %prec UNARIO {$$ = new aritmetica.default($2, 'UNARIO', null, $1.first_line, $1.last_column, true);}
     | PARA e PARC       {$$ = $2;}
@@ -162,19 +192,20 @@ e : e MAS e             {$$ = new aritmetica.default($1, '+', $3, $1.first_line,
     | CHAR              {$1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1, $1.first_line, $1.last_column);}
     | TRUE              {$$ = new primitivo.default(true, $1.first_line, $1.last_column);}
     | FALSE             {$$ = new primitivo.default(false, $1.first_line, $1.last_column);}
-    | ID                {$$ = new identificador.default($1.toLowerCase() , @1.first_line, @1.last_column); }
+    | ID                
     | e INTERROGACION e DSPNTS e {$$ = new ternario.default($1, $3, $5, @1.first_line, @1.last_column); } 
-    | ID INCRE          {$$ = new aritmetica.default(new identificador.default($1.toLowerCase() , @1.first_line, @1.last_column), '+',new primitivo.default(Number(1), $1.first_line, $1.last_column), $1.first_line, $1.last_column, false);}
-    | ID DECRE          {$$ = new aritmetica.default(new identificador.default($1.toLowerCase() , @1.first_line, @1.last_column), '-',new primitivo.default(Number(1), $1.first_line, $1.last_column), $1.first_line, $1.last_column, false);}
+    | ID INCRE          
+    | ID DECRE          
     | ID PARA PARC       { $$ = new llamada.default($1.toLowerCase() , [],@1.first_line, @1.last_column ); }
     | ID PARA lista_exp PARC { $$ = new llamada.default($1.toLowerCase() , $3 ,@1.first_line, @1.last_column ); }
     | SIM   
     | ID CORA e CORC
-    | RESERV   
+    | RESERV
     ;
 
 SIM :   ARROBA ID             {$$ = new logica.default($2, '@', null, $1.first_line, $1.last_column, true);}
     | ARROBA ID IGUAL CADENA
-    | ARROBA ASTERISCO             {$$ = new logica.default($2, '@*', null, $1.first_line, $1.last_column, true);}
-    | ASTERISCO                     {$$ = new logica.default($1, '*', null, $1.first_line, $1.last_column, true);}
+    | ARROBA ASTERISCO      
+    | ASTERISCO   
+    | OR e
     ;
