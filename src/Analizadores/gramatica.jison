@@ -6,99 +6,67 @@
 /* Expresiones regulares */
 num     [0-9]+
 id      [a-zñA-ZÑ_][a-zñA-ZÑ0-9_]*
-//--> Cadena
-escapechar  [\'\"\\ntr]
-escape      \\{escapechar}
-aceptacion  [^\"\\]+
-cadena      (\"({escape} | {aceptacion})*\")
-
-//--> Caracter
-escapechar2  [\\ntr]
-escape2      \\{escapechar2}
-aceptada2    [^\'\\]
-caracter     (\'({escape2}|{aceptada2})\')
 
 %%
 
-/* Comentarios */
-"//".*              {/* Ignoro los comentarios simples */}
-"/*"((\*+[^/*])|([^*]))*\**"*/"     {/*Ignorar comentarios con multiples lneas*/}  
-
-
 /* Simbolos del programa */
-
-"++"                   { console.log("Reconocio : "+ yytext); return 'INCRE'}
-"--"                   { console.log("Reconocio : "+ yytext); return 'DECRE'}
 "("                    { console.log("Reconocio : "+ yytext); return 'PARA'}
+"//"                    { console.log("Reconocio : "+ yytext); return 'BARRABARRA'}
+"/"                    { console.log("Reconocio : "+ yytext); return 'BARRA'}
 ")"                    { console.log("Reconocio : "+ yytext); return 'PARC'}
 "["                    { console.log("Reconocio : "+ yytext); return 'CORA'}
 "]"                    { console.log("Reconocio : "+ yytext); return 'CORC'}
-
-";"                    { console.log("Reconocio : "+ yytext); return 'PYC'}
-","                    { console.log("Reconocio : "+ yytext); return 'COMA'}
-"=="                   { console.log("Reconocio : "+ yytext); return 'IGUALIGUAL'}
-"="                    { console.log("Reconocio : "+ yytext); return 'IGUAL'}
-"?"                    { console.log("Reconocio : "+ yytext); return 'INTERROGACION'}
-":"                    { console.log("Reconocio : "+ yytext); return 'DSPNTS'}
-"{"                    { console.log("Reconocio : "+ yytext); return 'LLAVA'}
-"}"                    { console.log("Reconocio : "+ yytext); return 'LLAVC'}
+"@"                    { console.log("Reconocio : "+ yytext); return 'ARROBA'}
+"."                    { console.log("Reconocio : "+ yytext); return 'PUNTO'}
+".."                    { console.log("Reconocio : "+ yytext); return 'PUNTOPUNTO'}
+"|"                    { console.log("Reconocio : "+ yytext); return 'O'}
+"'"                    { console.log("Reconocio : "+ yytext); return 'COMILLASIMPLE'}
+"::"                    { console.log("Reconocio : "+ yytext); return 'DOSPUNTOS'}
 
 /* Operadores Aritmeticos */
 "+"                     { console.log("Reconocio : "+ yytext); return 'MAS'}
 "-"                     { console.log("Reconocio : "+ yytext); return 'MENOS'}
-"*"                     { console.log("Reconocio : "+ yytext); return 'MULTI'}
-"/"                     { console.log("Reconocio : "+ yytext); return 'DIV'}
-"^"                     { console.log("Reconocio : "+ yytext); return 'POT'}
-"%"                     { console.log("Reconocio : "+ yytext); return 'MODULO'}
+"*"                     { console.log("Reconocio : "+ yytext); return 'ASTERISCO'}
+"div"                     { console.log("Reconocio : "+ yytext); return 'DIV'}
+"mod"                     { console.log("Reconocio : "+ yytext); return 'MODULO'}
 
 /* Operadores Relacionales */
+"="                    { console.log("Reconocio : "+ yytext); return 'IGUAL'}
 "<="                    { console.log("Reconocio : "+ yytext); return 'MENORIGUAL'}
 "<"                     { console.log("Reconocio : "+ yytext); return 'MENORQUE'}
 ">="                    { console.log("Reconocio : "+ yytext); return 'MAYORIGUAL'}
 ">"                     { console.log("Reconocio : "+ yytext); return 'MAYORQUE'}
 "!="                    { console.log("Reconocio : "+ yytext); return 'DIFERENTE'}
 
-
 /* Operadores Logicos */
-"&&"                    { console.log("Reconocio : "+ yytext); return 'AND'}
-"!"                     { console.log("Reconocio : "+ yytext); return 'NOT'}
-"||"                    { console.log("Reconocio : "+ yytext); return 'OR'}
+"and"                    { console.log("Reconocio : "+ yytext); return 'AND'}
+"or"                    { console.log("Reconocio : "+ yytext); return 'OR'}
+
 
 /* Palabras reservadas */
-"evaluar"               { console.log("Reconocio : "+ yytext); return 'EVALUAR'}
-"true"                  { console.log("Reconocio : "+ yytext); return 'TRUE'}
-"false"                 { console.log("Reconocio : "+ yytext); return 'FALSE'}
-"int"                   { console.log("Reconocio : "+ yytext); return 'INT'}
-"double"                { console.log("Reconocio : "+ yytext); return 'DOUBLE'}
-"string"                { console.log("Reconocio : "+ yytext); return 'STRING'}
-"char"                  { console.log("Reconocio : "+ yytext); return 'CHAR1'}
-"boolean"               { console.log("Reconocio : "+ yytext); return 'BOOLEAN'}
-"print"                 { console.log("Reconocio : "+ yytext); return 'PRINT'}
-"if"                    { console.log("Reconocio : "+ yytext); return 'IF'}
-"while"                 { console.log("Reconocio : "+ yytext); return 'WHILE'}
-"else"                  { console.log("Reconocio : "+ yytext); return 'ELSE'}
-"void"                  { console.log("Reconocio : "+ yytext); return 'VOID'}
-"exec"                  { console.log("Reconocio : "+ yytext); return 'EXEC'}
-"do"                    { console.log("Reconocio : "+ yytext); return 'DO'}
-"for"                   { console.log("Reconocio : "+ yytext); return 'FOR'}
-"break"                 { console.log("Reconocio : "+ yytext); return 'BREAK'}
-"continue"              { console.log("Reconocio : "+ yytext); return 'CONTINUE'}
-"return"                { console.log("Reconocio : "+ yytext); return 'RETURN'}
-"switch"                { console.log("Reconocio : "+ yytext); return 'SWITCH'}
-"case"                  { console.log("Reconocio : "+ yytext); return 'CASE'}
-"default"               { console.log("Reconocio : "+ yytext); return 'DEFAULT'}
+"last"               { console.log("Reconocio : "+ yytext); return 'LAST'}
+"position"                  { console.log("Reconocio : "+ yytext); return 'POSITION'}
+"antecestor"                 { console.log("Reconocio : "+ yytext); return 'ANTECESTOR'}
+"attribute"                   { console.log("Reconocio : "+ yytext); return 'ATTRIBUTE'}
+"antecestor-or-self"                   { console.log("Reconocio : "+ yytext); return 'ANTECESORSELF'} 
+"child"                { console.log("Reconocio : "+ yytext); return 'CHILD'}
+"descendant"                { console.log("Reconocio : "+ yytext); return 'DESCENDANT'}
+"descendant-or-self"                  { console.log("Reconocio : "+ yytext); return 'DESCENDANTSELF'}
+"following"               { console.log("Reconocio : "+ yytext); return 'FOLLOWING'}
+"following-sibling"                 { console.log("Reconocio : "+ yytext); return 'FOLLOWINGSIBLING'}
+"namespace"                    { console.log("Reconocio : "+ yytext); return 'NAMESPACE'}
+"parent"                 { console.log("Reconocio : "+ yytext); return 'PARENT'}
+"preceding"                  { console.log("Reconocio : "+ yytext); return 'PRECENDING'}
+"preceding-sibling"                  { console.log("Reconocio : "+ yytext); return 'PRECEDINGSIBLING'}
+"self"                  { console.log("Reconocio : "+ yytext); return 'SELF'}
+"text"                    { console.log("Reconocio : "+ yytext); return 'TEXT'}
+"node"                   { console.log("Reconocio : "+ yytext); return 'NODE'}
 
 
 /* SIMBOLOS ER */
 [0-9]+("."[0-9]+)?\b        { console.log("Reconocio : "+ yytext); return 'DECIMAL'}
 {num}                       { console.log("Reconocio : "+ yytext); return 'ENTERO'}
 {id}                        { console.log("Reconocio : "+ yytext); return 'ID'}
-{cadena}                    { console.log("Reconocio : "+ yytext); return 'CADENA'}
-{caracter}                  { console.log("Reconocio : "+ yytext); return 'CHAR'}
-
-/* Espacios */
-[\s\r\n\t]                  {/* skip whitespace */}
-
 
 <<EOF>>               return 'EOF'
 
@@ -153,7 +121,7 @@ caracter     (\'({escape2}|{aceptada2})\')
 %right 'NOT'
 %left 'IGUALIGUAL' 'DIFERENTE' 'MENORQUE' 'MENORIGUAL' 'MAYORQUE'  'MAYORIGUAL' 
 %left 'MAS' 'MENOS'
-%left 'MULTI' 'DIV' 'MODULO'
+%left  'DIV' 'MODULO' 'ASTERISCO'
 %nonassoc 'POT'
 %right 'UNARIO'
 %right 'PARA' 'CORA'
@@ -171,6 +139,31 @@ instrucciones : instrucciones instruccion   { $$ = $1; $$.push($2); }
             | instruccion                   {$$= new Array(); $$.push($1); }
             ;
 
+instruccion : BARRA e
+            | BARRABARRA e
+            | reserva DOSPUNTOS e
+            ;
+
+reserva :  LAST
+        |  POSITION
+        |  ANTECESTOR
+        |  ATTRIBUTE
+        |  ANTECESORSELF
+        |  CHILD
+        |  DESCENDANT
+        |  DESCENDANTSELF
+        |  FOLLOWING
+        |  FOLLOWINGSIBLING
+        |  NAMESPACE
+        |  PARENT
+        |  PRECENDING
+        |  PRECEDINGSIBLING
+        |  SELF
+        |  TEXT
+        |  NODE
+        ;
+
+/*
 instruccion :  declaracion {$$ = $1; }
             |  asignacion  {$$ = $1; }
             |  print       {$$ = $1; }
@@ -265,17 +258,17 @@ tipo : INT      { $$ = new tipo.default('ENTERO'); }
     | VOID   { $$ = new tipo.default('VOID'); }
     ; 
 
-
+*/
 
 e : e MAS e             {$$ = new aritmetica.default($1, '+', $3, $1.first_line, $1.last_column, false);}
     | e MENOS e         {$$ = new aritmetica.default($1, '-', $3, $1.first_line, $1.last_column, false);}
-    | e MULTI e         {$$ = new aritmetica.default($1, '*', $3, $1.first_line, $1.last_column, false);}
+    | e ASTERISCO e         {$$ = new aritmetica.default($1, '*', $3, $1.first_line, $1.last_column, false);}
     | e DIV e           {$$ = new aritmetica.default($1, '/', $3, $1.first_line, $1.last_column, false);}
     | e POT e           {$$ = new aritmetica.default($1, '^', $3, $1.first_line, $1.last_column, false);}
     | e MODULO e        {$$ = new aritmetica.default($1, '%', $3, $1.first_line, $1.last_column, false);}
     | e AND e           {$$ = new logica.default($1, '&&', $3, $1.first_line, $1.last_column, false);}
     | e OR e            {$$ = new logica.default($1, '||', $3, $1.first_line, $1.last_column, false);}
-    | NOT e             {$$ = new logica.default($2, '!', null, $1.first_line, $1.last_column, true);}
+    | NOT e             {$$ = new logica.default($2, '@', null, $1.first_line, $1.last_column, true);}
     | e MAYORQUE e      {$$ = new relacional.default($1,'>', $3, $1.first_line, $1.last_column, false);}
     | e MAYORIGUAL e    {$$ = new relacional.default($1,'>=', $3, $1.first_line, $1.last_column, false);}
     | e MENORQUE e      {$$ = new relacional.default($1,'<', $3, $1.first_line, $1.last_column, false);}
@@ -296,4 +289,10 @@ e : e MAS e             {$$ = new aritmetica.default($1, '+', $3, $1.first_line,
     | ID DECRE          {$$ = new aritmetica.default(new identificador.default($1.toLowerCase() , @1.first_line, @1.last_column), '-',new primitivo.default(Number(1), $1.first_line, $1.last_column), $1.first_line, $1.last_column, false);}
     |ID PARA PARC       { $$ = new llamada.default($1.toLowerCase() , [],@1.first_line, @1.last_column ); }
     |ID PARA lista_exp PARC { $$ = new llamada.default($1.toLowerCase() , $3 ,@1.first_line, @1.last_column ); }
+    | sim       
+    ;
+
+sim :   ARROBA ID             {$$ = new logica.default($2, '@', null, $1.first_line, $1.last_column, true);}
+    | ARROBA ASTERISCO             {$$ = new logica.default($2, '@*', null, $1.first_line, $1.last_column, true);}
+    | ASTERISCO                     {$$ = new logica.default($1, '*', null, $1.first_line, $1.last_column, true);}
     ;
