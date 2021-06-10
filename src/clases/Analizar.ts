@@ -8,7 +8,8 @@ export class Analizador {
      
             let ast= sintactico.parse(input);
             
-            /* let controlador = new Controlador();
+            /*let controlador = new Controlador();
+
             let ts_globla =new TablaSimbolos(null);
 
             ast.ejecutar(controlador,ts_globla);
@@ -16,9 +17,9 @@ export class Analizador {
             controlador.graficarEntornos(controlador,ts_globla,"");
             let ts_html =controlador.graficar_ts(controlador,ts_globla);
             let error_html = controlador.graficar_Semantico (controlador,ts_globla);
-            let retorno = {"errores":error_html,"ts": ts_html ,"consola":controlador.consola };
+            let retorno = {"errores":error_html,"ts": ts_html ,"consola":controlador.consola };*/
 
-            return retorno; */
+            //return retorno;
         
     }
     public recorrer(input){

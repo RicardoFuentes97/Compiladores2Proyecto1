@@ -150,7 +150,6 @@ instruccion : BARRA e       { $$ = $2}
             | OPERADORES
             ;
 
-
 RESERV :  LAST
         |  POSITION
         |  ANCESTOR RESERVLARGE

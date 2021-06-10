@@ -39,11 +39,10 @@ export class AppComponent {
 
     if(this.entrada !=""){
       let ejecutar =ana.ejecutar(this.entrada);
-      
-      /* this.consola=ejecutar.consola;
+
+     /* this.consola=ejecutar.consola;
       this.htmlts=ejecutar.ts;
-      this.htmlerrores = ejecutar.errores; */
-      
+      this.htmlerrores = ejecutar.errores;*/
     }
 
     
