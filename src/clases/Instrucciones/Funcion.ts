@@ -19,11 +19,11 @@ export default class Funcion extends Simbolos implements Instruccion{
     }
 
     agregarSimboloFuncion(controlador: Controlador, ts: TablaSimbolos){
-        if(!(ts.existe(this.identificador))){
+       /* if(!(ts.existe(this.identificador))){
             ts.agregar(this.identificador,this);
         }else{
             //Error semantico
-        }
+        }*/
     }
 
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {

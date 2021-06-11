@@ -40,7 +40,7 @@ export default class Llamada implements Instruccion, Expreciones{
         }
     }
     getValor(controlador: Controlador, ts: TablaSimbolos) {
-        if(ts.existe(this.identificador)){
+      /*  if(ts.existe(this.identificador)){
             let ts_local=new TablaSimbolos(ts);
 
             let simbolo_funcion=ts.getSimbolo(this.identificador) as Funcion;
@@ -63,10 +63,10 @@ export default class Llamada implements Instruccion, Expreciones{
 
         }else{
             //Error semantico
-        } 
+        } */
     }
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
-        if(ts.existe(this.identificador)){
+       /* if(ts.existe(this.identificador)){
             let ts_local=new TablaSimbolos(ts);
 
             let simbolo_funcion=ts.getSimbolo(this.identificador) as Funcion;
@@ -89,7 +89,7 @@ export default class Llamada implements Instruccion, Expreciones{
 
         }else{
             //Error semantico
-        }
+        }*/
     }
     recorrer(): Nodo {
 

@@ -15,18 +15,20 @@ import Nodo from 'src/clases/AST/Nodo';
 })
 export class AppComponent {
   
-  entrada : string  = "";
+  entradaxpath : string  = "";
   consola : string = "";
-
+  entradaxml:string="";
   htmlts: string ="";
   htmlerrores: string ="";
+
+  
 
 
   recorrer(): void{
     let ana = new Analizador.Analizador();
-    if(this.entrada != ""){
+    if(this.entradaxml != ""){
       console.log("Vamos a graficar");
-      let nodo_ast: Nodo= ana.recorrer(this.entrada);
+      let nodo_ast: Nodo= ana.recorrer(this.entradaxml);
       let grafo = nodo_ast.GraficarSintactico();  //Aqui tenemos la cadena de graphviz para graficar
       wasmFolder('/assets/@hpcc-js/wasm/dist/');
       graphviz('#graph').renderDot(grafo);
@@ -37,11 +39,11 @@ export class AppComponent {
     let ana =new Analizador.Analizador();
     this.consola="";
 
-    if(this.entrada !=""){
-      let ejecutar =ana.ejecutar(this.entrada);
-     /* this.consola=ejecutar.consola;
+    if(this.entradaxml !=""){
+      let ejecutar =ana.ejecutar(this.entradaxml);
+      this.consola=ejecutar.consola;
       this.htmlts=ejecutar.ts;
-      this.htmlerrores = ejecutar.errores;*/
+     /* this.htmlerrores = ejecutar.errores;*/
     }
 
     
