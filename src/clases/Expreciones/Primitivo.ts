@@ -10,12 +10,14 @@ export default class Primitivo implements Expreciones{
     public primitivo : any;
     public linea: number;
     public columan: number;
+    public nodo: number;
 
-    constructor (primitivo: any,line: number, columna: number){
+    constructor (primitivo: any,line: number, columna: number,nodo:number){
         
         this.primitivo=primitivo;
         this.linea=line;
-        this.columan;
+        this.columan=columna;
+        this.nodo = nodo;
     }
 
     getTipo(controlador: Controlador, ts: TablaSimbolos) {
@@ -34,7 +36,6 @@ export default class Primitivo implements Expreciones{
     recorrer(): Nodo {
         let padre = new Nodo("Primitivo","");
         padre.AddHijo(new Nodo(this.primitivo.toString(),""));
-
        return padre;
     }
    
