@@ -18,7 +18,7 @@ export default class Controlador{
     }
 
     graficar_ts(controlador:Controlador, ts:TablaSimbolos):string{
-        var cuerpohtml = "<thead class=\"black white-text\"><tr><td colspan=\"6\">Tabla de Simbolos </td></tr><tr><th>Rol</th><th>Nombre</th><th>Tipo</th><th>Ambito</th><th>Valor</th><th>Parametros</th></tr></thead>";
+        var cuerpohtml = "<thead class=\"black white-text\"><tr><td colspan=\"6\">Tabla de Simbolos </td></tr><tr><th>Tipo</th><th>Nombre</th><th>Ambito</th><th>Valor</th></tr></thead>";
 
         cuerpohtml+=this.cuerpo;
         
@@ -27,14 +27,13 @@ export default class Controlador{
 
     graficarEntornos(controlador:Controlador, ts:TablaSimbolos,ubicacion:string){
         var cuerpohtml="";
-        for(let sim of ts.tabla.values()){
-            cuerpohtml += "<tr mdbTableCol class=\"grey lighten-1 black-text\"><th scope=\"row\">" +  this.getRol(sim) + "</th><td>" + sim.identificador + 
-            "</td><td>" + this.getTipo(sim) +"</td>"  + 
-            "</td><td>" + this.ambito+ ubicacion + 
-            "</td><td>" + this.getValor(sim) + 
-            "</td><td>" + this.parametros(sim) +"</td>" +  "</tr>";
+        for(let sim of ts.tabla){
+            cuerpohtml += "<tr mdbTableCol class=\"grey lighten-1 black-text\"><th scope=\"row\">" +  this.getRol(sim.sim) + "</th><td>" + sim.identificador + 
+            "</td>"+
+            "</td><td>" + ubicacion + 
+            "</td><td>" + this.getValor(sim.sim) +  "</tr>";
         }
-        this.cuerpo=cuerpohtml+this.cuerpo;
+        this.cuerpo=this.cuerpo+cuerpohtml;
     }
 
     graficar_Semantico(controlador:Controlador, ts:TablaSimbolos):string{
@@ -68,10 +67,10 @@ export default class Controlador{
         let rol : string = '';
         switch(sim.simbolo){
             case 1:
-                rol = "variable"
+                rol = "objeto"
                 break
             case 2:
-                rol = "funcion";
+                rol = "identificador";
                 break;
             case 3:
                 rol = "metodo";

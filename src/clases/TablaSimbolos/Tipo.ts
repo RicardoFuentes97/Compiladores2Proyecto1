@@ -4,7 +4,9 @@ export enum tipo{
     BOOLEANO,
     CARACTER,
     CADENA, 
-    VOID
+    VOID,
+    OBJETO,
+    IDENTIFICADOR
 }
 export default class Tipo{
     
@@ -29,6 +31,10 @@ export default class Tipo{
             return tipo.VOID;
         }else if (stype == 'CHAR'){
             return tipo.CARACTER;
+        }else if (stype=='OBJETO'){
+            return tipo.OBJETO;
+        }else if (stype=='IDENTIFICADOR'){
+            return tipo.IDENTIFICADOR;
         }
     }
 
