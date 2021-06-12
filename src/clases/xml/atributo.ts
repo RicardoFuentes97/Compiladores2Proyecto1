@@ -1,3 +1,4 @@
+import { ContentObserver } from "@angular/cdk/observers";
 import Nodo from "../AST/Nodo";
 import Controlador from "../Controlador";
 import { Expreciones } from "../Interfaces.ts/Expreciones";

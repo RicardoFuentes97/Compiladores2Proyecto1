@@ -24,6 +24,7 @@ export default class Objeto implements Instruccion{
         this.listaObjetos = listaO
         this.tipoetiqueta=tipoetiqueta;
     }
+    
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
         let ts_local = new TablaSimbolos(ts,this.identificador);
         if(this.texto.length>0){
@@ -40,7 +41,7 @@ export default class Objeto implements Instruccion{
             let sim=new Simbolos(1,tipo,at.identificador,at.texto,at);
             ts_local.agregar(at.identificador,sim);
             console.log("Hijo de: "+this.identificador+"   etiqueta: "+at.identificador);
-            ts_local.agregarSiguiente(this.identificador,at.ejecutar(controlador,ts_local));
+            ts_local.agregarSiguiente(at.identificador,at.ejecutar(controlador,ts_local));
         } 
         return ts_local;
     }

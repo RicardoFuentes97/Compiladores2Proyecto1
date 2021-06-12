@@ -116,6 +116,8 @@ cadena      (\"({escape} | {aceptacion})*\")
 
     const sw = require ('../Clases/Instrucciones/SentenciaControl/SW');
     const cs = require ('../Clases/Instrucciones/SentenciaControl/CS');
+    
+    const acceso= require ('../Clases/xpath/acceso');
 %}
 
 /* Precedencia de operadores */
@@ -200,7 +202,7 @@ e : e AND e           {$$ = new logica.default($1, '&&', $3, $1.first_line, $1.l
     | CHAR              {$1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1, $1.first_line, $1.last_column);}
     | TRUE              {$$ = new primitivo.default(true, $1.first_line, $1.last_column,-1);}
     | FALSE             {$$ = new primitivo.default(false, $1.first_line, $1.last_column,-1);}
-    | ID                {$$ = new primitivo.default($1, 1, $1.last_column, -1);}
+    | ID                {$$ = $1;}
     | DECIMAL           {$$ = new primitivo.default(Number(yytext), 1, $1.last_column,-1);}
     | ENTERO            {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}        
     | e INTERROGACION e DSPNTS e {$$ = new ternario.default($1, $3, $5, @1.first_line, @1.last_column); } 

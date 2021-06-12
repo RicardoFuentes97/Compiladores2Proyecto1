@@ -9,6 +9,7 @@ import { TablaSimbolos } from "../TablaSimbolos/TablaSimbolos";
 import Tipo from "../TablaSimbolos/Tipo";
 import Objeto from "../xml/objeto";
 import obj from "../xml/objeto";
+import acceso from "../xpath/acceso";
 import Nodo from "./Nodo";
 
 export default class Ast implements Instruccion{
@@ -31,49 +32,35 @@ export default class Ast implements Instruccion{
             ts.agregarSiguiente(instruccion.identificador,instruccion.ejecutar(controlador,ts));
         }
     }
+    this.graficar(controlador,ts); 
+    }
 
 
-    this.graficar(controlador,ts);
+    ejecutarXPath(controlador: Controlador, ts: TablaSimbolos){
+        console.log(ts);
+        let b= new acceso("libro",null);
+        let d= new acceso("biblioteca",b);
 
-    for(let val of ts.tabla){
-        if(val.identificador=="bookstore"){
-        controlador.append(val.sim.objeto.gethtml(""));
+        this.lista_instrucciones.pop();
+
+        this.lista_instrucciones.push(d);
+        
+        for(let instruccion of this.lista_instrucciones){
+            instruccion.ejecutar(controlador,ts);
         }
     }
 
-    console.log(ts);
-   /* let bandera = false;
-    for(let instruccion of this.lista_instrucciones){
-        if(instruccion instanceof Funcion){
-            let funcion= instruccion as Funcion;
-            funcion.agregarSimboloFuncion(controlador,ts);
-        }
-    }
 
-    for(let instruccion of this.lista_instrucciones){
-         if(instruccion instanceof Ejecutar  && bandera == false){
-             instruccion.ejecutar(controlador, ts);
-             bandera = true;
-         }else if (bandera){
-             //reportar error
-             return;
-         }
-         if(instruccion instanceof Declaracion ){
-             instruccion.ejecutar(controlador, ts);
-         }
-     }
-    */
-    }
 
     graficar(controlador: Controlador, ts: TablaSimbolos) {
         if(ts!=null){
-            
             controlador.graficarEntornos(controlador,ts,ts.ambito);
             for (let tssig of ts.sig ){
                 this.graficar(controlador,tssig.sig);
             } 
         }
     }
+
     recorrer(): Nodo {
         let raiz = new Nodo("INICIO","");
 

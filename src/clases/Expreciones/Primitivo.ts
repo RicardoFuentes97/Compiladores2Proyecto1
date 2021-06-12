@@ -33,6 +33,7 @@ export default class Primitivo implements Expreciones{
     getValor(controlador: Controlador, ts: TablaSimbolos) {
         return this.primitivo;
     }
+    
     recorrer(): Nodo {
         let padre = new Nodo("Primitivo","");
         padre.AddHijo(new Nodo(this.primitivo.toString(),""));
