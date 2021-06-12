@@ -30,6 +30,7 @@ export default class acceso implements Instruccion{
            }
        }
     }
+
     recorrer(): Nodo {
         throw new Error("Method not implemented.");
     }

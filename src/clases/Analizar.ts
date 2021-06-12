@@ -17,9 +17,9 @@ export class Analizador {
             //Ejecutar xpath
 
             let astxpaht=xpath.parse(entradaxpath);
-            astxpaht.ejecutarXPath(controlador,ts_globla);
-            console.log(astxpaht);
-
+            astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
+         
+           // console.log("aa");
             let ts_html =controlador.graficar_ts(controlador,ts_globla);
             let retorno = {"ts": ts_html ,"consola":controlador.consola };
            

@@ -36,18 +36,8 @@ export default class Ast implements Instruccion{
     }
 
 
-    ejecutarXPath(controlador: Controlador, ts: TablaSimbolos){
-        console.log(ts);
-        let b= new acceso("libro",null);
-        let d= new acceso("biblioteca",b);
-
-        this.lista_instrucciones.pop();
-
-        this.lista_instrucciones.push(d);
-        
-        for(let instruccion of this.lista_instrucciones){
-            instruccion.ejecutar(controlador,ts);
-        }
+    ejecutarXPath(controlador: Controlador, ts: TablaSimbolos,instruccion:Instruccion){
+        instruccion.ejecutar(controlador,ts);
     }
 
 

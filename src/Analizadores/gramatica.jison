@@ -116,7 +116,6 @@ cadena      (\"({escape} | {aceptacion})*\")
 
     const sw = require ('../Clases/Instrucciones/SentenciaControl/SW');
     const cs = require ('../Clases/Instrucciones/SentenciaControl/CS');
-    
     const acceso= require ('../Clases/xpath/acceso');
 %}
 
@@ -139,17 +138,16 @@ cadena      (\"({escape} | {aceptacion})*\")
 
 
 inicio
-    : instrucciones EOF { console.log($1); $$= new ast.default($1);  return $$; }
-    ;
+    : instrucciones EOF {  $$=$1;  return $$; };
 
-instrucciones : instrucciones  instruccion   { $$ = $1; $$.push($2); }
-            |  instruccion                   {$$= new Array(); $$.push($1); }
+instrucciones : instruccion instrucciones     { $1.sig=$2; $$ = $1; }
+            |   instruccion                   { $$= $1; }
             ;
 
-instruccion : BARRA e       {  $1 = new Array(); $1.push($2); $$ = $1}
+instruccion : BARRA e       { $$ = new acceso.default($2,null);}
             | BARRABARRA e   { $$ = $2}
             | RESERV DOSPUNTOS e  {$$ = new Array();  $$.push($1); $$.push($2); $$.push($3); }
-            |  SIGNOO instruccion {$$ = $2}
+            | SIGNOO instruccion {$$ = $2}
             | BARRA RESERV DOSPUNTOS e {$$ = $4}
             | OPERADORES    {$$ = $1}
             | ID      { $$ = $1} 
@@ -202,13 +200,13 @@ e : e AND e           {$$ = new logica.default($1, '&&', $3, $1.first_line, $1.l
     | CHAR              {$1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1, $1.first_line, $1.last_column);}
     | TRUE              {$$ = new primitivo.default(true, $1.first_line, $1.last_column,-1);}
     | FALSE             {$$ = new primitivo.default(false, $1.first_line, $1.last_column,-1);}
-    | ID                {$$ = $1;}
+    | ID                {$$=$1;}
     | DECIMAL           {$$ = new primitivo.default(Number(yytext), 1, $1.last_column,-1);}
     | ENTERO            {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}        
     | e INTERROGACION e DSPNTS e {$$ = new ternario.default($1, $3, $5, @1.first_line, @1.last_column); } 
     | CORA OPERADORES CORC       {$$ = $2}
     | SIM               {$$ = $1}
-    | ID CORA OPERADORES CORC {$$ = $3}
+    | ID CORA OPERADORES CORC {$2 = new Array(); $2.push($1); $2.push($3); $$ = $3}
     | ID CORA SIM CORC      {$$ = $3}
     | RESERV                {$$ = $1}
     ;
