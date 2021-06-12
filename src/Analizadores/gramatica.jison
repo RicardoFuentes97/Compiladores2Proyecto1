@@ -117,6 +117,7 @@ cadena      (\"({escape} | {aceptacion})*\")
     const sw = require ('../Clases/Instrucciones/SentenciaControl/SW');
     const cs = require ('../Clases/Instrucciones/SentenciaControl/CS');
     const acceso= require ('../Clases/xpath/acceso');
+    const barrabarra= require ('../Clases/xpath/barrabarra');
 %}
 
 /* Precedencia de operadores */
@@ -145,7 +146,7 @@ instrucciones : instruccion instrucciones     { $1.sig=$2; $$ = $1; }
             ;
 
 instruccion : BARRA e       { $$ = new acceso.default($2,null);}
-            | BARRABARRA e   { $$ = $2}
+            | BARRABARRA e   { $$ = new barrabarra.default($2,null);}
             | RESERV DOSPUNTOS e  {$$ = new Array();  $$.push($1); $$.push($2); $$.push($3); }
             | SIGNOO instruccion {$$ = $2}
             | BARRA RESERV DOSPUNTOS e {$$ = $4}

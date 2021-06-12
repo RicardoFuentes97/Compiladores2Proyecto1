@@ -7,9 +7,9 @@ import { TablaSimbolos } from "../TablaSimbolos/TablaSimbolos";
 export default class acceso implements Instruccion{
 
     public id:string;
-    public sig:acceso;
+    public sig;
 
-    constructor(id:string,sig:acceso){
+    constructor(id:string,sig){
         this.id=id;
         this.sig=sig;
     }
@@ -21,6 +21,8 @@ export default class acceso implements Instruccion{
                 }
             }
        }else{
+           console.log(ts);
+           console.log(ts.tabla);
            for( let informacion of ts.tabla){
                console.log("entre ");
                if(informacion.identificador==this.id){
