@@ -8,6 +8,8 @@ import {graphviz} from 'd3-graphviz';
 import {wasmFolder} from '@hpcc-js/wasm'
 import Nodo from 'src/clases/AST/Nodo';
 
+import * as vis from "vis";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,14 +27,35 @@ export class AppComponent {
 
 
   recorrer(): void{
-  /*  let ana = new Analizador.Analizador();
+    
+    
+   let ana = new Analizador.Analizador();
     if(this.entradaxml != ""){
       console.log("Vamos a graficar");
       let nodo_ast: Nodo= ana.recorrer(this.entradaxml);
       let grafo = nodo_ast.GraficarSintactico();  //Aqui tenemos la cadena de graphviz para graficar
-      wasmFolder('/assets/@hpcc-js/wasm/dist/');
-      graphviz('#graph').renderDot(grafo);
-    }*/
+      console.log(grafo);
+      
+      const container = document.getElementById("app");
+      var parsedData = vis.network.convertDot(grafo);
+
+      var data = {
+        nodes: parsedData.nodes,
+        edges: parsedData.edges
+      };
+
+      var options = parsedData.options;
+
+      options.layout = {
+        "hierarchical": true
+      }
+
+      options.nodes = {
+        color: "cyan"
+      };
+
+      var network = new vis.Network(container, data, options);
+    }
   }
 
   ejecutar():void {

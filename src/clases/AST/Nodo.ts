@@ -39,7 +39,7 @@
      * @returns retorna la cadena total de la grafica 
      */
     public GraficarSintactico():string{
-        let grafica: string = `digraph {\n\n${this.GraficarNodos(this, "0")} \n\n}`
+        let grafica: string = `dinetwork {\n\n${this.GraficarNodos(this, "0")} \n\n}`
         return grafica;
     }
 

@@ -155,7 +155,7 @@ instruccion : BARRA e       { $$ = new acceso.default($2,null);}
             ;
 
 RESERV :  LAST                      {$$ = $1}
-    |  POSITION                     {$$ = $1}
+        |  POSITION                     {$$ = $1}
         |  ANCESTOR RESERVLARGE     {$$ = $1 + $2}    
         |  ATTRIBUTE                {$$ = $1}
         |  ANCESORSELF              {$$ = $1}
@@ -206,7 +206,7 @@ e : e AND e           {$$ = new logica.default($1, '&&', $3, $1.first_line, $1.l
     | ENTERO            {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}        
     | e INTERROGACION e DSPNTS e {$$ = new ternario.default($1, $3, $5, @1.first_line, @1.last_column); } 
     | CORA OPERADORES CORC       {$$ = $2}
-    | SIM               {$$ = $1}
+    | SIM                       {$$ = $1}
     | ID CORA OPERADORES CORC {$2 = new Array(); $2.push($1); $2.push($3); $$ = $3}
     | ID CORA SIM CORC      {$$ = $3}
     | RESERV                {$$ = $1}

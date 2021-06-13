@@ -43,6 +43,7 @@ export default class Ast implements Instruccion{
 
 
     graficar(controlador: Controlador, ts: TablaSimbolos) {
+        console.log("vamos a compilar xpaht");
         if(ts!=null){
             controlador.graficarEntornos(controlador,ts,ts.ambito);
             for (let tssig of ts.sig ){

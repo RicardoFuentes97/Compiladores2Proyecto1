@@ -37,7 +37,8 @@ export default class barrabarra implements Instruccion{
     siguiente(controlador: Controlador, ts: TablaSimbolos) {
         if(ts!=null){
             for (let tssig of ts.sig ){
-                if(this.id=tssig.identificador){
+                if(this.id==tssig.identificador){
+                    console.log(this.id);
                     this.sig.ejecutar(controlador,tssig.sig);
                 }else{
                     this.siguiente(controlador,tssig.sig);

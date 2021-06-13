@@ -17,6 +17,7 @@ export class Analizador {
             //Ejecutar xpath
 
             let astxpaht=xpath.parse(entradaxpath);
+            console.log(astxpaht);
             astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
          
            // console.log("aa");
@@ -28,15 +29,15 @@ export class Analizador {
     }
     public recorrer(input){
 
-        /*try {
-            let ast = sintactico.parse(input);
+        try {
+            let ast = xml.parse(input);
             let nodo_ast = ast.recorrer();
 
             return nodo_ast;
             
         } catch (error) {
             
-        }*/
+        }
     }
 
 }

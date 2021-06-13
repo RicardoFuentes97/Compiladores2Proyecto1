@@ -72,6 +72,19 @@ export default class Objeto implements Instruccion{
 
 
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre=new Nodo("objeto","");
+
+        let hijo=new Nodo(this.identificador,"");
+        if(this.texto.length>0){
+            hijo.AddHijo(new Nodo(this.texto,""));
+        }
+        for(let at of this.listaAtributos ){
+            hijo.AddHijo(new Nodo(at.identificador,""));
+        }
+        for(let at of this.listaObjetos ){
+            hijo.AddHijo(at.recorrer());
+        }
+        padre.AddHijo(hijo);
+        return padre;
     }
 }
