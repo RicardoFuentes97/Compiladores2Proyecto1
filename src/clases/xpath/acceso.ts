@@ -21,17 +21,20 @@ export default class acceso implements Instruccion{
                 }
             }
        }else{
-           console.log(ts);
-           console.log(ts.tabla);
+           //console.log(this);
+           //console.log(ts);
+           //console.log(ts.tabla);
            for( let informacion of ts.tabla){
-               console.log("entre ");
                if(informacion.identificador==this.id){
                 console.log("si exite");
                    controlador.append(informacion.sim.objeto.gethtml(""));
+               }else if(this.id == "*"){
+                    controlador.append(informacion.sim.objeto.gethtml(""));
                }
            }
        }
     }
+   
 
     recorrer(): Nodo {
         throw new Error("Method not implemented.");

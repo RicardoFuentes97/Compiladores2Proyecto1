@@ -4,6 +4,7 @@ import Controlador from "./Controlador";
 import { TablaSimbolos } from "./TablaSimbolos/TablaSimbolos";
 
 
+
 /* let error_html = controlador.graficar_Semantico (controlador,ts_globla);  Metodos para lo errores*/  
 export class Analizador {
     public ejecutar(entradaxml:string,entradaxpath:string):any {
