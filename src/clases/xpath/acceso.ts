@@ -2,32 +2,65 @@ import Nodo from "../AST/Nodo";
 import Controlador from "../Controlador";
 import { Instruccion } from "../Interfaces.ts/Instruccion";
 import { TablaSimbolos } from "../TablaSimbolos/TablaSimbolos";
+import informacion from "./informacion";
 
 
 export default class acceso implements Instruccion{
 
-    public id:string;
+    
+    public exprecion:informacion;
     public sig;
 
-    constructor(id:string,sig){
-        this.id=id;
+    constructor(exprecion:informacion,sig){
+        this.exprecion=exprecion;
         this.sig=sig;
     }
+    
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
-       if(this.sig!=null){
+       if(this.exprecion.exprecion!=null){
+            this.isxprecion(controlador,ts);
+       }else{
+            if(this.sig!=null){
+                for( let tssig of ts.sig){
+                    if(this.exprecion.id==tssig.identificador){
+                        this.sig.ejecutar(controlador,tssig.sig);
+                    }
+                }
+            }else{
+                for( let informacion of ts.tabla){
+                    if(informacion.identificador==this.exprecion.id){
+                        controlador.append(informacion.sim.objeto.gethtml(""));
+                    }
+                }
+            }
+        }
+    }
+
+    isxprecion(controlador: Controlador, ts: TablaSimbolos){
+        let valor=this.exprecion.exprecion.getValor(controlador,ts);
+        if(typeof valor =='number'){
+            this.isNumero(controlador,ts,valor);
+        }
+    }
+
+    isNumero(controlador: Controlador, ts: TablaSimbolos,posicion:number){
+        let cont=1;
+        if(this.sig!=null){
             for( let tssig of ts.sig){
-                if(this.id==tssig.identificador){
-                    this.sig.ejecutar(controlador,tssig.sig);
+                if(this.exprecion.id==tssig.identificador){
+                    if(cont==posicion){
+                        this.sig.ejecutar(controlador,tssig.sig);
+                    }
+                    cont++;
                 }
             }
        }else{
-           console.log(ts);
-           console.log(ts.tabla);
            for( let informacion of ts.tabla){
-               console.log("entre ");
-               if(informacion.identificador==this.id){
-                console.log("si exite");
-                   controlador.append(informacion.sim.objeto.gethtml(""));
+                if(informacion.identificador==this.exprecion.id){
+                    if(cont==posicion){
+                        controlador.append(informacion.sim.objeto.gethtml(""));
+                    }
+                    cont++;
                }
            }
        }
