@@ -119,7 +119,8 @@ cadena      (\"({escape} | {aceptacion})*\")
     const acceso= require ('../Clases/xpath/acceso');
     const barrabarra= require ('../Clases/xpath/barrabarra');
     const informacion = require ('../Clases/xpath/informacion');
-
+    const axes = require ('../Clases/xpath/axes');
+    const axesbarrabarra = require ('../Clases/xpath/axesbarrabarra');
 %}
 
 /* Precedencia de operadores */
@@ -148,12 +149,14 @@ instrucciones : instruccion instrucciones     { $1.sig=$2; $$ = $1; }
             |   instruccion                   { $$= $1; }
             ;
 
-instruccion : BARRA e                   { $$ = new acceso.default($2,null);}
-            | BARRABARRA e              { $$ = new barrabarra.default($2,null);}
-            | RESERV DOSPUNTOS e        {$$ = new Array();  $$.push($1); $$.push($2); $$.push($3); }
-            | SIGNOO instruccion        {$$ = $2}
-            | BARRA RESERV DOSPUNTOS e  {$$ = $4}
-            | ID                        {  $$ = new acceso.default($2,null);} 
+instruccion : BARRA e                       {  $$ = new acceso.default($2,null);}
+            | BARRABARRA e                  {  $$ = new barrabarra.default($2,null);}
+            | RESERV DOSPUNTOS e            {  $$ =  new axes.default($1,$3,null);}
+            | SIGNOO instruccion            {  $$ =  $2}
+            | BARRA RESERV DOSPUNTOS e      {  $$ =  new axes.default($2,$4,null);}
+            | BARRABARRA RESERV DOSPUNTOS e {  $$ =  new axesbarrabarra.default($2,$4,null)}              
+            | ID                            {  $$ =  new acceso.default(new informacion.default($1,null),null);} 
+
             ;
 
         RESERV :  LAST                              {$$ = $1}
@@ -181,17 +184,16 @@ RESERVLARGE :   MENOS OR MENOS SELF  {$$ = $1+$2+$3+$4}
             ;
 
 e :   ID                         {$$=new informacion.default($1,null);}
-    | SIM                        {$$ = $1}
+    | SIM                        {$$ = $1;}
     | ID CORA OPERADORES CORC    {$$=new informacion.default($1,$3);}
-    | ID CORA SIM CORC           {$$ = $3}
-    | RESERV                     {$$ = $1}
+    | ID CORA SIM CORC           {$$ = $3;}
     ;
  
     
-SIM : ARROBA ID              { $2 = new primitivo.default($1, 1, $1.last_column, -1);  $$ = $2}  
+SIM : ARROBA ID              {$2 = new primitivo.default($1, 1, $1.last_column, -1);  $$ = $2}  
     | ARROBA ID IGUAL CADENA {$$ = $3}
     | ARROBA ASTERISCO       {$$= $1}
-    | ASTERISCO              {$$ =$1}
+    | ASTERISCO              {$$=new informacion.default($1,null);}
     | OR e                   {$$ = $2}
     ;
 

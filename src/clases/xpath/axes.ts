@@ -4,45 +4,50 @@ import { Instruccion } from "../Interfaces.ts/Instruccion";
 import { TablaSimbolos } from "../TablaSimbolos/TablaSimbolos";
 import informacion from "./informacion";
 
+export default class axes implements Instruccion{
 
-export default class acceso implements Instruccion{
-
-    
+    public tipo:string;
     public exprecion:informacion;
     public sig;
 
-    constructor(exprecion:informacion,sig){
+    constructor(tipo:string,exprecion:informacion,sig){
+        this.tipo=tipo;
         this.exprecion=exprecion;
         this.sig=sig;
     }
-    
+
+
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
-       if(this.exprecion.exprecion!=null){
+        if(this.tipo=="child"){
+            this.child(controlador,ts);
+        }else{
+            if(this.tipo==""){
+
+            }
+        }
+    }
+
+
+    child(controlador: Controlador, ts: TablaSimbolos){
+        if(this.exprecion.exprecion!=null){
             this.isxprecion(controlador,ts);
        }else{
             if(this.sig!=null){
                 for( let tssig of ts.sig){
-                    if(this.exprecion.id=="*"){
+                    if(this.exprecion.id==tssig.identificador){
                         this.sig.ejecutar(controlador,tssig.sig);
-                    }else{
-                        if(this.exprecion.id==tssig.identificador){
-                            this.sig.ejecutar(controlador,tssig.sig);
-                        }
                     }
                 }
             }else{
                 for( let informacion of ts.tabla){
-                    if(this.exprecion.id=="*"){
+                    if(informacion.identificador==this.exprecion.id){
                         controlador.append(informacion.sim.objeto.gethtml(""));
-                    }else{
-                        if(informacion.identificador==this.exprecion.id){
-                            controlador.append(informacion.sim.objeto.gethtml(""));
-                        }
                     }
                 }
             }
         }
     }
+
 
     isxprecion(controlador: Controlador, ts: TablaSimbolos){
         let valor=this.exprecion.exprecion.getValor(controlador,ts);
@@ -78,4 +83,4 @@ export default class acceso implements Instruccion{
         throw new Error("Method not implemented.");
     }
 
-}
+} 
