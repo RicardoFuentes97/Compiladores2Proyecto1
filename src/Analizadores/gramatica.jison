@@ -118,7 +118,10 @@ cadena      (\"({escape} | {aceptacion})*\")
     const cs = require ('../Clases/Instrucciones/SentenciaControl/CS');
     const acceso= require ('../Clases/xpath/acceso');
     const barrabarra= require ('../Clases/xpath/barrabarra');
+
     const informacion = require ('../Clases/xpath/informacion');
+
+    const arroba = require('../Clases/xpath/arroba');
 
 %}
 
