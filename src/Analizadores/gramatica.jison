@@ -142,7 +142,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 
 
 inicio
-    : instrucciones EOF {  $$=$1;  return $$; };
+    : instrucciones EOF {  $$=$1; return $$ };
 
 instrucciones : instruccion instrucciones     { $1.sig=$2; $$ = $1; }
             |   instruccion                   { $$= $1; }
