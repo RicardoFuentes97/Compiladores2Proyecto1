@@ -65,6 +65,7 @@ export default class axesbarrabarra implements Instruccion{
     }
 
     isxprecion(controlador: Controlador, ts: TablaSimbolos){
+        controlador.idlast=this.exprecion.id;
         let valor=this.exprecion.exprecion.getValor(controlador,ts);
         if(typeof valor =='number'){
             this.isNumero(controlador,ts,valor);
@@ -84,6 +85,7 @@ export default class axesbarrabarra implements Instruccion{
         if(ts!=null){
             for (let tssig of ts.sig ){
                     if(this.exprecion.id==tssig.identificador){
+                        valor=this.exprecion.exprecion.getValor(controlador,ts);
                         if(cont==valor){
                             this.sig.ejecutar(controlador,tssig.sig);
                         }
@@ -100,6 +102,7 @@ export default class axesbarrabarra implements Instruccion{
         if(ts!=null){
             for( let informacion of ts.tabla){
                 if(informacion.identificador==this.exprecion.id){
+                    valor=this.exprecion.exprecion.getValor(controlador,ts);
                     if(cont==valor){
                         controlador.append(informacion.sim.objeto.gethtml(""));   
                     }

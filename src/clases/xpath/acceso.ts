@@ -45,9 +45,12 @@ export default class acceso implements Instruccion{
     }
 
     isxprecion(controlador: Controlador, ts: TablaSimbolos){
+        controlador.idlast=this.exprecion.id;
         let valor=this.exprecion.exprecion.getValor(controlador,ts);
         if(typeof valor =='number'){
             this.isNumero(controlador,ts,valor);
+        }else{
+            this.isboolean(controlador,ts);
         }
     }
 
@@ -63,29 +66,41 @@ export default class acceso implements Instruccion{
                 }
             }
        }else{
-
            for( let informacion of ts.tabla){
                 if(informacion.identificador==this.exprecion.id){
                     if(cont==posicion){
                         controlador.append(informacion.sim.objeto.gethtml(""));
                     }
                     cont++;
-
-           //console.log(this);
-           //console.log(ts);
-           //console.log(ts.tabla);
-           for( let informacion of ts.tabla){
-               if(informacion.identificador==this.id){
-                console.log("si exite");
-                   controlador.append(informacion.sim.objeto.gethtml(""));
-               }else if(this.id == "*"){
-                    controlador.append(informacion.sim.objeto.gethtml(""));
-
                }
            }
        }
     }
-   
+
+    isboolean(controlador: Controlador, ts: TablaSimbolos){
+        let cont=1;
+        if(this.sig!=null){
+            for( let tssig of ts.sig){
+                if(this.exprecion.id==tssig.identificador){
+                    controlador.position=cont;
+                    if(this.exprecion.exprecion.getValor(controlador,ts)){
+                        this.sig.ejecutar(controlador,tssig.sig);
+                    }
+                    cont++;
+                }
+            }
+       }else{
+           for( let informacion of ts.tabla){
+                if(informacion.identificador==this.exprecion.id){
+                    controlador.position=cont;
+                    if(this.exprecion.exprecion.getValor(controlador,ts)){
+                        controlador.append(informacion.sim.objeto.gethtml(""));
+                    }
+                    cont++;
+               }
+           }
+       }
+    }
 
     recorrer(): Nodo {
         throw new Error("Method not implemented.");

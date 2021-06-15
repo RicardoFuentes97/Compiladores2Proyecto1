@@ -50,6 +50,7 @@ export default class axes implements Instruccion{
 
 
     isxprecion(controlador: Controlador, ts: TablaSimbolos){
+        controlador.idlast=this.exprecion.id;
         let valor=this.exprecion.exprecion.getValor(controlador,ts);
         if(typeof valor =='number'){
             this.isNumero(controlador,ts,valor);

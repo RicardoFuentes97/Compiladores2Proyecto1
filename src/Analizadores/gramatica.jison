@@ -63,7 +63,8 @@ cadena      (\"({escape} | {aceptacion})*\")
 "preceding"             { console.log("Reconocio : "+ yytext); return 'PRECENDING'}
 "text()"                { console.log("Reconocio : "+ yytext); return 'TEXT'}
 "node()"                { console.log("Reconocio : "+ yytext); return 'NODE'}
-
+"last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}
+"position()"            { console.log("Reconocio : "+ yytext); return 'POSITION'}
 
 /* SIMBOLOS ER */
 {num}                       { console.log("Reconocio entero : "+ yytext); return 'ENTERO'}
@@ -94,6 +95,8 @@ cadena      (\"({escape} | {aceptacion})*\")
     const primitivo = require('../Clases/Expreciones/Primitivo');
     
     const identificador= require('../Clases/Expreciones/Identificador');
+    const last= require('../Clases/Expreciones/last');
+    const position = require ('../Clases/Expreciones/position');
     const ternario= require('../Clases/Expreciones/Ternario');
 
     const ast =require('../Clases/AST/Ast');
@@ -121,6 +124,8 @@ cadena      (\"({escape} | {aceptacion})*\")
     const informacion = require ('../Clases/xpath/informacion');
     const axes = require ('../Clases/xpath/axes');
     const axesbarrabarra = require ('../Clases/xpath/axesbarrabarra');
+    const instrucciondoble =require ('../Clases/xpath/intrucciondoble');
+    
 %}
 
 /* Precedencia de operadores */
@@ -143,7 +148,12 @@ cadena      (\"({escape} | {aceptacion})*\")
 
 
 inicio
-    : instrucciones EOF {  $$=$1; return $$ };
+    : varias EOF {  $$=$1; return $$ };
+
+
+varias: instrucciones SIGNOO instrucciones {$$=new instrucciondoble.default($1,$3);}
+        |instrucciones {$$=$1}
+        ;
 
 instrucciones : instruccion instrucciones     { $1.sig=$2; $$ = $1; }
             |   instruccion                   { $$= $1; }
@@ -152,8 +162,8 @@ instrucciones : instruccion instrucciones     { $1.sig=$2; $$ = $1; }
 instruccion : BARRA e                       {  $$ = new acceso.default($2,null);}
             | BARRABARRA e                  {  $$ = new barrabarra.default($2,null);}
             | RESERV DOSPUNTOS e            {  $$ =  new axes.default($1,$3,null);}
-            | SIGNOO instruccion            {  $$ =  $2}
             | BARRA RESERV DOSPUNTOS e      {  $$ =  new axes.default($2,$4,null);}
+            | BARRA PUNTOPUNTO              {   }
             | BARRABARRA RESERV DOSPUNTOS e {  $$ =  new axesbarrabarra.default($2,$4,null)}              
             | ID                            {  $$ =  new acceso.default(new informacion.default($1,null),null);} 
 
@@ -214,5 +224,7 @@ OPERADORES :  OPERADORES MAS OPERADORES             {$$ = new aritmetica.default
             | DECIMAL                               {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}
             | ENTERO                                {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}
             | ID                                    {$$ = new identificador.default($1 , @1.first_line, @1.last_column); }
+            | LAST                                  {$$ = new last.default();}
+            | POSITION                              {$$ = new position.default();}
             ;
             
