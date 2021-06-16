@@ -1,3 +1,4 @@
+
 %{
     let $ESPACIOS = "";
 %}
@@ -46,49 +47,48 @@ cadena      (\"({escape} | {aceptacion})*\")
                         }
 /lex
 
+
 /* Area de imports */
 
 %{
-      const  Atributo = require ('../Clases/xml/atributo');
-      const  Objeto  = require ('../Clases/xml/objeto');
-      const ast =require('../Clases/AST/Ast');
+     
 %}
 
 %start inicio
 
-%% /* Gramatica */
+%% /* gramatica */
 
 
-inicio: raices EOF { console.log($1); $$= new ast.default($1);  return $$; }
+inicio: raices EOF {$$ = "inicio -> raices \n"+$1;  return $$; }
     ;
 
-raices: raices raiz { $1.push($2); $$ = $1;}
-        | raiz      { $$ = [$1]; }
+raices: raices raiz { $$ = 'raices -> raices raiz; \n'+$1+$2;}
+        | raiz      {$$ = 'raices -> raiz; \n'+$1; }
         ;
 
-raiz: objeto { $$ = $1 }
+raiz: objeto { $$= 'raiz -> objeto; \n'+$1; }
     ;
 
-objeto:  '<' ID latributos '/' '>'                              { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,[],1); }
-       | '<' ID latributos '>'  texto_libre  '<' '/' ID '>'     { $$ = new Objeto.default($2,$5,@1.first_line, @1.first_column,$3,[],2); }    
-       | '<' ID latributos '>'  objetos  '<' '/' ID '>'         { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,$5,2); }
+objeto:  '<' ID latributos '/' '>'                              { $$ = 'objeto -> < ID latributos / >; \n'+$3;}
+       | '<' ID latributos '>'  texto_libre  '<' '/' ID '>'     { $$ = 'objeto -> < ID latributos >  texto_libre  < / ID >; \n'+$3+$5;}    
+       | '<' ID latributos '>'  objetos  '<' '/' ID '>'         {$$ ='objeto -> < ID latributos >  objetos </ID >; \n'+$3+$5;}
         ;
 
-objetos: objetos objeto         { $1.push($2); $$ = $1;}
-         |objeto                { $$ = [$1]; } 
+objetos: objetos objeto         { $$ = 'objetos -> objetos objeto; \n'+$1+$2;}
+         |objeto                { $$ = 'raiz -> objeto; \n'+$1;} 
          ;
 
-latributos: atributos { $$ = $1; }
-            |         { $$ = []; } 
+latributos: atributos { $$ = 'latributos -> atributos; \n'+$1;}
+            |         { $$= 'latributos -> []; \n';} 
             ;
 
-atributos:   atributos atributo   { $1.push($2); $$ = $1;}
-            |atributo             { $$ = [$1]; } 
+atributos:   atributos atributo   { $$ = 'atributos -> atributos atributo; \n'+$1+$2;}
+            |atributo             { $$ = 'atributos -> atributo; \n'+$1;} 
             ;
 
-atributo: ID '=' CADENA  {$3 = $3.slice(1, $3.length-1); $$ = new Atributo.default($1, $3, @1.first_line, @1.first_column);}
+atributo: ID '=' CADENA  { $$ = 'atributo -> ID = CADENA; \n';}
         ;
 
-texto_libre : texto_libre TEXTO                                   { $$ = $1 + $2; }
-             | TEXTO                                              { $$ = $1; }
+texto_libre : texto_libre TEXTO       { $$ = 'texto_libre -> texto_libre TEXTO; \n'+$1; }
+             | TEXTO                  { $$ = 'texto_libre -> TEXTO; \n';}
              ;

@@ -3,11 +3,12 @@ import Controlador from 'src/clases/Controlador';
 import Evaluar from 'src/clases/Evaluar';
 import { TablaSimbolos } from 'src/clases/TablaSimbolos/TablaSimbolos';
 import * as Analizador from '../clases/Analizar'
-
+import * as xpath from "../Analizadores/gramatica"
+import * as xml from "../Analizadores/XML";
 import {graphviz} from 'd3-graphviz';
 import {wasmFolder} from '@hpcc-js/wasm'
 import Nodo from 'src/clases/AST/Nodo';
-
+import * as ReXML from '../Analizadores/XmlReporteGramatica';
 import * as vis from "vis";
 
 @Component({
@@ -22,7 +23,8 @@ export class AppComponent {
   entradaxml:string="";
   htmlts: string ="";
   htmlerrores: string ="";
-
+  reporteGramatical: string = "";
+  xpathRG: string = "";
   
 
 
@@ -71,7 +73,18 @@ export class AppComponent {
   }
 
     
-  
+  imprimirTabla() {
+    
+    let ana =new Analizador.Analizador();
+    if(this.entradaxml != ""){
+      let ast = ReXML.parse(this.entradaxml);
+      this.reporteGramatical = ast;
+    }
+    
+      
+  }
+
+
 
   openPage(pageName,valor) {
 
