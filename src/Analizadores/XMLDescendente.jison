@@ -62,33 +62,33 @@ cadena      (\"({escape} | {aceptacion})*\")
 inicio: raices EOF { console.log($1); $$= new ast.default($1);  return $$; }
     ;
 
-raices: raices raiz { $1.push($2); $$ = $1;}
+raices: raiz raices { $2.push($1); $$ = $2;}
         | raiz      { $$ = [$1]; }
         ;
 
 raiz: objeto { $$ = $1 }
     ;
 
+objetos: objeto objetos         { $2.push($1); $$ = $2;}
+         ;
+    
+
 objeto:  '<' ID latributos '/' '>'                              { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,[],1); }
        | '<' ID latributos '>'  texto_libre  '<' '/' ID '>'     { $$ = new Objeto.default($2,$5,@1.first_line, @1.first_column,$3,[],2); }    
-       | '<' ID latributos '>'  objetos  '<' '/' ID '>'         { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,$5,2); }
+       | '<' ID latributos '>' objetos  '<' '/' ID '>'         { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,$5,2); }
         ;
-
-objetos: objetos objeto         { $1.push($2); $$ = $1;}
-         |objeto                { $$ = [$1]; } 
-         ;
 
 latributos: atributos { $$ = $1; }
             |         { $$ = []; } 
             ;
 
-atributos:   atributos atributo   { $1.push($2); $$ = $1;}
+atributos:   atributo atributos   { $2.push($1); $$ = $2;}
             |atributo             { $$ = [$1]; } 
             ;
 
-atributo: ID '=' CADENA  {$3 = $3.slice(1, $3.length-1); $$ = new Atributo.default($1, $3, @1.first_line, @1.first_column);}
+atributo: ID '=' CADENA  { $$ = new Atributo.default($1, $3, @1.first_line, @1.first_column);}
         ;
 
-texto_libre : texto_libre TEXTO                                   { $$ = $1 + $2; }
+texto_libre :  TEXTO  texto_libre                            { $$ = $1 + $2; }
              | TEXTO                                              { $$ = $1; }
              ;

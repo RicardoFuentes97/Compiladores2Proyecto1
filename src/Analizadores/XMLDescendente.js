@@ -71,13 +71,13 @@
     recoverable: (boolean: TRUE when the parser has a error recovery rule available for this particular error)
   }
 */
-var XML = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,5],$V1=[5,8],$V2=[1,8],$V3=[11,12],$V4=[1,12],$V5=[9,11,12],$V6=[8,19];
+var XMLDescendente = (function(){
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,5],$V1=[5,9],$V2=[12,13],$V3=[1,12],$V4=[1,20];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"inicio":3,"raices":4,"EOF":5,"raiz":6,"objeto":7,"<":8,"ID":9,"latributos":10,"/":11,">":12,"texto_libre":13,"objetos":14,"atributos":15,"atributo":16,"=":17,"CADENA":18,"TEXTO":19,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",8:"<",9:"ID",11:"/",12:">",17:"=",18:"CADENA",19:"TEXTO"},
-productions_: [0,[3,2],[4,2],[4,1],[6,1],[7,5],[7,9],[7,9],[14,2],[14,1],[10,1],[10,0],[15,2],[15,1],[16,3],[13,2],[13,1]],
+symbols_: {"error":2,"inicio":3,"raices":4,"EOF":5,"raiz":6,"objeto":7,"objetos":8,"<":9,"ID":10,"latributos":11,"/":12,">":13,"texto_libre":14,"atributos":15,"atributo":16,"=":17,"CADENA":18,"TEXTO":19,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",9:"<",10:"ID",12:"/",13:">",17:"=",18:"CADENA",19:"TEXTO"},
+productions_: [0,[3,2],[4,2],[4,1],[6,1],[8,2],[7,5],[7,9],[7,9],[11,1],[11,0],[15,2],[15,1],[16,3],[14,2],[14,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -86,40 +86,40 @@ switch (yystate) {
 case 1:
  console.log($$[$0-1]); this.$= new ast.default($$[$0-1]);  return this.$; 
 break;
-case 2: case 8: case 12:
- $$[$0-1].push($$[$0]); this.$ = $$[$0-1];
+case 2: case 5: case 11:
+ $$[$0].push($$[$0-1]); this.$ = $$[$0];
 break;
-case 3: case 9: case 13:
+case 3: case 12:
  this.$ = [$$[$0]]; 
 break;
 case 4:
  this.$ = $$[$0] 
 break;
-case 5:
+case 6:
  this.$ = new Objeto.default($$[$0-3],'',_$[$0-4].first_line, _$[$0-4].first_column,$$[$0-2],[],1); 
 break;
-case 6:
+case 7:
  this.$ = new Objeto.default($$[$0-7],$$[$0-4],_$[$0-8].first_line, _$[$0-8].first_column,$$[$0-6],[],2); 
 break;
-case 7:
+case 8:
  this.$ = new Objeto.default($$[$0-7],'',_$[$0-8].first_line, _$[$0-8].first_column,$$[$0-6],$$[$0-4],2); 
 break;
-case 10: case 16:
+case 9: case 15:
  this.$ = $$[$0]; 
 break;
-case 11:
+case 10:
  this.$ = []; 
 break;
-case 14:
-$$[$0] = $$[$0].slice(1, $$[$0].length-1); this.$ = new Atributo.default($$[$0-2], $$[$0], _$[$0-2].first_line, _$[$0-2].first_column);
+case 13:
+ this.$ = new Atributo.default($$[$0-2], $$[$0], _$[$0-2].first_line, _$[$0-2].first_column);
 break;
-case 15:
+case 14:
  this.$ = $$[$0-1] + $$[$0]; 
 break;
 }
 },
-table: [{3:1,4:2,6:3,7:4,8:$V0},{1:[3]},{5:[1,6],6:7,7:4,8:$V0},o($V1,[2,3]),o($V1,[2,4]),{9:$V2},{1:[2,1]},o($V1,[2,2]),o($V3,[2,11],{10:9,15:10,16:11,9:$V4}),{11:[1,13],12:[1,14]},o($V3,[2,10],{16:15,9:$V4}),o($V5,[2,13]),{17:[1,16]},{12:[1,17]},{7:21,8:$V0,13:18,14:19,19:[1,20]},o($V5,[2,12]),{18:[1,22]},o($V1,[2,5]),{8:[1,23],19:[1,24]},{7:26,8:[1,25]},o($V6,[2,16]),{8:[2,9]},o($V5,[2,14]),{11:[1,27]},o($V6,[2,15]),{9:$V2,11:[1,28]},{8:[2,8]},{9:[1,29]},{9:[1,30]},{12:[1,31]},{12:[1,32]},o($V1,[2,6]),o($V1,[2,7])],
-defaultActions: {6:[2,1],21:[2,9],26:[2,8]},
+table: [{3:1,4:2,6:3,7:4,9:$V0},{1:[3]},{5:[1,6]},{4:7,5:[2,3],6:3,7:4,9:$V0},o($V1,[2,4]),{10:[1,8]},{1:[2,1]},{5:[2,2]},o($V2,[2,10],{11:9,15:10,16:11,10:$V3}),{12:[1,13],13:[1,14]},o($V2,[2,9]),o($V2,[2,12],{16:11,15:15,10:$V3}),{17:[1,16]},{13:[1,17]},{7:21,8:19,9:$V0,14:18,19:$V4},o($V2,[2,11]),{18:[1,22]},o($V1,[2,6]),{9:[1,23]},{9:[1,24]},{9:[2,15],14:25,19:$V4},{7:21,8:26,9:$V0},o([10,12,13],[2,13]),{12:[1,27]},{12:[1,28]},{9:[2,14]},{9:[2,5]},{10:[1,29]},{10:[1,30]},{13:[1,31]},{13:[1,32]},o($V1,[2,7]),o($V1,[2,8])],
+defaultActions: {6:[2,1],7:[2,2],25:[2,14],26:[2,5]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -606,13 +606,13 @@ case 1:/* skip whitespace */
 break;
 case 2: console.log("Reconocio : "+ yy_.yytext); return 18
 break;
-case 3: console.log("Reconocio : "+ yy_.yytext); return 9
+case 3: console.log("Reconocio : "+ yy_.yytext); return 10
 break;
-case 4: console.log("Reconocio : "+ yy_.yytext); return 8
+case 4: console.log("Reconocio : "+ yy_.yytext); return 9
 break;
 case 5: console.log("Reconocio : "+ yy_.yytext); return 17
 break;
-case 6: console.log("Reconocio : "+ yy_.yytext); return 11
+case 6: console.log("Reconocio : "+ yy_.yytext); return 12
 break;
 case 7: this.begin("S1"); $ESPACIOS=""; console.log("Reconocio : "+ yy_.yytext); return ">";
 break;
@@ -658,9 +658,9 @@ return new Parser;
 
 
 if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
-exports.parser = XML;
-exports.Parser = XML.Parser;
-exports.parse = function () { return XML.parse.apply(XML, arguments); };
+exports.parser = XMLDescendente;
+exports.Parser = XMLDescendente.Parser;
+exports.parse = function () { return XMLDescendente.parse.apply(XMLDescendente, arguments); };
 exports.main = function commonjsMain (args) {
     if (!args[1]) {
         console.log('Usage: '+args[0]+' FILE');
