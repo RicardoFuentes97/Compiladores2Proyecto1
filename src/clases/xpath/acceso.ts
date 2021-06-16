@@ -78,26 +78,32 @@ export default class acceso implements Instruccion{
     }
 
     isboolean(controlador: Controlador, ts: TablaSimbolos){
+        let posicion=1;
+        console.log("entre");
         let cont=1;
         if(this.sig!=null){
             for( let tssig of ts.sig){
                 if(this.exprecion.id==tssig.identificador){
                     controlador.position=cont;
+                    controlador.posicionid=posicion;
                     if(this.exprecion.exprecion.getValor(controlador,ts)){
                         this.sig.ejecutar(controlador,tssig.sig);
                     }
                     cont++;
                 }
+                posicion++;
             }
        }else{
            for( let informacion of ts.tabla){
                 if(informacion.identificador==this.exprecion.id){
                     controlador.position=cont;
+                    controlador.posicionid=posicion;
                     if(this.exprecion.exprecion.getValor(controlador,ts)){
                         controlador.append(informacion.sim.objeto.gethtml(""));
                     }
                     cont++;
                }
+               posicion++;
            }
        }
     }

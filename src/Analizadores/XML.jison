@@ -86,7 +86,7 @@ atributos:   atributos atributo   { $1.push($2); $$ = $1;}
             |atributo             { $$ = [$1]; } 
             ;
 
-atributo: ID '=' CADENA  { $$ = new Atributo.default($1, $3, @1.first_line, @1.first_column);}
+atributo: ID '=' CADENA  {$3 = $3.slice(1, $3.length-1); $$ = new Atributo.default($1, $3, @1.first_line, @1.first_column);}
         ;
 
 texto_libre : texto_libre TEXTO                                   { $$ = $1 + $2; }

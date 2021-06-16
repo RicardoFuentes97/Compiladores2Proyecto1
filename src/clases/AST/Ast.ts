@@ -33,9 +33,10 @@ export default class Ast implements Instruccion{
         }
     }
     this.graficar(controlador,ts); 
+    console.log(ts);
     }
 
-
+    
     ejecutarXPath(controlador: Controlador, ts: TablaSimbolos,instruccion:Instruccion){
         instruccion.ejecutar(controlador,ts);
     }

@@ -111,7 +111,7 @@ case 11:
  this.$ = []; 
 break;
 case 14:
- this.$ = new Atributo.default($$[$0-2], $$[$0], _$[$0-2].first_line, _$[$0-2].first_column);
+$$[$0] = $$[$0].slice(1, $$[$0].length-1); this.$ = new Atributo.default($$[$0-2], $$[$0], _$[$0-2].first_line, _$[$0-2].first_column);
 break;
 case 15:
  this.$ = $$[$0-1] + $$[$0]; 

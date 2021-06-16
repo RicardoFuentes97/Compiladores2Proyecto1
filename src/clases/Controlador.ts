@@ -9,6 +9,7 @@ export default class Controlador{
     public cuerpo: string;
     public idlast: string;
     public position:number;
+    public posicionid:number;
 
     constructor (){
         this.errores = new  Array<Errores>();

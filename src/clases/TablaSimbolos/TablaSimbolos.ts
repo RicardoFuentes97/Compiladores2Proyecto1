@@ -1,3 +1,4 @@
+
 import ambito from "./ambito";
 import contenido from "./contenido";
 import Simbolos from "./Simbolos";
@@ -51,17 +52,15 @@ export class TablaSimbolos{
         return false;
     }
 
-    getSimbolo(id: string){
-        /*let ts : TablaSimbolos = this; 
-
-        while(ts != null){
-            let existe = ts.tabla.get(id);
-
-            if(existe != null){
-                return existe;
+    getSimbolo(id: string,tipoval?){
+        let ts : TablaSimbolos = this; 
+        console.log("-----------------");
+        for( let informacion of ts.tabla){
+            console.log(informacion.identificador+"=="+id  +" && "+ tipoval+"=="+informacion.sim.simbolo)
+            if(informacion.identificador==id && tipoval==informacion.sim.simbolo){
+                return informacion.sim;
             }
-            ts = ts.ant;
-        }*/
+        }
         return null;
     }
 }
