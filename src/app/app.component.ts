@@ -9,6 +9,7 @@ import {graphviz} from 'd3-graphviz';
 import {wasmFolder} from '@hpcc-js/wasm'
 import Nodo from 'src/clases/AST/Nodo';
 import * as ReXML from '../Analizadores/XmlReporteGramatica';
+import * as RexPath from '../Analizadores/xPathReporteGramatica';
 import * as vis from "vis";
 
 @Component({
@@ -77,6 +78,8 @@ export class AppComponent {
     let ana =new Analizador.Analizador();
     if(this.entradaxml != ""){
       let ast = ReXML.parse(this.entradaxml);
+      let ast1 = RexPath.parse(this.entradaxpath);
+      this.xpathRG = ast1;
       this.reporteGramatical = ast;
     }
     
