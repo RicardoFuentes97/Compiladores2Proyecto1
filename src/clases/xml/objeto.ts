@@ -27,20 +27,23 @@ export default class Objeto implements Instruccion{
     
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
         let ts_local = new TablaSimbolos(ts,this.identificador);
-        if(this.texto.length>0){
-        console.log("   Texto: "+this.texto);
-        }
         for(let at of this.listaAtributos ){
             let tipo=new Tipo("IDENTIFICADOR");
             let sim=new Simbolos(2,tipo,at.identificador,at.valor);
             ts_local.agregar(at.identificador,sim);
-            console.log("******atributos: "+at.identificador);
         }
         for(let at of this.listaObjetos ){
             let tipo=new Tipo("OBJETO");
-            let sim=new Simbolos(1,tipo,at.identificador,at.texto,at);
+            const regex = /^[0-9]+("."[0-9]+)?$/;
+            let sim: Simbolos;
+            if(isNaN(Number(at.texto))){
+                console.log("no numero:"+at.texto);
+                sim=new Simbolos(1,tipo,at.identificador,at.texto,at);
+            }else{
+                console.log("numero: "+at.texto)
+                sim=new Simbolos(1,tipo,at.identificador,Number(at.texto),at);
+            }
             ts_local.agregar(at.identificador,sim);
-            console.log("Hijo de: "+this.identificador+"   etiqueta: "+at.identificador);
             ts_local.agregarSiguiente(at.identificador,at.ejecutar(controlador,ts_local));
         } 
         return ts_local;
@@ -50,7 +53,7 @@ export default class Objeto implements Instruccion{
     gethtml(tab:string){
         let xml=tab+"<"+this.identificador;
         for(let at of this.listaAtributos ){
-            xml+=" "+at.identificador+"="+at.valor+" ";
+            xml+=" "+at.identificador+"=\""+at.valor+"\" ";
         }
         if(this.tipoetiqueta==1){
             xml+= "/>";

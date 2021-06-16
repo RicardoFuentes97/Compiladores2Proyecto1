@@ -7,10 +7,16 @@ export default class Controlador{
     public consola: string;
     public ambito: string;
     public cuerpo: string;
+    public idlast: string;
+    public position:number;
+    public posicionid:number;
+
     constructor (){
         this.errores = new  Array<Errores>();
         this.consola ="";
         this.cuerpo;
+        this.idlast="";
+        this.position=0;
     }
 
     public append (consola: string){

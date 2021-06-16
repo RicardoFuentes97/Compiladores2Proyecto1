@@ -29,8 +29,7 @@ export class AppComponent {
 
 
   recorrer(): void{
-    
-    
+  
    let ana = new Analizador.Analizador();
     if(this.entradaxml != ""){
       console.log("Vamos a graficar");
