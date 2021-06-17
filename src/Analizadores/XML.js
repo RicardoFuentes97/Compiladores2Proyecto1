@@ -620,7 +620,7 @@ case 8: yy_.yytext = $ESPACIOS + "<"; $ESPACIOS="";  console.log("Reconocio : "+
 break;
 case 9: yy_.yytext = $ESPACIOS + ">"; $ESPACIOS="";  console.log("Reconocio : "+ yy_.yytext); return 19; 
 break;
-case 10: yy_.yytext = $ESPACIOS + "&"; $ESPACIOS="";  console.log("Reconocio : "+ yy_.yytext); return 19; 
+case 10: yy_.yytext = $ESPACIOS + "\&"; $ESPACIOS="";  console.log("Reconocio : "+ yy_.yytext); return 19; 
 break;
 case 11: yy_.yytext = $ESPACIOS + "\'"; $ESPACIOS="";  console.log("Reconocio : "+ yy_.yytext); return 19; 
 break;

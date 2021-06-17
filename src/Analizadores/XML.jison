@@ -29,7 +29,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 // Estado S1
 <S1>"&lt;"                   { yytext = $ESPACIOS + "<"; $ESPACIOS="";  console.log("Reconocio : "+ yytext); return 'TEXTO'; };
 <S1>"&gt;"                   { yytext = $ESPACIOS + ">"; $ESPACIOS="";  console.log("Reconocio : "+ yytext); return 'TEXTO'; };
-<S1>"&amp;"                  { yytext = $ESPACIOS + "&"; $ESPACIOS="";  console.log("Reconocio : "+ yytext); return 'TEXTO'; };
+<S1>"&amp;"                  { yytext = $ESPACIOS + "\&"; $ESPACIOS="";  console.log("Reconocio : "+ yytext); return 'TEXTO'; };
 <S1>"&apos;"                 { yytext = $ESPACIOS + "\'"; $ESPACIOS="";  console.log("Reconocio : "+ yytext); return 'TEXTO'; };
 <S1>"&quot;"                 { yytext = $ESPACIOS + "\""; $ESPACIOS="";  console.log("Reconocio : "+ yytext); return 'TEXTO'; };
 "<!--"(.|\n)*"-->"           {  /* Ignoro los comentarios simples */}

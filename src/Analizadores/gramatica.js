@@ -114,7 +114,7 @@ case 11:
   this.$ =  new axesbarrabarra.default($$[$0-2],$$[$0],null)
 break;
 case 12:
-  this.$ =  new acceso.default(new informacion.default($$[$0],null),null);
+  this.$ =  new acceso.default(new informacion.default($$[$0],null,1),null);
 break;
 case 13: case 14: case 16: case 17: case 18: case 20: case 22: case 23: case 24: case 25: case 27: case 28: case 29: case 30:
 this.$ = $$[$0]
@@ -132,13 +132,13 @@ case 32:
 this.$ = $$[$0-1]+$$[$0]
 break;
 case 33: case 36:
-this.$=new informacion.default($$[$0],null);
+this.$=new informacion.default($$[$0],null,1);
 break;
-case 35:
-this.$= $$[$0-1]
+case 34: case 35:
+this.$=new informacion.default($$[$0],null,2);
 break;
 case 37:
-this.$=new informacion.default($$[$0-3],$$[$0-1]);
+this.$=new informacion.default($$[$0-3],$$[$0-1],1);
 break;
 case 38:
 this.$ = new aritmetica.default($$[$0-2], '+', $$[$0], $$[$0-2].first_line, $$[$0-2].last_column, false);

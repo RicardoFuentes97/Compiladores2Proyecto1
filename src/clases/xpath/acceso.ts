@@ -32,11 +32,21 @@ export default class acceso implements Instruccion{
                 }
             }else{
                 for( let informacion of ts.tabla){
-                    if(this.exprecion.id=="*"){
+                    if(this.exprecion.tipo==1){
+                        if(this.exprecion.id=="*"){
                         controlador.append(informacion.sim.objeto.gethtml(""));
+                        }else{
+                            if(informacion.identificador==this.exprecion.id && informacion.sim.simbolo==1){
+                                controlador.append(informacion.sim.objeto.gethtml(""));
+                            }
+                        }
                     }else{
-                        if(informacion.identificador==this.exprecion.id){
-                            controlador.append(informacion.sim.objeto.gethtml(""));
+                        if(informacion.identificador==this.exprecion.id && informacion.sim.simbolo==2){
+                                controlador.append(informacion.sim.valor+"\n");
+                        }else{
+                            if(this.exprecion.id=="*" && informacion.sim.simbolo==2){
+                                controlador.append(informacion.sim.valor);
+                            }
                         }
                     }
                 }

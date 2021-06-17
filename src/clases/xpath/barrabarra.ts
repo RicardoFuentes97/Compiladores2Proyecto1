@@ -29,16 +29,23 @@ export default class barrabarra implements Instruccion{
     obtenerall(controlador: Controlador, ts: TablaSimbolos) {
         if(ts!=null){
             for( let informacion of ts.tabla){
-                if(this.exprecion.id == "*"){
-                    if(informacion.sim.objeto != undefined){
+                if(this.exprecion.tipo==1){
+                    if(this.exprecion.id=="*" && informacion.sim.simbolo==1){
                         controlador.append(informacion.sim.objeto.gethtml(""));
+                    }else{
+                        if(informacion.identificador==this.exprecion.id && informacion.sim.simbolo==1){
+                            controlador.append(informacion.sim.objeto.gethtml(""));
+                        }
                     }
                 }else{
-                    if(informacion.identificador==this.exprecion.id){
-                        controlador.append(informacion.sim.objeto.gethtml(""));
+                    if(informacion.identificador==this.exprecion.id && informacion.sim.simbolo==2){
+                            controlador.append(informacion.sim.valor+"\n");
+                    }else{
+                        if(this.exprecion.id=="*" && informacion.sim.simbolo==2){
+                            controlador.append(informacion.sim.valor);
+                        }
                     }
                 }
-                
             }
             for (let tssig of ts.sig ){
                 this.obtenerall(controlador,tssig.sig);
@@ -49,8 +56,7 @@ export default class barrabarra implements Instruccion{
     siguiente(controlador: Controlador, ts: TablaSimbolos) {
         if(ts!=null){
             for (let tssig of ts.sig ){
-                if(this.exprecion.id==tssig.identificador){
-                    console.log(this.exprecion.id);
+                if(this.exprecion.id==tssig.identificador || this.exprecion.id=="*"){
                     this.sig.ejecutar(controlador,tssig.sig);
                 }else{
                     this.siguiente(controlador,tssig.sig);

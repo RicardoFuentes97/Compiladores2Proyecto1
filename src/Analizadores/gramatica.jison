@@ -161,7 +161,7 @@ instruccion : BARRA e                       {  $$ = new acceso.default($2,null);
             | BARRA RESERV DOSPUNTOS e      {  $$ =  new axes.default($2,$4,null);}
             | BARRA PUNTOPUNTO              {  $$ =  new puntopunto.default($1,null);}
             | BARRABARRA RESERV DOSPUNTOS e {  $$ =  new axesbarrabarra.default($2,$4,null)}              
-            | ID                            {  $$ =  new acceso.default(new informacion.default($1,null),null);} 
+            | ID                            {  $$ =  new acceso.default(new informacion.default($1,null,1),null);} 
 
             ;
 
@@ -189,11 +189,11 @@ RESERVLARGE :   MENOS OR MENOS SELF  {$$ = $1+$2+$3+$4}
             |   MENOS SIBLING        {$$ = $1+$2}
             ;
 
-e :   ID                         {$$=new informacion.default($1,null);}
-    | ARROBA ID                  {}
-    | ARROBA ASTERISCO           {$$= $1}
-    | ASTERISCO                  {$$=new informacion.default($1,null);}
-    | ID CORA OPERADORES CORC    {$$=new informacion.default($1,$3);}
+e :   ID                         {$$=new informacion.default($1,null,1);}
+    | ARROBA ID                  {$$=new informacion.default($2,null,2);}
+    | ARROBA ASTERISCO           {$$=new informacion.default($2,null,2);}
+    | ASTERISCO                  {$$=new informacion.default($1,null,1);}
+    | ID CORA OPERADORES CORC    {$$=new informacion.default($1,$3,1);}
     ;
  
     

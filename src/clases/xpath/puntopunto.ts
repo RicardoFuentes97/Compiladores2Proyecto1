@@ -23,8 +23,11 @@ export default class puntopunto implements Instruccion{
                 }
                 this.contador=1;
         }else{
+            ts=ts.ant;
             for( let informacion of ts.tabla){
-                
+                if(informacion.sim.simbolo==1){
+                    controlador.append(informacion.sim.objeto.gethtml(""));
+                }
             }
         }
         
