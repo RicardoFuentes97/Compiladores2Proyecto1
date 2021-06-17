@@ -12,7 +12,8 @@ export default class position implements Expreciones{
         return controlador.position;
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("position();","");
+        return padre;
     }
 
 }

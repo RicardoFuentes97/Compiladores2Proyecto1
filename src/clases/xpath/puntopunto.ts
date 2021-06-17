@@ -36,7 +36,11 @@ export default class puntopunto implements Instruccion{
         
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("/..","");
+        if(this.sig!=null){
+            padre.AddHijo(this.sig.recorrer());
+        }
+       return padre;
     }
 
 }

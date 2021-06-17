@@ -24,7 +24,8 @@ export default class last implements Expreciones {
        return cont;
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("LAST();","");
+       return padre;
     }
 
 }

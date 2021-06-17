@@ -23,7 +23,10 @@ export default class instrucciondoble implements  Instruccion{
         }
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("|","");
+        padre.AddHijo(this.i1.recorrer());
+        padre.AddHijo(this.i2.recorrer());
+       return padre;
     }
 
 }

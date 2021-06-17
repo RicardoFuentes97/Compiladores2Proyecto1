@@ -76,4 +76,18 @@ export class Analizador {
             
         }
     }
+
+    public recorrerDesxpath(input){
+
+        try {
+            let ast = xpath.parse(input);
+            console.log(ast);
+            console.log(ast);
+            let nodo_ast = ast.recorrer();
+            return nodo_ast;
+            
+        } catch (error) {
+            
+        }
+    }
 }

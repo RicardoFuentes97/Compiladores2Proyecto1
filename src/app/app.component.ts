@@ -93,6 +93,37 @@ export class AppComponent {
      }
    }
 
+   xprecorrerDes(): void{
+  
+    let ana = new Analizador.Analizador();
+     if(this.entradaxpath != ""){
+       console.log("Vamos a graficar");
+       let nodo_ast: Nodo= ana.recorrerDesxpath(this.entradaxpath);
+       let grafo = nodo_ast.GraficarSintactico();  //Aqui tenemos la cadena de graphviz para graficar
+       console.log(grafo);
+       
+       const container = document.getElementById("app");
+       var parsedData = vis.network.convertDot(grafo);
+ 
+       var data = {
+         nodes: parsedData.nodes,
+         edges: parsedData.edges
+       };
+ 
+       var options = parsedData.options;
+ 
+       options.layout = {
+         "hierarchical": true
+       }
+ 
+       options.nodes = {
+         color: "cyan"
+       };
+ 
+       var network = new vis.Network(container, data, options);
+     }
+   }
+
   ejecutar():void {
     let ana =new Analizador.Analizador();
     this.consola="";

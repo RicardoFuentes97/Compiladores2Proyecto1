@@ -1,3 +1,4 @@
+
 import Nodo from "../AST/Nodo";
 import Controlador from "../Controlador";
 import { Instruccion } from "../Interfaces.ts/Instruccion";
@@ -70,6 +71,8 @@ export default class barrabarra implements Instruccion{
         let valor=this.exprecion.exprecion.getValor(controlador,ts);
         if(typeof valor =='number'){
             this.isNumero(controlador,ts,valor);
+        }else{
+            this.esbool(controlador,ts);
         }
     }
 
@@ -78,6 +81,14 @@ export default class barrabarra implements Instruccion{
             this.siguienteNumero(controlador,ts,valor);
         }else{
             this.obtenerallNumero(controlador,ts,valor);
+        }
+    }
+
+    esbool(controlador:Controlador,ts:TablaSimbolos){
+        if(this.sig!=null){
+            this.siguienteBool(controlador,ts);
+        }else{
+            this.obtenerBool(controlador,ts);
         }
     }
 
@@ -117,8 +128,60 @@ export default class barrabarra implements Instruccion{
     }
 
 
+    siguienteBool(controlador: Controlador, ts: TablaSimbolos) {
+        let cont=1;
+        let posicion=1;
+        if(ts!=null){
+            for (let tssig of ts.sig ){
+                    if(this.exprecion.id==tssig.identificador){
+                        controlador.position=cont;
+                        controlador.posicionid=posicion;
+                        if(this.exprecion.exprecion.getValor(controlador,ts)){
+                            this.sig.ejecutar(controlador,tssig.sig);
+                        }
+                        cont++;
+                    }else{
+                        this.siguienteBool(controlador,tssig.sig);
+                    }
+                posicion++;
+            } 
+        }
+    }
+
+    obtenerBool(controlador: Controlador, ts: TablaSimbolos) {
+        let cont=1;
+        let posicion=1;
+        if(ts!=null){
+            for( let informacion of ts.tabla){
+                if(informacion.identificador==this.exprecion.id){
+                    controlador.position=cont;
+                    controlador.posicionid=posicion;
+                    if(this.exprecion.exprecion.getValor(controlador,ts)){
+                        controlador.append(informacion.sim.objeto.gethtml(""));   
+                    }
+                    cont++;
+                }
+                posicion++;
+            }
+            for (let tssig of ts.sig ){
+                    this.obtenerBool(controlador,tssig.sig);
+            } 
+        }
+    }
+
+
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("//","");
+        padre.AddHijo(new Nodo(this.exprecion.id,""));
+        if(this.exprecion.exprecion!=null){
+            padre.AddHijo(new Nodo("[",""));
+            padre.AddHijo(this.exprecion.exprecion.recorrer());
+            padre.AddHijo(new Nodo("]",""));
+        }
+        if(this.sig!=null){
+            padre.AddHijo(this.sig.recorrer());
+        }
+       return padre;
     }
 
 }

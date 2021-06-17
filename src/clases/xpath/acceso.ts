@@ -119,7 +119,18 @@ export default class acceso implements Instruccion{
     }
 
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("/","");
+        padre.AddHijo(new Nodo(this.exprecion.id,""));
+        if(this.exprecion.exprecion!=null){
+            padre.AddHijo(new Nodo("[",""));
+            padre.AddHijo(this.exprecion.exprecion.recorrer());
+            padre.AddHijo(new Nodo("]",""));
+        }
+
+        if(this.sig!=null){
+            padre.AddHijo(this.sig.recorrer());
+        }
+       return padre;
     }
 
 }
