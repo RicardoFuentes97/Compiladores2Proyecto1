@@ -35,6 +35,20 @@ export default class Ast implements Instruccion{
     this.graficar(controlador,ts); 
     console.log(ts);
     }
+    ejecutarDescendente(controlador: Controlador, ts: TablaSimbolos) {
+        console.log("vamos a compilar la entrada");
+       
+        for(let instruccion of this.lista_instrucciones){
+            if(instruccion instanceof Objeto){
+                let tipo=new Tipo("OBJETO");
+                let sim=new Simbolos(1,tipo,instruccion.identificador,instruccion.texto,instruccion);
+                ts.agregar(instruccion.identificador,sim);
+                ts.agregarSiguiente(instruccion.identificador,instruccion.ejecutar(controlador,ts));
+            }
+        }
+        this.graficar(controlador,ts); 
+        console.log(ts);
+        }
 
     
     ejecutarXPath(controlador: Controlador, ts: TablaSimbolos,instruccion:Instruccion){

@@ -30,9 +30,11 @@
 
   <li class="nav-item">
     <button mdbBtn (click)="ejecutar()" type="button" color="success" rounded="true" outline="true" mdbWavesEffect>Ejecutar</button>
+    <button mdbBtn (click)="ejecutarDescendente()" type="button" color="success" rounded="true" outline="true" mdbWavesEffect>Ejecutar Descendente</button>
   </li>
   <li class="nav-item">
   <button mdbBtn (click)="recorrer()" type="button" color="info" rounded="true" outline="true" mdbWavesEffect>Generar Árbol AST</button>
+  <button mdbBtn (click)="recorrerDes()" type="button" color="info" rounded="true" outline="true" mdbWavesEffect>Generar Árbol AST Descendente</button>
 </li>
 <li class="nav-item">
   <button mdbBtn (click)="imprimirTabla()" type="button" color="info" rounded="true" outline="true" mdbWavesEffect>Reporte Gramatical</button>
@@ -41,7 +43,7 @@
 <button mdbBtn   (click)="openPage('TablaSim',1)"  type="button" color="default" rounded="true" outline="true" mdbWavesEffect>Tabla de Símbolos</button>
 </li>
 </ul>
-<br>
+<br> 
 <div class="container-fluid">
 <mdb-card>
   
@@ -156,7 +158,7 @@
         </div>
       </mdb-card-body>
     </mdb-card>
-
+    <br>
     <div class="container-fluid">
       <mdb-card>
         
