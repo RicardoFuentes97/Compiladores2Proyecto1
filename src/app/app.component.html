@@ -8,40 +8,43 @@
 
 <li class="nav-item dropdown" dropdown  >
   <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-    Funcionalidades<span class="caret"></span></a>
+    Ejecutar <span class="caret"></span></a>
   <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Crear archivos</a>
-    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Abrir archivos</a>
-    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Guardar el archivo</a>
+    <a class="dropdown-item waves-light" mdbWavesEffect (click)="ejecutar()">Ejecutar Ascendente</a>
     <div class="divider dropdown-divider"></div>
-    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Eliminar pestaña</a>
+    <a class="dropdown-item waves-light" mdbWavesEffect (click)="ejecutarDescendente()">Ejecutar Descendente</a>
+  </div>
+</li>
+<li class="nav-item dropdown" dropdown  >
+  <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+    Arbol <span class="caret"></span></a>
+  <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+    <a class="dropdown-item waves-light" mdbWavesEffect (click)="recorrer()">Arbol AST Ascendente</a>
+    <div class="divider dropdown-divider"></div>
+    <a class="dropdown-item waves-light" mdbWavesEffect (click)="ejecutarDescendente()">Arbol AST Descendente</a>
   </div>
 </li>
 
 <li class="nav-item dropdown" dropdown  >
   <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-    Reporte de Errores<span class="caret"></span></a>
+    Reportes<span class="caret"></span></a>
   <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+    <a class="dropdown-item waves-light" mdbWavesEffect (click)="imprimirTabla()">Gramatical</a>
+    <div class="divider dropdown-divider"></div>
     <a class="dropdown-item waves-light" mdbWavesEffect href="#">Errores léxico</a>
+    <div class="divider dropdown-divider"></div>
     <a class="dropdown-item waves-light" mdbWavesEffect href="#">Errores sintáctico</a>
+    <div class="divider dropdown-divider"></div>
     <a class="dropdown-item waves-light" (click)="openPage('TablaSim',2)"   mdbWavesEffect href="#">Errores el semántico</a>
+    <div class="divider dropdown-divider"></div>
     </div>
 </li>
 
-  <li class="nav-item">
-    <button mdbBtn (click)="ejecutar()" type="button" color="success" rounded="true" outline="true" mdbWavesEffect>Ejecutar</button>
-  </li>
-  <li class="nav-item">
-  <button mdbBtn (click)="recorrer()" type="button" color="info" rounded="true" outline="true" mdbWavesEffect>Generar Árbol AST</button>
-</li>
-<li class="nav-item">
-  <button mdbBtn (click)="imprimirTabla()" type="button" color="info" rounded="true" outline="true" mdbWavesEffect>Reporte Gramatical</button>
-</li>
 <li class="nav-item">
 <button mdbBtn   (click)="openPage('TablaSim',1)"  type="button" color="default" rounded="true" outline="true" mdbWavesEffect>Tabla de Símbolos</button>
 </li>
 </ul>
-<br>
+<br> 
 <div class="container-fluid">
 <mdb-card>
   
@@ -156,8 +159,8 @@
         </div>
       </mdb-card-body>
     </mdb-card>
-
-    <div class="container-fluid">
+    <br>
+    
       <mdb-card>
         
         <mdb-card-body>
@@ -168,7 +171,7 @@
         </mdb-card-body>
       </mdb-card>
       <br>
-    </div>
+    
 
     
 <script type="text/javascript"></script>

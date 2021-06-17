@@ -69,8 +69,9 @@ raices: raiz raices { $2.push($1); $$ = $2;}
 raiz: objeto { $$ = $1 }
     ;
 
-objetos: objeto objetos         { $2.push($1); $$ = $2;}
-         ;
+objetos: objetos objeto         { $1.push($2); $$ = $1;}
+        | objeto                {$$ = [$1];}
+        ;  
     
 
 objeto:  '<' ID latributos '/' '>'                              { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,[],1); }
@@ -86,7 +87,7 @@ atributos:   atributo atributos   { $2.push($1); $$ = $2;}
             |atributo             { $$ = [$1]; } 
             ;
 
-atributo: ID '=' CADENA  { $$ = new Atributo.default($1, $3, @1.first_line, @1.first_column);}
+atributo: ID '=' CADENA  { $3 = $3.slice(1, $3.length-1); $$ = new Atributo.default($1, $3, @1.first_line, @1.first_column);}
         ;
 
 texto_libre :  TEXTO  texto_libre                            { $$ = $1 + $2; }
