@@ -53,7 +53,9 @@ export class AppComponent {
       }
 
       options.nodes = {
-        color: "cyan"
+        shape : "box",
+        color : "#97C2FC",
+        arrows: "to"
       };
 
       var network = new vis.Network(container, data, options);
