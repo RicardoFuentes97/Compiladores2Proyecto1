@@ -19,6 +19,8 @@ cadena      (\"({escape} | {aceptacion})*\")
 "/"                     { console.log("Reconocio : "+ yytext); return 'BARRA'}
 ")"                     { console.log("Reconocio : "+ yytext); return 'PARC'}
 "$"                     { console.log("Reconocio : "+ yytext); return 'DOLAR'}
+"{"                     { console.log("Reconocio : "+ yytext); return 'LLAVEA'}
+"}"                     { console.log("Reconocio : "+ yytext); return 'LLAVEC'}
 
 /* Operadores Relacionales */
 "<="                    { console.log("Reconocio : "+ yytext); return 'MENOR_IGUAL'}
@@ -121,33 +123,38 @@ cadena      (\"({escape} | {aceptacion})*\")
 %% /* Gramatica */
 
 
-INICIO : INSTRUCCION EOF {  $$=$1; return $$ };
+INICIO : RAIZ EOF {  $$=$1; return $$ };
 
-INSTRUCCION: INSTRUCCIONES  INSTRUCCION
-        |INSTRUCCIONES 
+RAIZ:  RAIZ  LISTA_RAIZ
+        | LISTA_RAIZ
         ;
 
-INSTRUCCIONES: PALABRAS_RESERV;
+LISTA_RAIZ: ENCABEZADO
+    | INSTRUCCION
+    ;
 
-PALABRAS_RESERV: FOR E IN E
-    | LET
-    | WHERE
-    | ORDER
-    | RETURN
+ENCABEZADO: MENOR ID MAYOR LLAVEA CUERPO LLAVEC MENOR BARRA ID MAYOR
+    ;
+
+CUERPO: CUERPO INSTRUCCION
+    | INSTRUCCION
+    ;
+
+INSTRUCCION: FOR E IN INSTRUCCION
+    | ORDER E
+    | RETURN E
+    | RETURN MENOR ID MAYOR LLAVEA E LLAVEC MENOR BARRA ID MAYOR
+    | BARRA E
+    | BARRA BARRA E
     ;
 
 E: E MAS E
     | E MENOS E
     | E POR E
     | E DIV E
-    | E MENOR E
-    | E MENOR_IGUAL E
-    | E MAYOR E
-    | E MAYOR_IGUAL E
-    | E IGUAL E
-    | E DIFERENTE E
     | PARA E PARC
-    | DOLAR ID
+    | DOLAR ID //RETURN
+    | ID PARA E PARC //RETURN
     | ID
     | CADENA
     | ENTERO
