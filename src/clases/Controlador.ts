@@ -10,6 +10,8 @@ export default class Controlador{
     public idlast: string;
     public position:number;
     public posicionid:number;
+    public acceso:number;
+    public entrada:string;
 
     constructor (){
         this.errores = new  Array<Errores>();
@@ -17,6 +19,7 @@ export default class Controlador{
         this.cuerpo;
         this.idlast="";
         this.position=0;
+        this.acceso=1;
     }
 
     public append (consola: string){

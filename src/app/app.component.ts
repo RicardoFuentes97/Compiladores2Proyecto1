@@ -136,6 +136,13 @@ export class AppComponent {
     }
   }
 
+  traducir3D():void {
+    let ana= new Analizador.Analizador();
+    if(this.entradaxml !=null){
+      let ejecutar=ana.traducirxml(this.entradaxml,this.entradaxpath);
+      this.consola=ejecutar.consola;
+    }
+  }
     
   imprimirTabla() {
     

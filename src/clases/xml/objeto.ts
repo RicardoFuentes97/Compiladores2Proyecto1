@@ -5,6 +5,7 @@ import Simbolos from "../TablaSimbolos/Simbolos";
 import { TablaSimbolos } from "../TablaSimbolos/TablaSimbolos";
 import Tipo, { tipo } from "../TablaSimbolos/Tipo";
 import  Atributo from "./atributo";
+import { GeneradorC3D } from '../GeneradorC3D/GeneradorC3D'
 
 export default class Objeto implements Instruccion{
     public identificador:string;
@@ -13,7 +14,9 @@ export default class Objeto implements Instruccion{
     public listaObjetos: Array<Objeto>;
     public linea: number;
     public columna: number;
-    public  tipoetiqueta:number;
+    public tipoetiqueta:number;
+    public posicionid3d:string;
+    public posiciontext3d:string;
 
     constructor(id:string, texto:string, linea:number, columna:number, listaAtributos:Array<Atributo>, listaO:Array<Objeto>,tipoetiqueta:number){
         this.identificador = id;
@@ -26,10 +29,16 @@ export default class Objeto implements Instruccion{
     }
     
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
+        this.posicionid3d=this.generar3d(this.identificador);
         let ts_local = new TablaSimbolos(ts,this.identificador);
+        if(this.texto.length>0){
+            this.posiciontext3d=this.generar3d(this.texto);
+        }
         for(let at of this.listaAtributos ){
             let tipo=new Tipo("IDENTIFICADOR");
             let sim=new Simbolos(2,tipo,at.identificador,at.valor);
+            at.posicion3d=this.generar3d(at.valor);
+            at.posicionId3d=this.generar3d(at.identificador);
             ts_local.agregar(at.identificador,sim);
         }
         for(let at of this.listaObjetos ){
@@ -51,25 +60,73 @@ export default class Objeto implements Instruccion{
 
 
     gethtml(tab:string){
+        const generator = GeneradorC3D.getInstancia();
+        generator.genPrint('c', '60');
+
+        generator.genSetStack('p', this.posicionid3d);
+        generator.genCall('nativa_print_str');
+
         let xml=tab+"<"+this.identificador;
         for(let at of this.listaAtributos ){
+            generator.genPrint('c', '32');
+
+            generator.genSetStack('p', at.posicionId3d);
+            generator.genCall('nativa_print_str');
+            
+            generator.genPrint('c', '61');
+            generator.genPrint('c', '34');
+
+            generator.genSetStack('p', at.posicion3d);
+            generator.genCall('nativa_print_str');
+
+            generator.genPrint('c', '34');
+
             xml+=" "+at.identificador+"=\""+at.valor+"\" ";
         }
         if(this.tipoetiqueta==1){
+            generator.genPrint('c', '47');
+            generator.genPrint('c', '62');
             xml+= "/>";
         }else{
             if(this.texto.length>0){
+                generator.genPrint('c', '62');
+
+                generator.genSetStack('p', this.posiciontext3d);
+                generator.genCall('nativa_print_str');
+
+                generator.genPrint('c', '60');
+
+                generator.genSetStack('p', this.posicionid3d);
+                generator.genCall('nativa_print_str');
+
+                generator.genPrint('c', '47');
+                generator.genPrint('c', '62');
+
+
                 xml+=">"+this.texto+"<"+this.identificador+"/>";
             }else{
                 tab=tab+"   ";
+                generator.genPrint('c', '62');
                 xml+=">";
                 for(let at of this.listaObjetos ){
                     xml+="\n";
+                    generator.genPrint('c', '10');
                     xml+=at.gethtml(tab);
-                } 
+                }
+                generator.genPrint('c', '10');
+                generator.genPrint('c', '60');
+
+                generator.genSetStack('p', this.posicionid3d);
+                generator.genCall('nativa_print_str');
+
+                generator.genPrint('c', '47');
+                generator.genPrint('c', '62');
+
+
                 xml+=tab+"\n<"+this.identificador+"/>";
             }
         }
+        
         return xml;
     }
 
@@ -89,5 +146,18 @@ export default class Objeto implements Instruccion{
         }
         padre.AddHijo(hijo);
         return padre;
+    }
+
+    generar3d(entrada:string):string{
+        const generator = GeneradorC3D.getInstancia();
+        const temp = generator.newTemporal();
+        generator.genAsignacion(temp, 'h');
+        for (let i = 0; i < entrada.length; i++) {
+            generator.genSetHeap('h', entrada.charCodeAt(i));
+            generator.avanzarHeap();
+        }
+        generator.genSetHeap('h', '-1');
+        generator.avanzarHeap();
+        return temp;
     }
 }
