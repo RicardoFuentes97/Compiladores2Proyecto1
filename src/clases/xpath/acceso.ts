@@ -42,7 +42,7 @@ export default class acceso implements Instruccion{
                         }
                     }else{
                         if(informacion.identificador==this.exprecion.id && informacion.sim.simbolo==2){
-                                controlador.append(informacion.sim.valor+"\n");
+                                controlador.append(informacion.sim.valor+"\n"); 
                         }else{
                             if(this.exprecion.id=="*" && informacion.sim.simbolo==2){
                                 controlador.append(informacion.sim.valor);

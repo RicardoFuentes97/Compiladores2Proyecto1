@@ -4,7 +4,7 @@ import * as xmlDes from "../Analizadores/XMLDescendente";
 import * as xquery from "../Analizadores/XQuery";
 import Controlador from "./Controlador";
 import { TablaSimbolos } from "./TablaSimbolos/TablaSimbolos";
-
+import { GeneradorC3D } from '../clases/GeneradorC3D/GeneradorC3D';
 
 
 /* let error_html = controlador.graficar_Semantico (controlador,ts_globla);  Metodos para lo errores*/  
@@ -51,6 +51,18 @@ export class Analizador {
            
             return retorno;
         
+    }
+
+    public traducirxml(entradaxml:string,entradaxpath:string){
+        let astxml=xml.parse(entradaxml);
+        let controlador = new Controlador();
+            let ts_globla =new TablaSimbolos(null,"Global");
+            controlador.acceso=2;
+            controlador.entrada=entradaxpath;
+            astxml.ejecutar(controlador,ts_globla);
+            let ts_html =controlador.graficar_ts(controlador,ts_globla);
+            let retorno = {"ts": ts_html ,"consola":controlador.consola };
+            return retorno;
     }
     
     public recorrer(input){

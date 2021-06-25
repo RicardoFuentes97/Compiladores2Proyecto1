@@ -11,6 +11,8 @@ import Objeto from "../xml/objeto";
 import obj from "../xml/objeto";
 import acceso from "../xpath/acceso";
 import Nodo from "./Nodo";
+import { GeneradorC3D } from '../GeneradorC3D/GeneradorC3D'
+import * as xpath from "../../Analizadores/gramatica";
 
 export default class Ast implements Instruccion{
 
@@ -22,8 +24,9 @@ export default class Ast implements Instruccion{
 
 
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
+    GeneradorC3D.getInstancia().clearCode();
     console.log("vamos a compilar la entrada");
-   
+    GeneradorC3D.getInstancia()
     for(let instruccion of this.lista_instrucciones){
         if(instruccion instanceof Objeto){
             let tipo=new Tipo("OBJETO");
@@ -34,6 +37,17 @@ export default class Ast implements Instruccion{
     }
     this.graficar(controlador,ts); 
     console.log(ts);
+    if(controlador.acceso==2){
+        if(controlador.entrada.length>0){
+            let astxpaht=xpath.parse(controlador.entrada);
+            console.log(astxpaht);
+            this.ejecutarXPath(controlador,ts,astxpaht);
+        }
+
+
+        controlador.consola=GeneradorC3D.getInstancia().getCode();
+    }
+
     }
     ejecutarDescendente(controlador: Controlador, ts: TablaSimbolos) {
         console.log("vamos a compilar la entrada");

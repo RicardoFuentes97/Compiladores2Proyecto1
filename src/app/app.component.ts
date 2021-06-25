@@ -5,8 +5,6 @@ import { TablaSimbolos } from 'src/clases/TablaSimbolos/TablaSimbolos';
 import * as Analizador from '../clases/Analizar'
 import * as xpath from "../Analizadores/gramatica"
 import * as xml from "../Analizadores/XML";
-import {graphviz} from 'd3-graphviz';
-import {wasmFolder} from '@hpcc-js/wasm'
 import Nodo from 'src/clases/AST/Nodo';
 import * as ReXML from '../Analizadores/XmlReporteGramatica';
 import * as RexPath from '../Analizadores/xPathReporteGramatica';
@@ -136,6 +134,13 @@ export class AppComponent {
     }
   }
 
+  traducir3D():void {
+    let ana= new Analizador.Analizador();
+    if(this.entradaxml !=null){
+      let ejecutar=ana.traducirxml(this.entradaxml,this.entradaxpath);
+      this.consola=ejecutar.consola;
+    }
+  }
     
   imprimirTabla() {
     
