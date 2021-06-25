@@ -1,6 +1,7 @@
 import * as xpath from "../Analizadores/gramatica"
 import * as xml from "../Analizadores/XML";
 import * as xmlDes from "../Analizadores/XMLDescendente";
+import * as xquery from "../Analizadores/XQuery";
 import Controlador from "./Controlador";
 import { TablaSimbolos } from "./TablaSimbolos/TablaSimbolos";
 import { GeneradorC3D } from '../clases/GeneradorC3D/GeneradorC3D';
@@ -101,5 +102,11 @@ export class Analizador {
         } catch (error) {
             
         }
+    }
+
+    public recorrerXquery(entradaxquery:string):any {
+        console.log("vamos a analizar la entrada");
+        //Ejecutar Xquery
+        xquery.parse(entradaxquery);
     }
 }

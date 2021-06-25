@@ -195,4 +195,13 @@ export class AppComponent {
     document.getElementById(pageName).style.display = "block";
   
   }
+
+  ejecutarXquery(){
+    let ana =new Analizador.Analizador();
+    this.consola="";
+    if(this.entradaxpath !=""){
+     ana.recorrerXquery(this.entradaxpath);
+     
+    }
+  }
 }
