@@ -21,6 +21,8 @@ cadena      (\"({escape} | {aceptacion})*\")
 "$"                     { console.log("Reconocio : "+ yytext); return 'DOLAR'}
 "{"                     { console.log("Reconocio : "+ yytext); return 'LLAVEA'}
 "}"                     { console.log("Reconocio : "+ yytext); return 'LLAVEC'}
+"["                     { console.log("Reconocio : "+ yytext); return 'CORA'}
+"]"                     { console.log("Reconocio : "+ yytext); return 'CORC'}
 
 /* Operadores Relacionales */
 "<="                    { console.log("Reconocio : "+ yytext); return 'MENOR_IGUAL'}
@@ -29,6 +31,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 "<"                     { console.log("Reconocio : "+ yytext); return 'MENOR'}
 ">"                     { console.log("Reconocio : "+ yytext); return 'MAYOR'}
 "!="                    { console.log("Reconocio : "+ yytext); return 'DIFERENTE'}
+":"                    { console.log("Reconocio : "+ yytext); return 'DOSPUNTOS'}
 
 /* Operadores Aritmeticos */
 "+"                     { console.log("Reconocio : "+ yytext); return 'MAS'}
@@ -47,6 +50,11 @@ cadena      (\"({escape} | {aceptacion})*\")
 "where"                 { console.log("Reconocio : "+ yytext); return 'WHERE'}
 "order by"              { console.log("Reconocio : "+ yytext); return 'ORDER'}
 "return"                { console.log("Reconocio : "+ yytext); return 'RETURN'}
+"to"                    { console.log("Reconocio : "+ yytext); return 'TO'}
+"if"                    { console.log("Reconocio : "+ yytext); return 'IF'}
+"then"                  { console.log("Reconocio : "+ yytext); return 'THEN'}
+"else"                  { console.log("Reconocio : "+ yytext); return 'ELSE'}
+"@"                     { console.log("Reconocio : "+ yytext); return 'ARROBA'}
 
 
 /* SIMBOLOS ER */
@@ -125,34 +133,50 @@ cadena      (\"({escape} | {aceptacion})*\")
 
 INICIO : RAIZ EOF {  $$=$1; return $$ };
 
-RAIZ:  RAIZ  LISTA_RAIZ
-        | LISTA_RAIZ
+RAIZ:  RAIZ  INSTRUCCION
+        | INSTRUCCION
         ;
 
-LISTA_RAIZ: ENCABEZADO
-    | INSTRUCCION
-    ;
-
-ENCABEZADO: MENOR ID MAYOR LLAVEA CUERPO LLAVEC MENOR BARRA ID MAYOR
-    ;
-
-CUERPO: CUERPO INSTRUCCION
-    | INSTRUCCION
-    ;
-
 INSTRUCCION: FOR E IN INSTRUCCION
+    | LET E DOSPUNTOS IGUAL PARA DECIMAL TO DECIMAL PARC
+    | WHERE E
     | ORDER E
     | RETURN E
     | RETURN MENOR ID MAYOR LLAVEA E LLAVEC MENOR BARRA ID MAYOR
+    | RETURN SENTECIAS_CONTROL
+    | SENTECIAS_CONTROL
     | BARRA E
     | BARRA BARRA E
+    ;
+
+SENTECIAS_CONTROL: IF PARA PARAMETROS PARC
+    | THEN MENOR ID MAYOR LLAVEA PARAMETROS LLAVEC MENOR BARRA ID MAYOR
+    | ELSE MENOR ID MAYOR LLAVEA PARAMETROS LLAVEC MENOR BARRA ID MAYOR
+    ;
+
+PARAMETROS: PARAMETROS LISTA_PARAMETROS
+    | LISTA_PARAMETROS
+    ;
+
+LISTA_PARAMETROS: DOLAR ID
+    | BARRA E
+    | BARRA BARRA E
+    | BARRA ARROBA E
+    | ID
+    | ID PARA PARAMETROS PARC
     ;
 
 E: E MAS E
     | E MENOS E
     | E POR E
     | E DIV E
+    | E MENOR E
+    | E MENOR_IGUAL E
+    | E MAYOR E
+    | E MAYOR_IGUAL E
+    | E IGUAL E
     | PARA E PARC
+    | CORA E CORC
     | DOLAR ID //RETURN
     | ID PARA E PARC //RETURN
     | ID
