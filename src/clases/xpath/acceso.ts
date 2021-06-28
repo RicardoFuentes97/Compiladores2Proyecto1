@@ -56,8 +56,8 @@ export default class acceso implements Instruccion{
 
     isxprecion(controlador: Controlador, ts: TablaSimbolos){
         controlador.idlast=this.exprecion.id;
-        let valor=this.exprecion.exprecion.getValor(controlador,ts);//borrar solo es prueba
-        this.exprecion.exprecion.getvalor3d(controlador,ts);
+        let valor=this.exprecion.exprecion.getValor(controlador,ts);
+       // this.exprecion.exprecion.getvalor3d(controlador,ts);
         if(typeof valor =='number'){
             this.isNumero(controlador,ts,valor);
         }else{

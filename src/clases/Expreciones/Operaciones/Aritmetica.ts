@@ -324,11 +324,11 @@ export default class Aritmetica extends Operaciones implements Expreciones {
                  console.log("entre a suma");
                 return this.suma3D(valor_exp1,valor_exp2,controlador);
             case Operador.RESTA:
-                return this.resta(valor_exp1,valor_exp2);
+                return this.resta3D(valor_exp1,valor_exp2,controlador);
             case Operador.MULTI:
-                return this.multiplicacion(valor_exp1,valor_exp2);
+                return this.multiplicacion3D(valor_exp1,valor_exp2,controlador);
             case Operador.DIV:
-                return this.divicion(valor_exp1,valor_exp2);
+                return this.divicion3D(valor_exp1,valor_exp2,controlador);
             case Operador.POT:
                 return this.potencia(valor_exp1,valor_exp2);
             case Operador.MODULO:
@@ -406,4 +406,37 @@ export default class Aritmetica extends Operaciones implements Expreciones {
         }
         
     }
+    resta3D(valor_exp1:retorno,valor_exp2:retorno,controlador:Controlador){
+        const generador = controlador.generador;
+        const temp = generador.newTemporal();
+        if(valor_exp1.tipo.type==tipo.DOBLE){
+            if(valor_exp2.tipo.type==tipo.DOBLE){
+                generador.genExpresion(temp, valor_exp1.getvalor3d(), valor_exp2.getvalor3d(), '-');
+                return new retorno(temp, true, valor_exp2.tipo);
+            }
+        }
+    }
+
+    multiplicacion3D(valor_exp1:retorno,valor_exp2:retorno,controlador:Controlador){
+        const generador = controlador.generador;
+        const temp = generador.newTemporal();
+        if(valor_exp1.tipo.type==tipo.DOBLE){
+            if(valor_exp2.tipo.type==tipo.DOBLE){
+                generador.genExpresion(temp, valor_exp1.getvalor3d(), valor_exp2.getvalor3d(), '*');
+                return new retorno(temp, true, valor_exp2.tipo);
+            }
+        }
+    }
+
+    divicion3D(valor_exp1:retorno,valor_exp2:retorno,controlador:Controlador){
+        const generador = controlador.generador;
+        const temp = generador.newTemporal();
+        if(valor_exp1.tipo.type==tipo.DOBLE){
+            if(valor_exp2.tipo.type==tipo.DOBLE){
+                generador.genExpresion(temp, valor_exp1.getvalor3d(), valor_exp2.getvalor3d(), '/');
+                return new retorno(temp, true, valor_exp2.tipo);
+            }
+        }
+    }
+
 }
