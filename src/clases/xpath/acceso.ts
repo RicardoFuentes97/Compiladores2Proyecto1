@@ -34,10 +34,10 @@ export default class acceso implements Instruccion{
                 for( let informacion of ts.tabla){
                     if(this.exprecion.tipo==1){
                         if(this.exprecion.id=="*"){
-                        controlador.append(informacion.sim.objeto.gethtml(""));
+                        controlador.append(informacion.sim.objeto.gethtml("",controlador));
                         }else{
                             if(informacion.identificador==this.exprecion.id && informacion.sim.simbolo==1){
-                                controlador.append(informacion.sim.objeto.gethtml(""));
+                                controlador.append(informacion.sim.objeto.gethtml("",controlador));
                             }
                         }
                     }else{
@@ -56,7 +56,8 @@ export default class acceso implements Instruccion{
 
     isxprecion(controlador: Controlador, ts: TablaSimbolos){
         controlador.idlast=this.exprecion.id;
-        let valor=this.exprecion.exprecion.getValor(controlador,ts);
+        let valor=this.exprecion.exprecion.getValor(controlador,ts);//borrar solo es prueba
+        this.exprecion.exprecion.getvalor3d(controlador,ts);
         if(typeof valor =='number'){
             this.isNumero(controlador,ts,valor);
         }else{
@@ -79,7 +80,9 @@ export default class acceso implements Instruccion{
            for( let informacion of ts.tabla){
                 if(informacion.identificador==this.exprecion.id){
                     if(cont==posicion){
-                        controlador.append(informacion.sim.objeto.gethtml(""));
+                        console.log("entre a valor 3d");
+                        this.exprecion.exprecion.getvalor3d(controlador,ts);
+                        controlador.append(informacion.sim.objeto.gethtml("",controlador));
                     }
                     cont++;
                }
@@ -109,7 +112,7 @@ export default class acceso implements Instruccion{
                     controlador.position=cont;
                     controlador.posicionid=posicion;
                     if(this.exprecion.exprecion.getValor(controlador,ts)){
-                        controlador.append(informacion.sim.objeto.gethtml(""));
+                        controlador.append(informacion.sim.objeto.gethtml("",controlador));
                     }
                     cont++;
                }

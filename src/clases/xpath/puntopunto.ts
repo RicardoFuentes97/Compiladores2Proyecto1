@@ -27,7 +27,7 @@ export default class puntopunto implements Instruccion{
                 ts=ts.ant;
                 for( let informacion of ts.tabla){
                     if(informacion.sim.simbolo==1){
-                        controlador.append(informacion.sim.objeto.gethtml(""));
+                        controlador.append(informacion.sim.objeto.gethtml("",controlador));
                     }
                 }
             }

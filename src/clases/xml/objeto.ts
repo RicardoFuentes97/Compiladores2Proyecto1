@@ -5,7 +5,6 @@ import Simbolos from "../TablaSimbolos/Simbolos";
 import { TablaSimbolos } from "../TablaSimbolos/TablaSimbolos";
 import Tipo, { tipo } from "../TablaSimbolos/Tipo";
 import  Atributo from "./atributo";
-import { GeneradorC3D } from '../GeneradorC3D/GeneradorC3D'
 
 export default class Objeto implements Instruccion{
     public identificador:string;
@@ -29,16 +28,16 @@ export default class Objeto implements Instruccion{
     }
     
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
-        this.posicionid3d=this.generar3d(this.identificador);
+        this.posicionid3d=this.generar3d(this.identificador,controlador);
         let ts_local = new TablaSimbolos(ts,this.identificador);
         if(this.texto.length>0){
-            this.posiciontext3d=this.generar3d(this.texto);
+            this.posiciontext3d=this.generar3d(this.texto,controlador);
         }
         for(let at of this.listaAtributos ){
             let tipo=new Tipo("IDENTIFICADOR");
             let sim=new Simbolos(2,tipo,at.identificador,at.valor);
-            at.posicion3d=this.generar3d(at.valor);
-            at.posicionId3d=this.generar3d(at.identificador);
+            at.posicion3d=this.generar3d(at.valor,controlador);
+            at.posicionId3d=this.generar3d(at.identificador,controlador);
             ts_local.agregar(at.identificador,sim);
         }
         for(let at of this.listaObjetos ){
@@ -59,8 +58,8 @@ export default class Objeto implements Instruccion{
     }
 
 
-    gethtml(tab:string){
-        const generator = GeneradorC3D.getInstancia();
+    gethtml(tab:string,controlador: Controlador){
+        const generator = controlador.generador;
         generator.genPrint('c', '60');
 
         generator.genSetStack('p', this.posicionid3d);
@@ -111,7 +110,7 @@ export default class Objeto implements Instruccion{
                 for(let at of this.listaObjetos ){
                     xml+="\n";
                     generator.genPrint('c', '10');
-                    xml+=at.gethtml(tab);
+                    xml+=at.gethtml(tab,controlador);
                 }
                 generator.genPrint('c', '10');
                 generator.genPrint('c', '60');
@@ -148,8 +147,8 @@ export default class Objeto implements Instruccion{
         return padre;
     }
 
-    generar3d(entrada:string):string{
-        const generator = GeneradorC3D.getInstancia();
+    generar3d(entrada:string,controlador: Controlador):string{
+        const generator = controlador.generador;
         const temp = generator.newTemporal();
         generator.genAsignacion(temp, 'h');
         for (let i = 0; i < entrada.length; i++) {

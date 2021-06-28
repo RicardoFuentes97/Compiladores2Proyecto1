@@ -12,7 +12,7 @@ export class GeneradorC3D {
     /**
      * constructor de la clase singleton
      */
-    private constructor() {
+    constructor() {
         this.temporal = this.label = 0;
         this.code = [];
         this.codeFuncion = [];
@@ -62,6 +62,7 @@ export class GeneradorC3D {
         this.code = [];
         this.codeFuncion = [];
         this.tempStorage = new Set();
+
     }
 
     public clearSoloCode() {

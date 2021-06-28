@@ -10,6 +10,9 @@ export default class last implements Expreciones {
     constructor(){
 
     }
+    getvalor3d(controlador: Controlador, ts: TablaSimbolos) {
+        throw new Error("Method not implemented.");
+    }
 
     getTipo(controlador: Controlador, ts: TablaSimbolos) {
         

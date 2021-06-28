@@ -4,6 +4,9 @@ import { Expreciones } from "../Interfaces.ts/Expreciones";
 import { TablaSimbolos } from "../TablaSimbolos/TablaSimbolos";
 
 export default class position implements Expreciones{
+    getvalor3d(controlador: Controlador, ts: TablaSimbolos) {
+        throw new Error("Method not implemented.");
+    }
 
     getTipo(controlador: Controlador, ts: TablaSimbolos) {
         throw new Error("Method not implemented.");

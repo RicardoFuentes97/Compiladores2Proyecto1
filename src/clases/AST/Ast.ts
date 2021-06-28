@@ -24,9 +24,7 @@ export default class Ast implements Instruccion{
 
 
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
-    GeneradorC3D.getInstancia().clearCode();
     console.log("vamos a compilar la entrada");
-    GeneradorC3D.getInstancia()
     for(let instruccion of this.lista_instrucciones){
         if(instruccion instanceof Objeto){
             let tipo=new Tipo("OBJETO");
@@ -35,19 +33,7 @@ export default class Ast implements Instruccion{
             ts.agregarSiguiente(instruccion.identificador,instruccion.ejecutar(controlador,ts));
         }
     }
-    this.graficar(controlador,ts); 
-    console.log(ts);
-    if(controlador.acceso==2){
-        if(controlador.entrada.length>0){
-            let astxpaht=xpath.parse(controlador.entrada);
-            console.log(astxpaht);
-            this.ejecutarXPath(controlador,ts,astxpaht);
-        }
-
-
-        controlador.consola=GeneradorC3D.getInstancia().getCode();
-    }
-
+        this.graficar(controlador,ts); 
     }
     ejecutarDescendente(controlador: Controlador, ts: TablaSimbolos) {
         console.log("vamos a compilar la entrada");

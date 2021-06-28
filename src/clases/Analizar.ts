@@ -42,7 +42,6 @@ export class Analizador {
             //Ejecutar xpath
 
             let astxpaht=xpath.parse(entradaxpath);
-            console.log(astxpaht);
             astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
          
            // console.log("aa");
@@ -57,11 +56,15 @@ export class Analizador {
         let astxml=xml.parse(entradaxml);
         let controlador = new Controlador();
             let ts_globla =new TablaSimbolos(null,"Global");
-            controlador.acceso=2;
-            controlador.entrada=entradaxpath;
+            controlador.generador.clearCode();
             astxml.ejecutar(controlador,ts_globla);
+            if(entradaxpath!=null){
+                let astxpaht=xpath.parse(entradaxpath);
+                astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
+            }    
+
             let ts_html =controlador.graficar_ts(controlador,ts_globla);
-            let retorno = {"ts": ts_html ,"consola":controlador.consola };
+            let retorno = {"ts": ts_html ,"consola":controlador.generador.getCode() };
             return retorno;
     }
     

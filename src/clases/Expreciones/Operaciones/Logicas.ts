@@ -11,6 +11,9 @@ export default class Logicas extends Operaciones implements Expreciones{
     public constructor(exp1, op: string, exp2, linea: number, columna:number, expU :boolean) {
         super(exp1,op,exp2,linea,columna,expU);        
     }
+    getvalor3d(controlador: Controlador, ts: TablaSimbolos) {
+        throw new Error("Method not implemented.");
+    }
 
     getTipo(controlador: Controlador, ts: TablaSimbolos) : tipo{
         let valor = this.getValor(controlador, ts);
