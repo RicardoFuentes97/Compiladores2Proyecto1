@@ -16,6 +16,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 
 /* Simbolos del programa */
 "("                     { console.log("Reconocio : "+ yytext); return 'PARA'}
+"//"                     { console.log("Reconocio : "+ yytext); return 'BARRABARRA'}
 "/"                     { console.log("Reconocio : "+ yytext); return 'BARRA'}
 ")"                     { console.log("Reconocio : "+ yytext); return 'PARC'}
 "$"                     { console.log("Reconocio : "+ yytext); return 'DOLAR'}
@@ -61,6 +62,23 @@ cadena      (\"({escape} | {aceptacion})*\")
 "as"                    { console.log("Reconocio : "+ yytext); return 'AS'}
 "let"                   { console.log("Reconocio : "+ yytext); return 'LET'}
 
+//XPATH
+"last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}
+"position()"            { console.log("Reconocio : "+ yytext); return 'POSITION'}
+"ancestor"              { console.log("Reconocio : "+ yytext); return 'ANCESTOR'}
+"attribute"             { console.log("Reconocio : "+ yytext); return 'ATTRIBUTE'}
+"self"                  { console.log("Reconocio : "+ yytext); return 'SELF'} 
+"child"                 { console.log("Reconocio : "+ yytext); return 'CHILD'}
+"descendant"            { console.log("Reconocio : "+ yytext); return 'DESCENDANT'}
+"following"             { console.log("Reconocio : "+ yytext); return 'FOLLOWING'}
+"sibling"               { console.log("Reconocio : "+ yytext); return 'SIBLING'}
+"namespace"             { console.log("Reconocio : "+ yytext); return 'NAMESPACE'}
+"parent"                { console.log("Reconocio : "+ yytext); return 'PARENT'}
+"preceding"             { console.log("Reconocio : "+ yytext); return 'PRECENDING'}
+"text()"                { console.log("Reconocio : "+ yytext); return 'TEXT'}
+"node()"                { console.log("Reconocio : "+ yytext); return 'NODE'}
+"last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}
+"position()"            { console.log("Reconocio : "+ yytext); return 'POSITION'}
 
 /* SIMBOLOS ER */
 [0-9]+("."[0-9]+)?\b        { console.log("Reconocio : "+ yytext); return 'DECIMAL'}
@@ -142,16 +160,14 @@ RAIZ:  RAIZ  INSTRUCCION
         | INSTRUCCION
         ;
 
-INSTRUCCION: FOR E IN INSTRUCCION
+INSTRUCCION: FOR E IN XPATH
     | LET E DOSPUNTOS IGUAL PARA DECIMAL TO DECIMAL PARC
-    | WHERE E
-    | ORDER E
-    | RETURN E
-    | RETURN MENOR ID MAYOR LLAVEA E LLAVEC MENOR BARRA ID MAYOR
+    | WHERE E XPATH
+    | ORDER E XPATH
+    | RETURN E XPATH
+    | RETURN MENOR ID MAYOR LLAVEA XPATH LLAVEC MENOR BARRA ID MAYOR
     | RETURN SENTECIAS_CONTROL
     | SENTECIAS_CONTROL
-    | BARRA E
-    | BARRA BARRA E
     ;
 
 SENTECIAS_CONTROL: IF PARA PARAMETROS PARC
@@ -178,6 +194,43 @@ LISTA_PARAMETROS: DOLAR ID
     | RETURN E
     ;
 
+XPATH: XPATH LISTA_XPATH
+    | LISTA_XPATH
+    ;
+
+LISTA_XPATH: BARRA E
+    | BARRABARRA E
+    | RESERV DOSPUNTOS E
+    | BARRA RESERV DOSPUNTOS E
+    | BARRA PUNTOPUNTO
+    | BARRABARRA RESERV DOSPUNTOS
+    | ID
+    ;
+
+RESERV : LAST
+    | POSITION
+    | ANCESTOR RESERVLARGE
+    | ATTRIBUTE
+    | ANCESORSELF
+    | CHILD
+    | DESCENDANT RESERVLARGE
+    | DESCENDANT
+    | FOLLOWING  MENOS SIBLING
+    | FOLLOWING
+    | NAMESPACE
+    | PARENT
+    | PRECENDING
+    | PRECENDING MENOS SIBLING
+    | SELF
+    | TEXT
+    | NODE
+    | SIBLING
+    ;
+
+RESERVLARGE : MENOS OR MENOS SELF
+    | MENOS SIBLING
+    ;
+
 E: E MAS E
     | E MENOS E
     | E POR E
@@ -192,8 +245,12 @@ E: E MAS E
     | CORA E CORC
     | DOLAR ID //RETURN
     | ID PARA E PARC //RETURN
+    | ID CORA E CORC
     | ID
     | CADENA
     | ENTERO
     | DECIMAL
+    | ARROBA POR
+    
+
     ;
