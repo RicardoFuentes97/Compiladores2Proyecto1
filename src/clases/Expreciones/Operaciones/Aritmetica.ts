@@ -332,9 +332,9 @@ export default class Aritmetica extends Operaciones implements Expreciones {
             case Operador.POT:
                 return this.potencia(valor_exp1,valor_exp2);
             case Operador.MODULO:
-                return this.modulo(valor_exp1,valor_exp2);
+                return this.modulo3D(valor_exp1,valor_exp2,controlador);
             case Operador.UNARIO:
-                return this.unario(valor_expU);
+                return this.unario3D(valor_expU,controlador);
             default:
                 //Se produjo un error inesperado
                 break;
@@ -436,6 +436,26 @@ export default class Aritmetica extends Operaciones implements Expreciones {
                 generador.genExpresion(temp, valor_exp1.getvalor3d(), valor_exp2.getvalor3d(), '/');
                 return new retorno(temp, true, valor_exp2.tipo);
             }
+        }
+    }
+
+    modulo3D(valor_exp1:retorno,valor_exp2:retorno,controlador:Controlador){
+        const generador = controlador.generador;
+        const temp = generador.newTemporal();
+        if(valor_exp1.tipo.type==tipo.DOBLE){
+            if(valor_exp2.tipo.type==tipo.DOBLE){
+                generador.genCode(temp + ' = fmod(' + valor_exp1.getvalor3d() + ',' + valor_exp2.getvalor3d() + ');');
+                return new retorno(temp, true, valor_exp2.tipo);
+            }
+        }
+    }
+
+    unario3D(valor_exp1:retorno,controlador:Controlador){
+        const generador = controlador.generador;
+        const temp = generador.newTemporal();
+        if(valor_exp1.tipo.type==tipo.DOBLE){
+            generador.genExpresion(temp, valor_exp1.getvalor3d(), '-1', '*');
+            return new retorno(temp, true, valor_exp1.tipo);
         }
     }
 

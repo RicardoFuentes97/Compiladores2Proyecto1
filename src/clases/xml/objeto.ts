@@ -16,8 +16,9 @@ export default class Objeto implements Instruccion{
     public tipoetiqueta:number;
     public posicionid3d:string;
     public posiciontext3d:string;
+    public etiquetaF:string;
 
-    constructor(id:string, texto:string, linea:number, columna:number, listaAtributos:Array<Atributo>, listaO:Array<Objeto>,tipoetiqueta:number){
+    constructor(id:string, texto:string, linea:number, columna:number, listaAtributos:Array<Atributo>, listaO:Array<Objeto>,tipoetiqueta:number,etiquetaF?){
         this.identificador = id;
         this.texto = texto;
         this.linea = linea;
@@ -25,9 +26,16 @@ export default class Objeto implements Instruccion{
         this.listaAtributos = listaAtributos;
         this.listaObjetos = listaO
         this.tipoetiqueta=tipoetiqueta;
+        this.etiquetaF=etiquetaF;
     }
     
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
+        if(this.tipoetiqueta==2){
+            if(this.identificador!=this.etiquetaF){
+                controlador.append("Error: La etiqueta de inicio y fin no coinciden:: inicio: "+this.identificador+ " final: "+this.etiquetaF);
+            }
+        }
+
         this.posicionid3d=this.generar3d(this.identificador,controlador);
         let ts_local = new TablaSimbolos(ts,this.identificador);
         if(this.texto.length>0){

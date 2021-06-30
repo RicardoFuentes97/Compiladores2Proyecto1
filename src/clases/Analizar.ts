@@ -5,6 +5,10 @@ import * as xquery from "../Analizadores/XQuery";
 import Controlador from "./Controlador";
 import { TablaSimbolos } from "./TablaSimbolos/TablaSimbolos";
 import { GeneradorC3D } from '../clases/GeneradorC3D/GeneradorC3D';
+import Errores from "./AST/Errores";
+export let errorLex: Errores[] = []
+
+
 
 
 /* let error_html = controlador.graficar_Semantico (controlador,ts_globla);  Metodos para lo errores*/  
@@ -15,15 +19,17 @@ export class Analizador {
             let astxml= xml.parse(entradaxml);
             let controlador = new Controlador();
             let ts_globla =new TablaSimbolos(null,"Global");
-            astxml.ejecutar(controlador,ts_globla);
+
+            console.log(errorLex);
+
+            astxml.ejecutar(controlador,ts_globla);   
             
             //Ejecutar xpath
-
-            let astxpaht=xpath.parse(entradaxpath);
-            console.log(astxpaht);
-            astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
-         
-           // console.log("aa");
+            if(entradaxpath.length>0){
+                let astxpaht=xpath.parse(entradaxpath);
+                astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
+            }
+            
             let ts_html =controlador.graficar_ts(controlador,ts_globla);
             let retorno = {"ts": ts_html ,"consola":controlador.consola };
            
@@ -40,10 +46,10 @@ export class Analizador {
             astxml.ejecutarDescendente(controlador,ts_globla);
             
             //Ejecutar xpath
-
-            let astxpaht=xpath.parse(entradaxpath);
-            astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
-         
+            if(entradaxpath.length>0){
+                let astxpaht=xpath.parse(entradaxpath);
+                astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
+            }
            // console.log("aa");
             let ts_html =controlador.graficar_ts(controlador,ts_globla);
             let retorno = {"ts": ts_html ,"consola":controlador.consola };
@@ -58,7 +64,7 @@ export class Analizador {
             let ts_globla =new TablaSimbolos(null,"Global");
             controlador.generador.clearCode();
             astxml.ejecutar(controlador,ts_globla);
-            if(entradaxpath!=null){
+            if(entradaxpath.length>0){
                 let astxpaht=xpath.parse(entradaxpath);
                 astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
             }    

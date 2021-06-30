@@ -22,7 +22,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 <INITIAL>"<"                   { console.log("Reconocio : "+ yytext); return '<'}  
 <INITIAL>"="                   { console.log("Reconocio : "+ yytext); return '='}
 <INITIAL>"/"                   { console.log("Reconocio : "+ yytext); return '/'}
-
+<INITIAL>"?"                   { console.log("Reconocio : "+ yytext); return '?'}
 // Cambiando de estado
 <INITIAL>'>'                 { this.begin("S1"); $ESPACIOS=""; console.log("Reconocio : "+ yytext); return ">";}
 
@@ -52,6 +52,7 @@ cadena      (\"({escape} | {aceptacion})*\")
       const  Atributo = require ('../Clases/xml/atributo');
       const  Objeto  = require ('../Clases/xml/objeto');
       const ast =require('../Clases/AST/Ast');
+      const  {LErrores} =require ('../Clases/AST/ListaError');
 %}
 
 %start inicio
@@ -59,20 +60,20 @@ cadena      (\"({escape} | {aceptacion})*\")
 %% /* Gramatica */
 
 
-inicio: raices EOF { console.log($1); $$= new ast.default($1);  return $$; }
+inicio: '<' '?' ID  latributos  '?' '>' raices EOF { $$= new ast.default($7);  return $$; }
     ;
 
 raices: raices raiz { $1.push($2); $$ = $1;}
         | raiz      { $$ = [$1]; }
         ;
 
-raiz: objeto { $$ = $1 }
+raiz:  objeto { $$ = $1 }
     ;
 
 objeto:  '<' ID latributos '/' '>'                              { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,[],1); }
-       | '<' ID latributos '>'  texto_libre  '<' '/' ID '>'     { $$ = new Objeto.default($2,$5,@1.first_line, @1.first_column,$3,[],2); }    
-       | '<' ID latributos '>'  objetos  '<' '/' ID '>'         { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,$5,2); }
-        ;
+       | '<' ID latributos '>'  texto_libre  '<' '/' ID '>'     { $$ = new Objeto.default($2,$5,@1.first_line, @1.first_column,$3,[],2,$8); }    
+       | '<' ID latributos '>'  objetos  '<' '/' ID '>'         { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,$5,2,$8); }
+       |  error                                                 {  new LErrores("Sintactico", "No se esperaba: "+yytext,"XML", this._$.first_line , this._$.first_column);};
 
 objetos: objetos objeto         { $1.push($2); $$ = $1;}
          |objeto                { $$ = [$1]; } 
