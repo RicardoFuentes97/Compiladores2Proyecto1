@@ -24,23 +24,28 @@ cadena      (\"({escape} | {aceptacion})*\")
 "}"                     { console.log("Reconocio : "+ yytext); return 'LLAVEC'}
 "["                     { console.log("Reconocio : "+ yytext); return 'CORA'}
 "]"                     { console.log("Reconocio : "+ yytext); return 'CORC'}
+".."                    { console.log("Reconocio : "+ yytext); return 'PUNTOPUNTO'}
+"."                     { console.log("Reconocio : "+ yytext); return 'PUNTO'}
+"|"                     { console.log("Reconocio : "+ yytext); return 'SIGNOO'}
+"::"                    { console.log("Reconocio : "+ yytext); return 'DOSPUNTOS'}
 
 /* Operadores Relacionales */
-"<="                    { console.log("Reconocio : "+ yytext); return 'MENOR_IGUAL'}
-">="                    { console.log("Reconocio : "+ yytext); return 'MAYOR_IGUAL'}
+"<="                    { console.log("Reconocio : "+ yytext); return 'MENORIGUAL'}
+">="                    { console.log("Reconocio : "+ yytext); return 'MAYORIGUAL'}
 "="                     { console.log("Reconocio : "+ yytext); return 'IGUAL'}
-"<"                     { console.log("Reconocio : "+ yytext); return 'MENOR'}
-">"                     { console.log("Reconocio : "+ yytext); return 'MAYOR'}
+"<"                     { console.log("Reconocio : "+ yytext); return 'MENORQUE'}
+">"                     { console.log("Reconocio : "+ yytext); return 'MAYORQUE'}
 "!="                    { console.log("Reconocio : "+ yytext); return 'DIFERENTE'}
 ":"                    { console.log("Reconocio : "+ yytext); return 'DOSPUNTOS'}
 ","                    { console.log("Reconocio : "+ yytext); return 'COMA'}
+"@"                     { console.log("Reconocio : "+ yytext); return 'ARROBA'}
 
 /* Operadores Aritmeticos */
 "+"                     { console.log("Reconocio : "+ yytext); return 'MAS'}
 "-"                     { console.log("Reconocio : "+ yytext); return 'MENOS'}
 "*"                     { console.log("Reconocio : "+ yytext); return 'POR'}
 "div"                   { console.log("Reconocio : "+ yytext); return 'DIV'}
-"@"                     { console.log("Reconocio : "+ yytext); return 'ARROBA'}
+"mod"                   { console.log("Reconocio : "+ yytext); return 'MODULO'}
 
 /* Operadores Logicos */
 "and"                   { console.log("Reconocio : "+ yytext); return 'AND'}
@@ -142,7 +147,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 %left 'OR'
 %left 'AND'
 %right 'NOT'
-%left 'IGUAL' 'DIFERENTE' 'MENOR' 'MENOR_IGUAL' 'MAYOR'  'MAYOR_IGUAL' 
+%left 'IGUAL' 'DIFERENTE' 'MENORQUE' 'MENORIGUAL' 'MAYORQUE'  'MAYORIGUAL' 
 %left 'MAS' 'MENOS'
 %left 'POR' 'DIV' 'MODULO'
 %nonassoc 'POT'
@@ -154,66 +159,58 @@ cadena      (\"({escape} | {aceptacion})*\")
 %% /* Gramatica */
 
 
-INICIO : RAIZ EOF {  $$=$1; return $$ };
+INICIO
+    : VARIAS EOF {  $$=$1; return $$ };
 
-RAIZ:  RAIZ  INSTRUCCION
-        | INSTRUCCION
+
+VARIAS: INSTRUCCIONES SIGNOO INSTRUCCIONES {$$=new instrucciondoble.default($1,$3);}
+        |INSTRUCCIONES {$$=$1}
         ;
 
-INSTRUCCION: FOR E IN XPATH
-    | LET E DOSPUNTOS IGUAL OP
-    | WHERE E XPATH
-    | ORDER E XPATH
-    | RETURN E XPATH
-    | RETURN MENOR ID MAYOR LLAVEA XPATH LLAVEC MENOR BARRA ID MAYOR
-    | RETURN SENTECIAS_CONTROL
-    | SENTECIAS_CONTROL
-    //| error { console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
+INSTRUCCIONES : SENTENCIAS INSTRUCCIONES
+            |   SENTENCIAS
+            ;
+
+SENTENCIAS: FOR DOLAR ID IN PARAMETROS
+    | WHERE DOLAR ID PARAMETROS
+    | ORDER DOLAR ID PARAMETROS
+    | RETURN DOLAR ID PARAMETROS
+    | RETURN DOLAR ID
+    | LET DOLAR ID DOSPUNTOS IGUAL PARAMETROS
+    | RETURN IF PARAMETROS
     ;
 
-SENTECIAS_CONTROL: IF PARA PARAMETROS PARC
-    | THEN MENOR ID MAYOR LLAVEA PARAMETROS LLAVEC MENOR BARRA ID MAYOR
-    | ELSE MENOR ID MAYOR LLAVEA PARAMETROS LLAVEC MENOR BARRA ID MAYOR
-    | DECLARE FUNCTION ID DOSPUNTOS ID PARA  PARAMETROS PARC
-    | AS ID DOSPUNTOS ID LLAVEA PARAMETROS LLAVEC
-    ;
-
-PARAMETROS: PARAMETROS LISTA_PARAMETROS
+PARAMETROS: LISTA_PARAMETROS PARAMETROS
     | LISTA_PARAMETROS
     ;
 
-LISTA_PARAMETROS: DOLAR ID
-    | BARRA E
-    | BARRA BARRA E
-    | BARRA ARROBA E
-    | ID
-    | AS ID DOSPUNTOS ID COMA
-    | AS ID DOSPUNTOS ID
-    | ID PARA PARAMETROS PARC
-    | LET DOLAR ID DOSPUNTOS IGUAL E
-    //OTROS
-    | RETURN E
-    ;
-
-XPATH: XPATH LISTA_XPATH
-    | LISTA_XPATH
-    ;
-
-LISTA_XPATH: BARRA E
-    | BARRABARRA E
-    | RESERV DOSPUNTOS E
-    | BARRA RESERV DOSPUNTOS E
+LISTA_PARAMETROS : BARRA e
+    | BARRABARRA e
+    | RESERV DOSPUNTOS e
+    | BARRA RESERV DOSPUNTOS e
     | BARRA PUNTOPUNTO
-    | BARRABARRA RESERV DOSPUNTOS
+    | BARRABARRA RESERV DOSPUNTOS e
+    | PARA OPERADORES TO OPERADORES PARC
+    | LISTA_PARAMETROS MENORQUE LISTA_PARAMETROS
+    | LISTA_PARAMETROS MAYORQUE LISTA_PARAMETROS
+    | LISTA_PARAMETROS MENORIGUAL LISTA_PARAMETROS
+    | LISTA_PARAMETROS MAYORIGUAL LISTA_PARAMETROS
+    | LISTA_PARAMETROS MAS LISTA_PARAMETROS
+    | LISTA_PARAMETROS MENOS LISTA_PARAMETROS
+    | LISTA_PARAMETROS POR LISTA_PARAMETROS
+    | LISTA_PARAMETROS DIV LISTA_PARAMETROS
+    | LISTA_PARAMETROS MODULO LISTA_PARAMETROS
+    | LISTA_PARAMETROS AND LISTA_PARAMETROS
+    | LISTA_PARAMETROS OR LISTA_PARAMETROS
+    | LISTA_PARAMETROS DIFERENTE LISTA_PARAMETROS
+    | LISTA_PARAMETROS IGUAL LISTA_PARAMETROS
+    | PARA LISTA_PARAMETROS PARC
+    | ENTERO
+    | DECIMAL
     | ID
-    | DOLAR ID //RETURN
-    |OP
     ;
-  
-OP : PARA DECIMAL TO DECIMAL PARC
-;
 
-RESERV : LAST
+RESERV :  LAST
     | POSITION
     | ANCESTOR RESERVLARGE
     | ATTRIBUTE
@@ -233,30 +230,41 @@ RESERV : LAST
     | SIBLING
     ;
 
-RESERVLARGE : MENOS OR MENOS SELF
-    | MENOS SIBLING
+RESERVLARGE :   MENOS OR MENOS SELF
+    |   MENOS SIBLING
     ;
 
-E: E MAS E
-    | E MENOS E
-    | E POR E
-    | E DIV E
-    | E MENOR E
-    | E MENOR_IGUAL E
-    | E MAYOR E
-    | E MAYOR_IGUAL E
-    | E IGUAL E
-    | E DIFERENTE E
-    | PARA E PARC
-    | CORA E CORC
-    | DOLAR ID //RETURN
-    | ID PARA E PARC //RETURN
-    | ID CORA E CORC //R
-    //| ID
-    | CADENA
+e :   ID
+    | ARROBA ID
+    | ARROBA POR
+    | POR
+    //| ARROBA OPERADORES
+    | ID CORA OPERADORES CORC
     | ENTERO
     | DECIMAL
-    | ARROBA POR
+    ;
+ 
     
-
+OPERADORES :  OPERADORES MAS OPERADORES
+    | OPERADORES MENOS OPERADORES
+    | OPERADORES POR OPERADORES
+    | OPERADORES DIV OPERADORES
+    | OPERADORES MODULO OPERADORES
+    | OPERADORES AND OPERADORES
+    | OPERADORES OR OPERADORES
+    | OPERADORES MAYORQUE OPERADORES
+    | OPERADORES MAYORIGUAL OPERADORES
+    | OPERADORES MENORQUE OPERADORES
+    | OPERADORES MENORIGUAL OPERADORES
+    | OPERADORES DIFERENTE OPERADORES
+    | OPERADORES IGUAL OPERADORES
+    | MENOS OPERADORES %prec UNARIO
+    | PARA OPERADORES PARC
+    | DECIMAL
+    | ENTERO
+    | ID 
+    | LAST
+    | POSITION
+    | CADENA
+    | ARROBA ID
     ;
