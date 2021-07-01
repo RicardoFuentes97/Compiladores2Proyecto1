@@ -161,14 +161,14 @@ RAIZ:  RAIZ  INSTRUCCION
         ;
 
 INSTRUCCION: FOR E IN XPATH
-    | LET E DOSPUNTOS IGUAL OP
+    | LET E DOSPUNTOS IGUAL PARA DECIMAL TO DECIMAL PARC
     | WHERE E XPATH
     | ORDER E XPATH
     | RETURN E XPATH
     | RETURN MENOR ID MAYOR LLAVEA XPATH LLAVEC MENOR BARRA ID MAYOR
     | RETURN SENTECIAS_CONTROL
     | SENTECIAS_CONTROL
-    //| error { console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
+    | error { console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
     ;
 
 SENTECIAS_CONTROL: IF PARA PARAMETROS PARC
@@ -206,12 +206,7 @@ LISTA_XPATH: BARRA E
     | BARRA PUNTOPUNTO
     | BARRABARRA RESERV DOSPUNTOS
     | ID
-    | DOLAR ID //RETURN
-    |OP
     ;
-  
-OP : PARA DECIMAL TO DECIMAL PARC
-;
 
 RESERV : LAST
     | POSITION
@@ -252,7 +247,7 @@ E: E MAS E
     | DOLAR ID //RETURN
     | ID PARA E PARC //RETURN
     | ID CORA E CORC //R
-    //| ID
+    | ID
     | CADENA
     | ENTERO
     | DECIMAL
