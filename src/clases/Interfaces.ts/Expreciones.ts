@@ -10,6 +10,8 @@ export interface Expreciones {
 
     getValor(controlador: Controlador, ts: TablaSimbolos);
 
+    getvalor3d(controlador: Controlador, ts : TablaSimbolos);
+    
     recorrer(): Nodo;
 
 }

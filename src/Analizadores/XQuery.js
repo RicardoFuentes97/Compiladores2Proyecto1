@@ -714,7 +714,7 @@ case 3: console.log("Reconocio : "+ yy_.yytext); return 17
 break;
 case 4: console.log("Reconocio : "+ yy_.yytext); return 36
 break;
-case 5: console.log("Reconocio : "+ yy_.yytext); return 24
+case 5: console.log("Reconocio : "+ yy_.yytext); return 21
 break;
 case 6: console.log("Reconocio : "+ yy_.yytext); return 25
 break;

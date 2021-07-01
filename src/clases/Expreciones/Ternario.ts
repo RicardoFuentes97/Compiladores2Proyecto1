@@ -21,6 +21,9 @@ export default class Ternario implements Expreciones{
         this.linea = linea;
         this.columna = columna;
     }
+    getvalor3d(controlador: Controlador, ts: TablaSimbolos) {
+        throw new Error("Method not implemented.");
+    }
     getTipo(controlador: Controlador, ts: TablaSimbolos) {
         let valor_condicion = this.condicion.getValor(controlador,ts);
 

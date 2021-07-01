@@ -171,7 +171,6 @@ INSTRUCCION: FOR E IN XPATH
     | error { console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
     ;
 
-
 SENTECIAS_CONTROL: IF PARA PARAMETROS PARC
     | THEN MENOR ID MAYOR LLAVEA PARAMETROS LLAVEC MENOR BARRA ID MAYOR
     | ELSE MENOR ID MAYOR LLAVEA PARAMETROS LLAVEC MENOR BARRA ID MAYOR

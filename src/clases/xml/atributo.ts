@@ -1,4 +1,3 @@
-import { ContentObserver } from "@angular/cdk/observers";
 import Nodo from "../AST/Nodo";
 import Controlador from "../Controlador";
 import { Expreciones } from "../Interfaces.ts/Expreciones";
@@ -18,6 +17,9 @@ export default class Atributo implements Expreciones{
         this.valor = valor;
         this.linea = linea;
         this.columna = columna;
+    }
+    getvalor3d(controlador: Controlador, ts: TablaSimbolos) {
+        throw new Error("Method not implemented.");
     }
 
     getTipo(controlador: Controlador, ts: TablaSimbolos) {

@@ -5,18 +5,18 @@ export class Nativas {
     public generarNativas() {
         this.nativa_print_str();
         //this.nativa_print_integer();
-       /* this.nativa_compararIgual_str_str();
-        this.nativa_compararNoIgual_str_str();
-        this.nativa_ToUpperCase();
-        this.nativa_ToLowerCase();
+       // this.nativa_compararIgual_str_str();
+       // this.nativa_compararNoIgual_str_str();
+        //this.nativa_ToUpperCase();
+        //this.nativa_ToLowerCase();
         this.nativa_concat_str_str();
-        this.nativa_concat_dbl_str();
-        this.nativa_concat_str_dbl();
+     //this.nativa_concat_dbl_str();
+      //  this.nativa_concat_str_dbl();
         this.nativa_concat_int_str();
         this.nativa_concat_str_int();
-        this.nativa_concat_str_bol();
-        this.nativa_concat_bol_str();
-        this.nativa_lenght_str();*/
+        //this.nativa_concat_str_bol();
+        // this.nativa_concat_bol_str();
+        //this.nativa_lenght_str();
         return GeneradorC3D.getInstancia().getNativas();
     }
 

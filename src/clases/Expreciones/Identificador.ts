@@ -17,6 +17,9 @@ export default class Identificador implements Expreciones{
         this.columna = columna;
         this.valor=t;
     }
+    getvalor3d(controlador: Controlador, ts: TablaSimbolos) {
+        throw new Error("Method not implemented.");
+    }
 
 
     getTipo(controlador: Controlador, ts: TablaSimbolos) {

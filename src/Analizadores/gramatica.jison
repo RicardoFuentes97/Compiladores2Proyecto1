@@ -213,6 +213,7 @@ OPERADORES :  OPERADORES MAS OPERADORES             {$$ = new aritmetica.default
             | OPERADORES DIFERENTE OPERADORES       {$$ = new relacional.default($1,'!=', $3, $1.first_line, $1.last_column, false);}
             | OPERADORES IGUAL OPERADORES           {$$ = new relacional.default($1,'==', $3, $1.first_line, $1.last_column, false);}
             | MENOS OPERADORES %prec UNARIO         {$$ = new aritmetica.default($2, 'UNARIO', null, $1.first_line, $1.last_column, true);}
+            | PARA OPERADORES PARC                  {$$ = $2;}
             | DECIMAL                               {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}
             | ENTERO                                {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}
             | ID                                    {$$ = new identificador.default($1 , @1.first_line, @1.last_column,1); }

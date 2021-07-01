@@ -32,10 +32,10 @@ export default class barrabarra implements Instruccion{
             for( let informacion of ts.tabla){
                 if(this.exprecion.tipo==1){
                     if(this.exprecion.id=="*" && informacion.sim.simbolo==1){
-                        controlador.append(informacion.sim.objeto.gethtml(""));
+                        controlador.append(informacion.sim.objeto.gethtml("",controlador));
                     }else{
                         if(informacion.identificador==this.exprecion.id && informacion.sim.simbolo==1){
-                            controlador.append(informacion.sim.objeto.gethtml(""));
+                            controlador.append(informacion.sim.objeto.gethtml("",controlador));
                         }
                     }
                 }else{
@@ -116,7 +116,7 @@ export default class barrabarra implements Instruccion{
                 if(informacion.identificador==this.exprecion.id){
                     valor=this.exprecion.exprecion.getValor(controlador,ts);
                     if(cont==valor){
-                        controlador.append(informacion.sim.objeto.gethtml(""));   
+                        controlador.append(informacion.sim.objeto.gethtml("",controlador));   
                     }
                     cont++;
                 }
@@ -157,7 +157,7 @@ export default class barrabarra implements Instruccion{
                     controlador.position=cont;
                     controlador.posicionid=posicion;
                     if(this.exprecion.exprecion.getValor(controlador,ts)){
-                        controlador.append(informacion.sim.objeto.gethtml(""));   
+                        controlador.append(informacion.sim.objeto.gethtml("",controlador));   
                     }
                     cont++;
                 }
