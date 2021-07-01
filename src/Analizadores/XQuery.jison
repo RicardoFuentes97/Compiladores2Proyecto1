@@ -66,6 +66,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 "function"              { console.log("Reconocio : "+ yytext); return 'FUNCTION'}
 "as"                    { console.log("Reconocio : "+ yytext); return 'AS'}
 "let"                   { console.log("Reconocio : "+ yytext); return 'LET'}
+"data"                   { console.log("Reconocio : "+ yytext); return 'DATA'}
 
 //XPATH
 "last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}
@@ -178,6 +179,8 @@ SENTENCIAS: FOR DOLAR ID IN PARAMETROS
     | RETURN DOLAR ID
     | LET DOLAR ID DOSPUNTOS IGUAL PARAMETROS
     | RETURN IF PARA DOLAR ID PARAMETROS  PARC
+    | THEN DATA PARA DOLAR ID PARAMETROS  PARC
+    | ELSE DATA PARA DOLAR ID PARAMETROS  PARC
     ;
 
 PARAMETROS: LISTA_PARAMETROS PARAMETROS
@@ -204,6 +207,7 @@ LISTA_PARAMETROS : BARRA e
     | LISTA_PARAMETROS OR LISTA_PARAMETROS
     | LISTA_PARAMETROS DIFERENTE LISTA_PARAMETROS
     | LISTA_PARAMETROS IGUAL LISTA_PARAMETROS
+    | DATA PARA OPERADORES PARC
     | PARA OPERADORES PARC
     | ENTERO
     | DECIMAL
@@ -261,6 +265,7 @@ OPERADORES :  OPERADORES MAS OPERADORES
     | OPERADORES DIFERENTE OPERADORES
     | OPERADORES IGUAL OPERADORES
     | MENOS OPERADORES %prec UNARIO
+    | DATA PARA OPERADORES PARC
     | PARA OPERADORES PARC
     | DECIMAL
     | ENTERO
