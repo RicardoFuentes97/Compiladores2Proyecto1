@@ -168,6 +168,7 @@ INSTRUCCION: FOR E IN XPATH
     | RETURN MENOR ID MAYOR LLAVEA XPATH LLAVEC MENOR BARRA ID MAYOR
     | RETURN SENTECIAS_CONTROL
     | SENTECIAS_CONTROL
+    | error { console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
     ;
 
 
