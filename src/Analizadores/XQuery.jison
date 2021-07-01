@@ -16,6 +16,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 
 /* Simbolos del programa */
 "("                     { console.log("Reconocio : "+ yytext); return 'PARA'}
+"//"                     { console.log("Reconocio : "+ yytext); return 'BARRABARRA'}
 "/"                     { console.log("Reconocio : "+ yytext); return 'BARRA'}
 ")"                     { console.log("Reconocio : "+ yytext); return 'PARC'}
 "$"                     { console.log("Reconocio : "+ yytext); return 'DOLAR'}
@@ -32,12 +33,14 @@ cadena      (\"({escape} | {aceptacion})*\")
 ">"                     { console.log("Reconocio : "+ yytext); return 'MAYOR'}
 "!="                    { console.log("Reconocio : "+ yytext); return 'DIFERENTE'}
 ":"                    { console.log("Reconocio : "+ yytext); return 'DOSPUNTOS'}
+","                    { console.log("Reconocio : "+ yytext); return 'COMA'}
 
 /* Operadores Aritmeticos */
 "+"                     { console.log("Reconocio : "+ yytext); return 'MAS'}
 "-"                     { console.log("Reconocio : "+ yytext); return 'MENOS'}
 "*"                     { console.log("Reconocio : "+ yytext); return 'POR'}
 "div"                   { console.log("Reconocio : "+ yytext); return 'DIV'}
+"@"                     { console.log("Reconocio : "+ yytext); return 'ARROBA'}
 
 /* Operadores Logicos */
 "and"                   { console.log("Reconocio : "+ yytext); return 'AND'}
@@ -54,8 +57,28 @@ cadena      (\"({escape} | {aceptacion})*\")
 "if"                    { console.log("Reconocio : "+ yytext); return 'IF'}
 "then"                  { console.log("Reconocio : "+ yytext); return 'THEN'}
 "else"                  { console.log("Reconocio : "+ yytext); return 'ELSE'}
-"@"                     { console.log("Reconocio : "+ yytext); return 'ARROBA'}
+"declare"               { console.log("Reconocio : "+ yytext); return 'DECLARE'}
+"function"              { console.log("Reconocio : "+ yytext); return 'FUNCTION'}
+"as"                    { console.log("Reconocio : "+ yytext); return 'AS'}
+"let"                   { console.log("Reconocio : "+ yytext); return 'LET'}
 
+//XPATH
+"last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}
+"position()"            { console.log("Reconocio : "+ yytext); return 'POSITION'}
+"ancestor"              { console.log("Reconocio : "+ yytext); return 'ANCESTOR'}
+"attribute"             { console.log("Reconocio : "+ yytext); return 'ATTRIBUTE'}
+"self"                  { console.log("Reconocio : "+ yytext); return 'SELF'} 
+"child"                 { console.log("Reconocio : "+ yytext); return 'CHILD'}
+"descendant"            { console.log("Reconocio : "+ yytext); return 'DESCENDANT'}
+"following"             { console.log("Reconocio : "+ yytext); return 'FOLLOWING'}
+"sibling"               { console.log("Reconocio : "+ yytext); return 'SIBLING'}
+"namespace"             { console.log("Reconocio : "+ yytext); return 'NAMESPACE'}
+"parent"                { console.log("Reconocio : "+ yytext); return 'PARENT'}
+"preceding"             { console.log("Reconocio : "+ yytext); return 'PRECENDING'}
+"text()"                { console.log("Reconocio : "+ yytext); return 'TEXT'}
+"node()"                { console.log("Reconocio : "+ yytext); return 'NODE'}
+"last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}
+"position()"            { console.log("Reconocio : "+ yytext); return 'POSITION'}
 
 /* SIMBOLOS ER */
 [0-9]+("."[0-9]+)?\b        { console.log("Reconocio : "+ yytext); return 'DECIMAL'}
@@ -137,25 +160,22 @@ RAIZ:  RAIZ  INSTRUCCION
         | INSTRUCCION
         ;
 
-INSTRUCCION: FOR E IN INSTRUCCION
-    | LET E DOSPUNTOS IGUAL OP
-    | WHERE E
-    | ORDER E
-    | RETURN E
-    | RETURN MENOR ID MAYOR LLAVEA E LLAVEC MENOR BARRA ID MAYOR
+INSTRUCCION: FOR E IN XPATH
+    | LET E DOSPUNTOS IGUAL PARA DECIMAL TO DECIMAL PARC
+    | WHERE E XPATH
+    | ORDER E XPATH
+    | RETURN E XPATH
+    | RETURN MENOR ID MAYOR LLAVEA XPATH LLAVEC MENOR BARRA ID MAYOR
     | RETURN SENTECIAS_CONTROL
     | SENTECIAS_CONTROL
-    | BARRA E
-    | BARRA BARRA E
-    | OP
+    | error { console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); }
     ;
-
-OP : PARA DECIMAL TO DECIMAL PARC   
-;
 
 SENTECIAS_CONTROL: IF PARA PARAMETROS PARC
     | THEN MENOR ID MAYOR LLAVEA PARAMETROS LLAVEC MENOR BARRA ID MAYOR
     | ELSE MENOR ID MAYOR LLAVEA PARAMETROS LLAVEC MENOR BARRA ID MAYOR
+    | DECLARE FUNCTION ID DOSPUNTOS ID PARA  PARAMETROS PARC
+    | AS ID DOSPUNTOS ID LLAVEA PARAMETROS LLAVEC
     ;
 
 PARAMETROS: PARAMETROS LISTA_PARAMETROS
@@ -167,7 +187,49 @@ LISTA_PARAMETROS: DOLAR ID
     | BARRA BARRA E
     | BARRA ARROBA E
     | ID
+    | AS ID DOSPUNTOS ID COMA
+    | AS ID DOSPUNTOS ID
     | ID PARA PARAMETROS PARC
+    | LET DOLAR ID DOSPUNTOS IGUAL E
+    //OTROS
+    | RETURN E
+    ;
+
+XPATH: XPATH LISTA_XPATH
+    | LISTA_XPATH
+    ;
+
+LISTA_XPATH: BARRA E
+    | BARRABARRA E
+    | RESERV DOSPUNTOS E
+    | BARRA RESERV DOSPUNTOS E
+    | BARRA PUNTOPUNTO
+    | BARRABARRA RESERV DOSPUNTOS
+    | ID
+    ;
+
+RESERV : LAST
+    | POSITION
+    | ANCESTOR RESERVLARGE
+    | ATTRIBUTE
+    | ANCESORSELF
+    | CHILD
+    | DESCENDANT RESERVLARGE
+    | DESCENDANT
+    | FOLLOWING  MENOS SIBLING
+    | FOLLOWING
+    | NAMESPACE
+    | PARENT
+    | PRECENDING
+    | PRECENDING MENOS SIBLING
+    | SELF
+    | TEXT
+    | NODE
+    | SIBLING
+    ;
+
+RESERVLARGE : MENOS OR MENOS SELF
+    | MENOS SIBLING
     ;
 
 E: E MAS E
@@ -179,12 +241,17 @@ E: E MAS E
     | E MAYOR E
     | E MAYOR_IGUAL E
     | E IGUAL E
+    | E DIFERENTE E
     | PARA E PARC
     | CORA E CORC
     | DOLAR ID //RETURN
     | ID PARA E PARC //RETURN
-    //| ID
+    | ID CORA E CORC //R
+    | ID
     | CADENA
     | ENTERO
     | DECIMAL
+    | ARROBA POR
+    
+
     ;
