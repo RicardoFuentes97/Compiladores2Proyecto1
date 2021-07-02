@@ -74,7 +74,7 @@ objeto:  '<' ID latributos '/' '>'                              { $$ = new Objet
        | '<' ID latributos '>'  texto_libre  '<' '/' ID '>'     { $$ = new Objeto.default($2,$5,@1.first_line, @1.first_column,$3,[],2,$8); }    
        | '<' ID latributos '>'  objetos  '<' '/' ID '>'         { $$ = new Objeto.default($2,'',@1.first_line, @1.first_column,$3,$5,2,$8); }
        |  error                                                 {  new LErrores("Sintactico", "No se esperaba: "+yytext,"XML", this._$.first_line , this._$.first_column);};
-
+ 
 objetos: objetos objeto         { $1.push($2); $$ = $1;}
          |objeto                { $$ = [$1]; } 
          ;

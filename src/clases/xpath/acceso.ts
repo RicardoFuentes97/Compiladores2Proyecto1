@@ -80,7 +80,6 @@ export default class acceso implements Instruccion{
            for( let informacion of ts.tabla){
                 if(informacion.identificador==this.exprecion.id){
                     if(cont==posicion){
-                        console.log("entre a valor 3d");
                         this.exprecion.exprecion.getvalor3d(controlador,ts);
                         controlador.append(informacion.sim.objeto.gethtml("",controlador));
                     }
@@ -112,7 +111,10 @@ export default class acceso implements Instruccion{
                     controlador.position=cont;
                     controlador.posicionid=posicion;
                     if(this.exprecion.exprecion.getValor(controlador,ts)){
+                        let salida = this.exprecion.exprecion.getvalor3d(controlador,ts);
+                        controlador.generador.genLabel(salida.lblTrue);
                         controlador.append(informacion.sim.objeto.gethtml("",controlador));
+                        controlador.generador.genLabel(salida.lblFalse);
                     }
                     cont++;
                }

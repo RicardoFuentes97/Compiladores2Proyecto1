@@ -20,6 +20,8 @@ export default class Llamada implements Instruccion, Expreciones{
     public linea : number;
     public columna : number;
 
+    lblTrue: string;
+    lblFalse: string;
     constructor(id, param, linea, col) {
         this.identificador = id;
         this.parametros = param;

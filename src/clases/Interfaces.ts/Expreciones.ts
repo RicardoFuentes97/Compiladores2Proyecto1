@@ -5,7 +5,9 @@ import { TablaSimbolos } from "../TablaSimbolos/TablaSimbolos";
 
 export interface Expreciones {
 
-
+    lblTrue: string;
+    lblFalse: string;
+    
     getTipo(controlador: Controlador, ts: TablaSimbolos);
 
     getValor(controlador: Controlador, ts: TablaSimbolos);

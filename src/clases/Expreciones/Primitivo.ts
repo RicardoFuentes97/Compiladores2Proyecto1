@@ -12,6 +12,8 @@ export default class Primitivo implements Expreciones{
     public linea: number;
     public columan: number;
     public nodo: number;
+    lblTrue: string;
+    lblFalse: string;
 
     constructor (primitivo: any,line: number, columna: number,nodo:number){
         

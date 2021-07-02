@@ -13,6 +13,8 @@ export default class Ternario implements Expreciones{
     public falso : Expreciones;
     public linea : number;
     public columna : number;
+    lblTrue: string;
+    lblFalse: string;
 
     constructor(condicion, verdadero, falso, linea, columna) {
         this.condicion = condicion;

@@ -5,7 +5,7 @@ export class Nativas {
     public generarNativas() {
         this.nativa_print_str();
         //this.nativa_print_integer();
-       // this.nativa_compararIgual_str_str();
+        this.nativa_compararIgual_str_str();
        // this.nativa_compararNoIgual_str_str();
         //this.nativa_ToUpperCase();
         //this.nativa_ToLowerCase();

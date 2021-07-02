@@ -8,6 +8,8 @@ import Operaciones, { Operador } from "./Operaciones";
 
 export default class Logicas extends Operaciones implements Expreciones{
 
+    lblTrue: string;
+    lblFalse: string;
     public constructor(exp1, op: string, exp2, linea: number, columna:number, expU :boolean) {
         super(exp1,op,exp2,linea,columna,expU);        
     }

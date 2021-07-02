@@ -9,6 +9,10 @@ import Operaciones, { Operador } from "./Operaciones";
 
 
 export default class Aritmetica extends Operaciones implements Expreciones {
+    
+    lblTrue: string;
+    lblFalse: string;
+    
     constructor (exp1 : Expreciones,operador : string ,exp2 : Expreciones,linea: number,columna: number,expU : boolean){
         super (exp1,operador,exp2,linea,columna,expU);
     }

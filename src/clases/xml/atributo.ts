@@ -11,6 +11,8 @@ export default class Atributo implements Expreciones{
     public columna: number;
     public posicion3d:string;
     public posicionId3d:string;
+    lblTrue: string;
+    lblFalse: string;
 
     constructor(id:string, valor:string, linea:number, columna:number){
         this.identificador = id;

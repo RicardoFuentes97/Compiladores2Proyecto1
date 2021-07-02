@@ -7,8 +7,8 @@ import { retorno } from "./retorno";
 
 
 export default class last implements Expreciones {
-
-    
+    lblTrue: string;
+    lblFalse: string;
     constructor(){
 
     }
