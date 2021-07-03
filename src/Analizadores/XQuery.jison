@@ -168,36 +168,43 @@ VARIAS: INSTRUCCIONES SIGNOO INSTRUCCIONES {$$=new instrucciondoble.default($1,$
         |INSTRUCCIONES {$$=$1}
         ;
 
-INSTRUCCIONES : SENTENCIAS INSTRUCCIONES
-            |   SENTENCIAS
+INSTRUCCIONES : SENTENCIAS INSTRUCCIONES    { $1.sig=$2; $$ = $1; }
+            |   SENTENCIAS                  { $$= $1; }
             ;
 
 SENTENCIAS: FOR DOLAR ID IN PARAMETROS
     | WHERE DOLAR ID PARAMETROS
     | ORDER DOLAR ID PARAMETROS
-    | RETURN DOLAR ID PARAMETROS
-    | IF PARA DOLAR ID PARAMETROS  PARC
-    | RETURN DOLAR ID
     | LET DOLAR ID DOSPUNTOS IGUAL PARAMETROS
-    | RETURN SENTENCIAS
-    | RETURN PARA OPERADORES PARC
+    | IF PARA DOLAR ID PARAMETROS  PARC
+    | RETURN SENT_RETURN
     | THEN DATA PARA DOLAR ID PARAMETROS  PARC
-    | ELSE SENTENCIAS
-    | ELSE PARA PARC
+    | ELSE SENT_ELSE
     | DECLARE FUNCTION ID DOSPUNTOS ID PARA  PARAMETROS PARC
     | AS ID DOSPUNTOS ID LLAVEA INSTRUCCIONES LLAVEC
     ;
 
-PARAMETROS: LISTA_PARAMETROS PARAMETROS
-    | LISTA_PARAMETROS
+SENT_RETURN : DOLAR ID
+            | DOLAR ID PARAMETROS
+            |PARA OPERADORES PARC
+            | SENTENCIAS
+;
+
+SENT_ELSE : DATA PARA DOLAR ID PARAMETROS  PARC
+        | PARA PARC
+        | SENTENCIAS  
+        ;
+
+PARAMETROS: LISTA_PARAMETROS PARAMETROS     { $1.sig=$2; $$ = $1; }
+    | LISTA_PARAMETROS                      { $$= $1; }
     ;
 
-LISTA_PARAMETROS : BARRA e
-    | BARRABARRA e
-    | RESERV DOSPUNTOS e
-    | BARRA RESERV DOSPUNTOS e
-    | BARRA PUNTOPUNTO
-    | BARRABARRA RESERV DOSPUNTOS e
+LISTA_PARAMETROS : BARRA e                          {  $$ = new acceso.default($2,null);}
+    | BARRABARRA e                                  {  $$ = new barrabarra.default($2,null);}
+    | RESERV DOSPUNTOS e                            {  $$ =  new axes.default($1,$3,null);}
+    | BARRA RESERV DOSPUNTOS e                      {  $$ =  new axes.default($2,$4,null);}
+    | BARRA PUNTOPUNTO                              {  $$ =  new puntopunto.default($1,null);}
+    | BARRABARRA RESERV DOSPUNTOS e                 {  $$ =  new axesbarrabarra.default($2,$4,null)}     
     | PARA OPERADORES TO OPERADORES PARC
     | LISTA_PARAMETROS MENORQUE LISTA_PARAMETROS
     | LISTA_PARAMETROS MAYORQUE LISTA_PARAMETROS
@@ -216,73 +223,72 @@ LISTA_PARAMETROS : BARRA e
     | PARA OPERADORES PARC
     | ENTERO
     | DECIMAL
-    | ID
+    | ID                                                {  $$ =  new acceso.default(new informacion.default($1,null,1),null);} 
     | CADENA    
-    //DECLARE
     | DOLAR ID AS ID DOSPUNTOS ID COMA
     | DOLAR ID AS ID DOSPUNTOS ID
     ;
 
 
 
-RESERV :  LAST
-    | POSITION
-    | ANCESTOR RESERVLARGE
-    | ATTRIBUTE
-    | ANCESORSELF
-    | CHILD
-    | DESCENDANT RESERVLARGE
-    | DESCENDANT
-    | FOLLOWING  MENOS SIBLING
-    | FOLLOWING
-    | NAMESPACE
-    | PARENT
-    | PRECENDING
-    | PRECENDING MENOS SIBLING
-    | SELF
-    | TEXT
-    | NODE
-    | SIBLING
+RESERV :  last                  {$$ = $1}
+    | POSITION                  {$$ = $1}
+    | ANCESTOR RESERVLARGE      {$$ = $1 + $2}    
+    | ATTRIBUTE                 {$$ = $1}
+    | ANCESORSELF               {$$ = $1}
+    | CHILD                     {$$ = $1}
+    | DESCENDANT RESERVLARGE    {$$ = $1 + $2}
+    | DESCENDANT                {$$ = $1}
+    | FOLLOWING  MENOS SIBLING  {$$ = $1+$2+$3}
+    | FOLLOWING                 {$$ = $1}
+    | NAMESPACE                 {$$ = $1}    
+    | PARENT                    {$$ = $1}
+    | PRECENDING                {$$ = $1}
+    | PRECENDING MENOS SIBLING  {$$ = $1+$2+$3}
+    | SELF                      {$$ = $1}
+    | TEXT                      {$$ = $1}
+    | NODE                      {$$ = $1}
+    | SIBLING                   {$$ = $1}
     ;
 
-RESERVLARGE :   MENOS OR MENOS SELF
-    |   MENOS SIBLING
+RESERVLARGE :   MENOS OR MENOS SELF {$$ = $1+$2+$3+$4}
+    |   MENOS SIBLING               {$$ = $1+$2}
     ;
 
-e :   ID
-    | ARROBA ID
-    | ARROBA POR
-    | POR
-    //| ARROBA OPERADORES
-    | ID CORA OPERADORES CORC
-    | ENTERO
-    | DECIMAL
-    | CADENA
+e :   ID                        {$$=new informacion.default($1,null,1);}
+    | ARROBA ID                 {$$=new informacion.default($2,null,2);}
+    | ARROBA POR                {$$=new informacion.default($2,null,2);}
+    | POR                       {$$=new informacion.default($1,null,1);}
+    | ID CORA OPERADORES CORC   {$$=new informacion.default($1,null,1);}
+    | ENTERO                    {$$=new informacion.default($1,null,1);} //Validar
+    | DECIMAL                   {$$=new informacion.default($1,null,1);} //Validar
+    | CADENA                    {$$=new informacion.default($1,null,1);} //Validar
     ;
  
     
-OPERADORES :  OPERADORES MAS OPERADORES
-    | OPERADORES MENOS OPERADORES
-    | OPERADORES POR OPERADORES
-    | OPERADORES DIV OPERADORES
-    | OPERADORES MODULO OPERADORES
-    | OPERADORES AND OPERADORES
-    | OPERADORES OR OPERADORES
-    | OPERADORES MAYORQUE OPERADORES
-    | OPERADORES MAYORIGUAL OPERADORES
-    | OPERADORES MENORQUE OPERADORES
-    | OPERADORES MENORIGUAL OPERADORES
-    | OPERADORES DIFERENTE OPERADORES
-    | OPERADORES IGUAL OPERADORES
-    | MENOS OPERADORES %prec UNARIO
-    | DATA PARA OPERADORES PARC
-    | PARA OPERADORES PARC
-    | DOLAR ID
-    | DECIMAL
-    | ENTERO
-    | ID 
-    | LAST
-    | POSITION
-    | CADENA
-    | ARROBA ID
+OPERADORES :  OPERADORES MAS OPERADORES     {$$ = new aritmetica.default($1, '+', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES MENOS OPERADORES           {$$ = new aritmetica.default($1, '-', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES POR OPERADORES             {$$ = new aritmetica.default($1, '*', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES DIV OPERADORES             {$$ = new aritmetica.default($1, '/', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES MODULO OPERADORES          {$$ = new aritmetica.default($1, '%', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES AND OPERADORES             {$$ = new logica.default($1, '&&', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES OR OPERADORES              {$$ = new logica.default($1, '||', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES MAYORQUE OPERADORES        {$$ = new relacional.default($1,'>', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES MAYORIGUAL OPERADORES      {$$ = new relacional.default($1,'>=', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES MENORQUE OPERADORES        {$$ = new relacional.default($1,'<', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES MENORIGUAL OPERADORES      {$$ = new relacional.default($1,'<=', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES DIFERENTE OPERADORES       {$$ = new relacional.default($1,'!=', $3, $1.first_line, $1.last_column, false);}
+    | OPERADORES IGUAL OPERADORES           {$$ = new relacional.default($1,'==', $3, $1.first_line, $1.last_column, false);}
+    | MENOS OPERADORES %prec UNARIO         {$$ = new aritmetica.default($2, 'UNARIO', null, $1.first_line, $1.last_column, true);}
+    | DATA PARA OPERADORES PARC             {$$ = $2;}
+    | PARA OPERADORES PARC                  {$$ = $2;}
+    | DOLAR ID                              //AGREGAR DONDE SE LLENA
+    | DECIMAL                               {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}
+    | ENTERO                                {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}
+    | ID                                    {$$ = new identificador.default($1 , @1.first_line, @1.last_column,1); }
+    | LAST                                  {$$ = new last.default();}
+    | POSITION                              {$$ = new position.default();}
+    | CADENA                                {$1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1, $1.first_line, $1.last_column);}
+    | ARROBA ID                             {$$ = new identificador.default($2 , @1.first_line, @1.last_column,2); }
+            
     ;
