@@ -65,6 +65,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 "node()"                { console.log("Reconocio : "+ yytext); return 'NODE'}
 "last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}
 "position()"            { console.log("Reconocio : "+ yytext); return 'POSITION'}
+"text()"                { console.log("Reconocio : "+ yytext); return 'TEXT'}
 
 /* SIMBOLOS ER */
 [0-9]+("."[0-9]+)?\b        { console.log("Reconocio : "+ yytext); return 'DECIMAL'}
@@ -122,6 +123,7 @@ cadena      (\"({escape} | {aceptacion})*\")
     const axesbarrabarra = require ('../Clases/xpath/axesbarrabarra');
     const instrucciondoble =require ('../Clases/xpath/intrucciondoble');
     const puntopunto =require ('../Clases/xpath/puntopunto');
+    const text =require ('../Clases/xpath/text');
 %}
 
 /* Precedencia de operadores */
@@ -162,7 +164,7 @@ instruccion : BARRA e                       {  $$ = new acceso.default($2,null);
             | BARRA PUNTOPUNTO              {  $$ =  new puntopunto.default($1,null);}
             | BARRABARRA RESERV DOSPUNTOS e {  $$ =  new axesbarrabarra.default($2,$4,null)}              
             | ID                            {  $$ =  new acceso.default(new informacion.default($1,null,1),null);} 
-
+            | BARRA TEXT                    {  $$ = new text.default();}
             ;
 
         RESERV :  LAST                              {$$ = $1}

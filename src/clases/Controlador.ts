@@ -14,6 +14,9 @@ export default class Controlador{
     public acceso:number;
     public entrada:string;
     public generador: GeneradorC3D;
+    public exprecion;
+    public ts;
+    public extxt;
 
     constructor (){
         this.errores = new  Array<Errores>();
