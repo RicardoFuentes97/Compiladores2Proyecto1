@@ -41,10 +41,7 @@ export class Analizador {
     public ejecutarXquery(entradaxquery:string):any {
         console.log("vamos a analizar la entrada");
         //Ejecutar Xquery
-        let x = xquery.parse(entradaxquery);
-        console.log(x);
-        let controlador = new Controlador();
-        let ts_for = new TablaSimbolos(null,"Global");
+       xquery.parse(entradaxquery);
         //x.ejecutarX(controlador,ts_for);
 
     }

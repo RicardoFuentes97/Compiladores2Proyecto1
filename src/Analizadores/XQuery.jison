@@ -168,8 +168,8 @@ VARIAS: INSTRUCCIONES SIGNOO INSTRUCCIONES {$$=new instrucciondoble.default($1,$
         |INSTRUCCIONES {$$=$1}
         ;
 
-INSTRUCCIONES : SENTENCIAS INSTRUCCIONES    { $1.sig=$2; $$ = $1; }
-            |   SENTENCIAS                  { $$= $1; }
+INSTRUCCIONES : SENTENCIAS INSTRUCCIONES    {  }
+            |   SENTENCIAS                  {  }
             ;
 
 SENTENCIAS: FOR DOLAR ID IN PARAMETROS
@@ -195,8 +195,8 @@ SENT_ELSE : DATA PARA DOLAR ID PARAMETROS  PARC
         | SENTENCIAS  
         ;
 
-PARAMETROS: LISTA_PARAMETROS PARAMETROS     { $1.sig=$2; $$ = $1; }
-    | LISTA_PARAMETROS                      { $$= $1; }
+PARAMETROS: LISTA_PARAMETROS PARAMETROS     {  }
+    | LISTA_PARAMETROS                      {  }
     ;
 
 LISTA_PARAMETROS : BARRA e                          {  $$ = new acceso.default($2,null);}

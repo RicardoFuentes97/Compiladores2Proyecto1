@@ -36,6 +36,7 @@ export default class Ast implements Instruccion{
         this.graficar(controlador,ts); 
     }
 
+    /*
     ejecutarX(controlador: Controlador, ts: TablaSimbolos) {
         console.log("vamos a compilar la entrada XQUERY");
         for(let instruccion of this.lista_instrucciones){
@@ -47,6 +48,7 @@ export default class Ast implements Instruccion{
             }
         }
     }
+    */
 
     ejecutarDescendente(controlador: Controlador, ts: TablaSimbolos) {
         console.log("vamos a compilar la entrada");

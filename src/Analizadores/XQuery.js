@@ -92,11 +92,8 @@ break;
 case 3:
 this.$=$$[$0]
 break;
-case 4: case 23:
- $$[$0-1].sig=$$[$0]; this.$ = $$[$0-1]; 
-break;
-case 5: case 24:
- this.$= $$[$0]; 
+case 4: case 5: case 23: case 24:
+  
 break;
 case 25:
   this.$ = new acceso.default($$[$0],null);
