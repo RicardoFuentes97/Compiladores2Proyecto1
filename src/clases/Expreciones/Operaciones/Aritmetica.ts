@@ -1,3 +1,4 @@
+
 import Nodo from "src/clases/AST/Nodo";
 import Controlador from "src/clases/Controlador";
 import { GeneradorC3D } from "src/clases/GeneradorC3D/GeneradorC3D";
@@ -15,6 +16,18 @@ export default class Aritmetica extends Operaciones implements Expreciones {
     
     constructor (exp1 : Expreciones,operador : string ,exp2 : Expreciones,linea: number,columna: number,expU : boolean){
         super (exp1,operador,exp2,linea,columna,expU);
+    }
+
+    limpiar() {
+       this.lblFalse='';
+       this.lblTrue='';
+       if(this.expU==false){
+        this.exp1.limpiar();
+        this.exp2.limpiar();
+       }else{
+        this.exp1.limpiar();
+       }
+       
     }
     
     

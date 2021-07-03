@@ -54,6 +54,9 @@ export default class Identificador implements Expreciones{
             }
         }
     }
+    limpiar() {
+        
+     }
 
 
     getTipo(controlador: Controlador, ts: TablaSimbolos) {

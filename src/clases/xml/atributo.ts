@@ -31,6 +31,8 @@ export default class Atributo implements Expreciones{
         
 
     }
+    limpiar() {
+     }
     recorrer(): Nodo {
         throw new Error("Method not implemented.");
     }

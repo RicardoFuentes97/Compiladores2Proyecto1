@@ -37,6 +37,8 @@ export default class Ternario implements Expreciones{
             controlador.append(`Error Semantico : La condicion del ternario no es booleana. En la linea ${this.linea} y columan ${this.columna}`);
         }
     }
+    limpiar() {
+     }
     getValor(controlador: Controlador, ts: TablaSimbolos) {
         let valor_condicion = this.condicion.getValor(controlador,ts);
 

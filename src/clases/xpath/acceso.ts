@@ -34,7 +34,7 @@ export default class acceso implements Instruccion{
                 for( let informacion of ts.tabla){
                     if(this.exprecion.tipo==1){
                         if(this.exprecion.id=="*"){
-                        controlador.append(informacion.sim.objeto.gethtml("",controlador));
+                                controlador.append(informacion.sim.objeto.gethtml("",controlador));
                         }else{
                             if(informacion.identificador==this.exprecion.id && informacion.sim.simbolo==1){
                                 controlador.append(informacion.sim.objeto.gethtml("",controlador));
@@ -115,6 +115,7 @@ export default class acceso implements Instruccion{
                         controlador.generador.genLabel(salida.lblTrue);
                         controlador.append(informacion.sim.objeto.gethtml("",controlador));
                         controlador.generador.genLabel(salida.lblFalse);
+                        this.exprecion.exprecion.limpiar();
                     }
                     cont++;
                }

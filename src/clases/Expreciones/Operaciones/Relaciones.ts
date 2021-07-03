@@ -26,6 +26,17 @@ export default class Relaciones extends Operaciones implements Expreciones {
             return tipo.BOOLEANO;
         }
     }
+    limpiar() {
+        this.lblFalse='';
+        this.lblTrue='';
+        if(this.expU==false){
+         this.exp1.limpiar();
+         this.exp2.limpiar();
+        }else{
+         this.exp1.limpiar();
+        }
+        
+     }
 
     getValor(controlador: Controlador, TablaSimbolos: TablaSimbolos) {
         let valor_exp1;

@@ -58,6 +58,8 @@ export default class Primitivo implements Expreciones{
         }
     }
 
+    limpiar() {
+     }
 
     
     recorrer(): Nodo {

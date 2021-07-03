@@ -28,6 +28,9 @@ export default class Llamada implements Instruccion, Expreciones{
         this.columna = col;
         this.linea = linea;
     }
+    limpiar() {
+        throw new Error("Method not implemented.");
+    }
     getvalor3d(controlador: Controlador, ts: TablaSimbolos) {
         throw new Error("Method not implemented.");
     }

@@ -22,5 +22,8 @@ export default class position implements Expreciones{
         let padre = new Nodo("position();","");
         return padre;
     }
+    limpiar() {
+        
+     }
 
 }

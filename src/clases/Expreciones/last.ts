@@ -38,5 +38,8 @@ export default class last implements Expreciones {
         let padre = new Nodo("LAST();","");
        return padre;
     }
+    limpiar() {
+       
+     }
 
 }
