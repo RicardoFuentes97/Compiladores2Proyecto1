@@ -200,8 +200,7 @@ export class AppComponent {
     let ana =new Analizador.Analizador();
     this.consola="";
     if(this.entradaxpath !=""){
-     ana.recorrerXquery(this.entradaxpath);
-     
+      ana.ejecutarXquery(this.entradaxpath);
     }
   }
 }

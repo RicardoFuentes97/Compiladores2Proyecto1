@@ -27,6 +27,7 @@ export class Analizador {
             //Ejecutar xpath
             if(entradaxpath.length>0){
                 let astxpaht=xpath.parse(entradaxpath);
+                console.log(astxpaht);
                 astxml.ejecutarXPath(controlador,ts_globla,astxpaht);
             }
             
@@ -35,6 +36,17 @@ export class Analizador {
            
             return retorno;
         
+    }
+    
+    public ejecutarXquery(entradaxquery:string):any {
+        console.log("vamos a analizar la entrada");
+        //Ejecutar Xquery
+        let x = xquery.parse(entradaxquery);
+        console.log(x);
+        let controlador = new Controlador();
+        let ts_for = new TablaSimbolos(null,"Global");
+        //x.ejecutarX(controlador,ts_for);
+
     }
 
     public ejecutarDes(entradaxml:string,entradaxpath:string):any {
@@ -86,6 +98,9 @@ export class Analizador {
             
         }
     }
+
+  
+
     public recorrerDes(input){
 
         try {
@@ -113,9 +128,4 @@ export class Analizador {
         }
     }
 
-    public recorrerXquery(entradaxquery:string):any {
-        console.log("vamos a analizar la entrada");
-        //Ejecutar Xquery
-        xquery.parse(entradaxquery);
-    }
 }
