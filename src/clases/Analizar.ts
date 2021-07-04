@@ -87,9 +87,9 @@ export class Analizador {
     public ejecutarOptimizacionC3D(entradaC3D:string):any {
         console.log("vamos a analizar la entrada");
         //Ejecutar Xquery
-       opt3d.parse(entradaC3D);
-        //x.ejecutarX(controlador,ts_for);
-
+       let x = opt3d.parse(entradaC3D);
+        
+        return x;
     }
     
     public recorrer(input){

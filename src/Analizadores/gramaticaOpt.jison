@@ -23,6 +23,7 @@
 
 "double"                    return 'DOUBLE';
 "int"                       return 'INT';
+"main"                      return 'MAIN';
 "char"                      return 'CHAR';
 "void"                      return 'VOID';
 "printf"                    return 'PRINTF';
@@ -100,8 +101,9 @@ l_declaracion
 declaracion
     :   DOUBLE IDENTIFICADOR '[' NUMBER ']' ';'                               {$$ = $1 + ' ' + $2 + '[' + $4 + '];\n';}
     |   DOUBLE l_dec ';'                                                      {$$ = $1 + ' ' + $2 + ';\n';}
-    |   INT l_dec ';'  /*Nueva Produccion*/                                   {$$ = $1 + ' ' + $2 + ';\n';}
+    |  INT l_dec ';'   /*Nueva Produccion*/                                   {$$ = $1 + ' ' + $2 + ';\n';}
 ;
+
 
 l_dec
     :   l_dec ',' IDENTIFICADOR                                               {$$ = $1 + ', ' + $3;}
@@ -111,6 +113,7 @@ l_dec
 l_funcion
     :   l_funcion VOID IDENTIFICADOR '(' ')' '{' l_instruccion '}'            {$$ = $1; $$.push(new FuncionOpt($3, $7, @1.first_line));}
     |   VOID IDENTIFICADOR '(' ')' '{' l_instruccion '}'                      {$$ = [new FuncionOpt($2, $6, @1.first_line)];}
+    |   l_funcion INT MAIN '(' ')' '{' l_instruccion '}'                      {$$ = $1; $$.push(new FuncionOpt($3, $7, @1.first_line));}
 ;
 
 l_instruccion
@@ -125,7 +128,8 @@ instruccion
     |   IDENTIFICADOR ':'                                         {$$ = new Etiqueta($1, @1.first_line);}
     |   IDENTIFICADOR '(' ')' ';'                                 {$$ = new Llamada($1, @1.first_line);}
     |   PRINTF '(' CADENA ')' ';'                                 {$$ = new PrintOpt($3, null, @1.first_line);}
-    |   PRINTF '(' CADENA ',' '(' cast ')' operando ')' ';'       {$$ = new PrintOpt($3, '(' + $6 + ')' + $8 , @1.first_line);}
+    |   PRINTF '(' CADENA ',' operando ')' ';'  /*SE MODIFICO*/   {$$ = new PrintOpt($3, $5 , @1.first_line);}
+    |   RETURN NUMBER ';'                                         {$$ = new ReturnOpt(@1.first_line);}        
     |   RETURN ';'                                                {$$ = new ReturnOpt(@1.first_line);}
 ;
 
