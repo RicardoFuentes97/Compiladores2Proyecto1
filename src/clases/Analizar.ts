@@ -2,6 +2,7 @@ import * as xpath from "../Analizadores/gramatica"
 import * as xml from "../Analizadores/XML";
 import * as xmlDes from "../Analizadores/XMLDescendente";
 import * as xquery from "../Analizadores/XQuery";
+import * as opt3d from "../Analizadores/gramaticaOpt";
 import Controlador from "./Controlador";
 import { TablaSimbolos } from "./TablaSimbolos/TablaSimbolos";
 import { GeneradorC3D } from '../clases/GeneradorC3D/GeneradorC3D';
@@ -81,6 +82,14 @@ export class Analizador {
             let ts_html =controlador.graficar_ts(controlador,ts_globla);
             let retorno = {"ts": ts_html ,"consola":controlador.generador.getCode() };
             return retorno;
+    }
+
+    public ejecutarOptimizacionC3D(entradaC3D:string):any {
+        console.log("vamos a analizar la entrada");
+        //Ejecutar Xquery
+       opt3d.parse(entradaC3D);
+        //x.ejecutarX(controlador,ts_for);
+
     }
     
     public recorrer(input){

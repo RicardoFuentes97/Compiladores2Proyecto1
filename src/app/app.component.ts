@@ -9,6 +9,8 @@ import Nodo from 'src/clases/AST/Nodo';
 import * as ReXML from '../Analizadores/XmlReporteGramatica';
 import * as RexPath from '../Analizadores/xPathReporteGramatica';
 import * as vis from "vis";
+import {ListaRepoOptimizacion} from '../clases/InstruccionOptOtros/ListaRepoOptimizacion';
+import {opt3d} from '../Analizadores/gramaticaOpt';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +26,7 @@ export class AppComponent {
   htmlerrores: string ="";
   reporteGramatical: string = "";
   xpathRG: string = "";
+  salidaC3Doptimizado: string = "";
   
 
 
@@ -201,6 +204,22 @@ export class AppComponent {
     this.consola="";
     if(this.entradaxpath !=""){
       ana.ejecutarXquery(this.entradaxpath);
+    }
+  }
+
+  optimizarCod(){
+    ListaRepoOptimizacion.getLista().length = 0;
+    let ana = new Analizador.Analizador();
+
+    const optimizacion = ana.ejecutarOptimizacionC3D(this.consola);
+    if (optimizacion instanceof Array){
+      let codigoOptimizado = optimizacion[0];
+
+      for (const funcion of optimizacion[1]){
+        codigoOptimizado += funcion.optimizar();
+      }
+      this.salidaC3Doptimizado = codigoOptimizado;
+      //this.cadenaASTgrafica[5] = codigoOptimizado; // Salida del C3D optimizado
     }
   }
 }

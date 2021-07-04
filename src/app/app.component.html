@@ -50,6 +50,9 @@
 <li class="nav-item">
 <button mdbBtn   (click)="openPage('TablaSim',1)"  type="button" color="default" rounded="true" outline="true" mdbWavesEffect>Tabla de Símbolos</button>
 </li>
+<li class="nav-item">
+  <button mdbBtn   (click)="optimizarCod()"  type="button" color="default" rounded="true" outline="true" mdbWavesEffect>Optimizar</button>
+</li>
 </ul>
 <br> 
 <div class="container-fluid">
@@ -103,6 +106,25 @@
         <div class="col">
           <ngx-codemirror
           [(ngModel)]="consola"
+          [options]="{
+          lineNumbers: true,
+          theme: 'material',
+          mode: 'markdown'
+          }"
+        ></ngx-codemirror>
+        </div>
+      </mdb-card-body>
+    </mdb-card>
+  </div>
+  <div class="col-sm-6">
+    <mdb-card>
+      <mdb-card-body>
+        <mdb-card-title>
+          <h5>C3D optimizado en C</h5>
+        </mdb-card-title>
+        <div class="col">
+          <ngx-codemirror
+          [(ngModel)]="salidaC3Doptimizado"
           [options]="{
           lineNumbers: true,
           theme: 'material',
