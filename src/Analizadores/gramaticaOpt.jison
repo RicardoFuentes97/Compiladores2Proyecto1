@@ -140,7 +140,7 @@ operando
     |   IDENTIFICADOR '[' IDENTIFICADOR ']' /*Nueva producc*/     {$$ = $1 + '[' + $3 + ']';}
     |   IDENTIFICADOR '[' '(' cast ')' IDENTIFICADOR ']'          {$$ = $1 + '[' + '(' + $4 + ')' + $6 + ']';}
     |   '(' cast ')' IDENTIFICADOR                                {$$ = '(' + $2 + ')' + $4;}
-    |   FMOD '(' '(' cast ')' operando ',' operando ')'           {$$ = $1 + '(' + '(' + $4 + ')' + $6 + ', ' + $8 + ')';}
+    |   FMOD '(' operando ',' operando ')'  /*Se quita casteo*/   {$$ = $1 + '(' + $3 + ', ' + $5 + ')';}
     |   NUMBER                                                    {$$ = $1;}
     |   '-' NUMBER                                                {$$ = '-' + $2;}
 ;
