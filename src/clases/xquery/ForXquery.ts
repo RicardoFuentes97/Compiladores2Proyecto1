@@ -1,70 +1,65 @@
-
+import { templateJitUrl } from "@angular/compiler";
 import Nodo from "src/clases/AST/Nodo";
 import Controlador from "src/clases/Controlador";
-import { Expreciones } from "src/clases/Interfaces.ts/Expreciones";
 import { Instruccion } from "src/clases/Interfaces.ts/Instruccion";
 import { TablaSimbolos } from "src/clases/TablaSimbolos/TablaSimbolos";
+import returnXquery from "./returnXquery";
+import whereXquery from "./whereXquery";
 
+export default class ForXquery implements Instruccion {
+  public id: string;
+  public parametro;
+  public lista_instrucciones: Array<Instruccion>;
+  public linea: number;
+  public columna: number;
 
-export default class For implements Instruccion{
+  constructor(id, parametro, linea, columan, lista_instrucciones?) {
+    this.id = id;
+    this.parametro = parametro;
+    this.linea = linea;
+    this.columna = columan;
+    this.lista_instrucciones = lista_instrucciones;
+  }
 
-    public condicion: Expreciones;
-    public lista_instrucciones : Array<Instruccion>;
-    public inicio;
-    public fin;
-    public linea : number;
-    public columna : number;
-
-    constructor(condicion, lista_instrucciones,inicio,fin,linea, columna) {
-        this.condicion = condicion;
-        this.lista_instrucciones = lista_instrucciones;
-        this.inicio=inicio;
-        this.fin=fin;
-        this.linea = linea;
-        this.columna = columna;
-    }
-
-    ejecutar(controlador: Controlador, ts: TablaSimbolos) {
-        let ts_for = new TablaSimbolos(ts);
-        this.inicio.ejecutar(controlador,ts_for);
-        let valor_condicion = this.condicion.getValor(controlador, ts_for);
-        
-        if(typeof valor_condicion == 'boolean'){
-
-            while(this.condicion.getValor(controlador,ts_for)){
-
-                let ts_local = new TablaSimbolos(ts_for);
-                for(let ins of this.lista_instrucciones){
-                    let res = ins.ejecutar(controlador,ts_local);
-
-                   
-                    
-                     //TODO verificar si res es de tipo CONTINUE, BREAK, RETORNO 
-                }
-                controlador.graficarEntornos(controlador,ts_local," (FOR)");
-
-                this.fin.ejecutar(controlador,ts_for);
-            }
+  ejecutar(controlador: Controlador, ts: TablaSimbolos) {
+    let where;
+    let ret;
+    for (let instruccion of this.lista_instrucciones) {
+      if (instruccion instanceof whereXquery) {
+        where = instruccion;
+      } else {
+        if (instruccion instanceof returnXquery) {
+          ret = instruccion;
         }
-        controlador.graficarEntornos(controlador,ts_for," (FOR)");
+      }
     }
-    
-    recorrer(): Nodo {
-        let padre = new Nodo("CICLO","");
-        padre.AddHijo(new Nodo("for",""));
-        padre.AddHijo(new Nodo("(",""));
-        padre.AddHijo(this.inicio.recorrer());
-        padre.AddHijo(new Nodo(";",""));
-        padre.AddHijo(this.condicion.recorrer());
-        padre.AddHijo(new Nodo(";",""));
-        padre.AddHijo(this.fin.recorrer());
-        padre.AddHijo(new Nodo(")",""));
-        padre.AddHijo(new Nodo("{",""));
-        for(let ins of this.lista_instrucciones){
-            padre.AddHijo(ins.recorrer());
-        }
-        padre.AddHijo(new Nodo("}",""));
-        return padre;
-    }
+    this.acceso(this.parametro, where, ret);
+    this.parametro.ejecutar(controlador, ts);
+  }
 
-} 
+  acceso(exprecion, where, ret) {
+    let temp=exprecion;
+    let acces;
+    console.log(temp);
+    while(temp!=null){
+        acces=temp;
+        temp=temp.sig;
+    }   
+    console.log("salida 1");
+    console.log(acces);
+    console.log(ret);
+    if(where !=null){
+        acces.exprecion.exprecion=where.expreciones;
+    }
+    if(ret!=null){
+        acces.sig=ret.expreciones;
+    }
+    exprecion.sig=acces;
+    console.log("final");
+    console.log(exprecion);
+  }
+
+  recorrer(): Nodo {
+    return null;
+  }
+}

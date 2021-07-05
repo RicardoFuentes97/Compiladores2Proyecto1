@@ -145,6 +145,13 @@ export class AppComponent {
     }
   }
     
+  traducir3DXquery():void {
+    let ana= new Analizador.Analizador();
+    if(this.entradaxml !=null){
+      let ejecutar=ana.traducirXquery(this.entradaxml,this.entradaxpath);
+      this.consola=ejecutar.consola;
+    }
+  }
   imprimirTabla() {
     
     let ana =new Analizador.Analizador();
@@ -202,9 +209,9 @@ export class AppComponent {
   ejecutarXquery(){
     let ana =new Analizador.Analizador();
     this.consola="";
-    if(this.entradaxpath !=""){
-      ana.ejecutarXquery(this.entradaxpath);
-    }
+      let ejecutar=ana.ejecutarXquery(this.entradaxml,this.entradaxpath);
+      this.consola=ejecutar.consola;
+      this.htmlts=ejecutar.ts;
   }
 
   optimizarCod(){

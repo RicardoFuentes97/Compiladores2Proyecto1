@@ -13,6 +13,8 @@ import acceso from "../xpath/acceso";
 import Nodo from "./Nodo";
 import { GeneradorC3D } from '../GeneradorC3D/GeneradorC3D'
 import * as xpath from "../../Analizadores/gramatica";
+import ForXquery from "../xquery/ForXquery";
+import Llamada from "../Instrucciones/Llamada";
 
 export default class Ast implements Instruccion{
 
@@ -36,20 +38,27 @@ export default class Ast implements Instruccion{
         this.graficar(controlador,ts); 
     }
 
-    /*
-    ejecutarX(controlador: Controlador, ts: TablaSimbolos) {
-        console.log("vamos a compilar la entrada XQUERY");
+    
+    ejecutarXQuery(controlador: Controlador, ts: TablaSimbolos) {
+        if(ts==null){
+            ts=new TablaSimbolos(null,"Global");
+        }
+
         for(let instruccion of this.lista_instrucciones){
-            if(instruccion instanceof Objeto){
-                let tipo=new Tipo("OBJETO");
-                let sim=new Simbolos(1,tipo,instruccion.identificador,instruccion.texto,instruccion);
-                ts.agregar(instruccion.identificador,sim);
-                ts.agregarSiguiente(instruccion.identificador,instruccion.ejecutar(controlador,ts));
+            if(instruccion instanceof Funcion){
+                let funcion= instruccion as Funcion;
+                console.log("entre aqui");
+                funcion.agregarSimboloFuncion(controlador,ts);
+            }
+        }
+        
+        for(let instruccion of this.lista_instrucciones){
+            if(instruccion instanceof ForXquery || instruccion instanceof Llamada){
+                instruccion.ejecutar(controlador,ts);
             }
         }
     }
-    */
-
+    
     ejecutarDescendente(controlador: Controlador, ts: TablaSimbolos) {
         console.log("vamos a compilar la entrada");
        

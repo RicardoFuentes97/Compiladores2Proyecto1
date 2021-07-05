@@ -16,7 +16,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 
 /* Simbolos del programa */
 "("                     { console.log("Reconocio : "+ yytext); return 'PARA'}
-"//"                     { console.log("Reconocio : "+ yytext); return 'BARRABARRA'}
+"//"                    { console.log("Reconocio : "+ yytext); return 'BARRABARRA'}
 "/"                     { console.log("Reconocio : "+ yytext); return 'BARRA'}
 ")"                     { console.log("Reconocio : "+ yytext); return 'PARC'}
 "$"                     { console.log("Reconocio : "+ yytext); return 'DOLAR'}
@@ -28,6 +28,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 "."                     { console.log("Reconocio : "+ yytext); return 'PUNTO'}
 "|"                     { console.log("Reconocio : "+ yytext); return 'SIGNOO'}
 "::"                    { console.log("Reconocio : "+ yytext); return 'DOSPUNTOS'}
+";"                    { console.log("Reconocio : "+ yytext); return 'PUNTOCOMA'}
 
 /* Operadores Relacionales */
 "<="                    { console.log("Reconocio : "+ yytext); return 'MENORIGUAL'}
@@ -39,6 +40,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 ":"                    { console.log("Reconocio : "+ yytext); return 'DOSPUNTOS'}
 ","                    { console.log("Reconocio : "+ yytext); return 'COMA'}
 "@"                     { console.log("Reconocio : "+ yytext); return 'ARROBA'}
+"?"                     { console.log("Reconocio : "+ yytext); return 'INTERROG'}
 
 /* Operadores Aritmeticos */
 "+"                     { console.log("Reconocio : "+ yytext); return 'MAS'}
@@ -85,9 +87,11 @@ cadena      (\"({escape} | {aceptacion})*\")
 "node()"                { console.log("Reconocio : "+ yytext); return 'NODE'}
 "last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}
 "position()"            { console.log("Reconocio : "+ yytext); return 'POSITION'}
+"local"                 { console.log("Reconocio : "+ yytext); return 'LOCAL'}
+"XS"                    { console.log("Reconocio : "+ yytext); return 'XS'}
 
 /* SIMBOLOS ER */
-[0-9]+("."[0-9]+)?\b        { console.log("Reconocio : "+ yytext); return 'DECIMAL'}
+[0-9]+("."[0-9]+)?\b        { console.log("Reconocio : "+ yytext+" numero"); return 'DECIMAL'}
 {num}                       { console.log("Reconocio : "+ yytext); return 'ENTERO'}
 {id}                        { console.log("Reconocio id : "+ yytext); return 'ID'}
 {cadena}                    { console.log("Reconocio : "+ yytext); return 'CADENA'}
@@ -99,7 +103,8 @@ cadena      (\"({escape} | {aceptacion})*\")
 /* Errores lexicos */
 .                     { console.log("Error Lexico "+yytext
                         +" linea "+yylineno
-                        +" columna "+(yylloc.last_column+1));        
+                        +" columna "+(yyl
+                        .last_column+1));        
                         }
 /lex
 
@@ -139,6 +144,10 @@ cadena      (\"({escape} | {aceptacion})*\")
     const axesbarrabarra = require ('../Clases/xpath/axesbarrabarra');
     const instrucciondoble =require ('../Clases/xpath/intrucciondoble');
     const puntopunto =require ('../Clases/xpath/puntopunto');
+    
+    const ForXquery= require('../Clases/xquery/ForXquery');
+    const whereXquery=require('../Clases/xquery/whereXquery');
+    const returnXquery=require('../Clases/xquery/returnXquery');
 %}
 
 /* Precedencia de operadores */
@@ -161,45 +170,59 @@ cadena      (\"({escape} | {aceptacion})*\")
 
 
 INICIO
-    : VARIAS EOF {  $$=$1; return $$ };
+    : INSTRUCCIONES EOF {  $$= new ast.default($1); return $$ };
 
 
-VARIAS: INSTRUCCIONES SIGNOO INSTRUCCIONES {$$=new instrucciondoble.default($1,$3);}
-        |INSTRUCCIONES {$$=$1}
-        ;
-
-INSTRUCCIONES : SENTENCIAS INSTRUCCIONES    {  }
-            |   SENTENCIAS                  {  }
+INSTRUCCIONES : INSTRUCCIONES SENTENCIAS    { $$ = $1; $$.push($2); }
+            |   SENTENCIAS                  { $$= new Array(); $$.push($1); }
             ;
 
-SENTENCIAS: FOR DOLAR ID IN PARAMETROS
-    | WHERE DOLAR ID PARAMETROS
-    | ORDER DOLAR ID PARAMETROS
-    | LET DOLAR ID DOSPUNTOS IGUAL PARAMETROS
-    | IF PARA DOLAR ID PARAMETROS  PARC
-    | RETURN SENT_RETURN
-    | THEN DATA PARA DOLAR ID PARAMETROS  PARC
-    | ELSE SENT_ELSE
-    | DECLARE FUNCTION ID DOSPUNTOS ID PARA  PARAMETROS PARC
-    | AS ID DOSPUNTOS ID LLAVEA INSTRUCCIONES LLAVEC 
+SENTENCIAS: FOR DOLAR ID IN PARAMETROS  INSTRUCCIONESF  { $$=new ForXquery.default($3,$5,@1.first_line,@1.first_column,$6); }  
+    | LOCAL DOSPUNTOS ID PARA  PARC     { $$ = new llamada.default($3 , [],@1.first_line, @1.last_column ); }
+    | LOCAL DOSPUNTOS ID PARA lista_exp PARC { $$ = new llamada.default($3 , $5 ,@1.first_line, @1.last_column ); }
+    | DECLARE FUNCTION LOCAL DOSPUNTOS ID PARA  PARC LLAVEA instrucciones LLAVEC PUNTOCOMA { $$ = new funcion.default(3,new tipo.default('VOID'), $5 , [], [], $9, @1.first_line, @1.last_column ); }
+    | DECLARE FUNCTION LOCAL DOSPUNTOS ID PARA lista_expc PARC LLAVEA instrucciones LLAVEC PUNTOCOMA { $$ = new funcion.default(3,new tipo.default('VOID'), $5 , $7, $7, $10, @1.first_line, @1.last_column ); }
     ;
 
+instrucciones : instrucciones instruccion   { $$ = $1; $$.push($2); }
+            | instruccion                   {$$= new Array(); $$.push($1); }
+            ;
 
-SENT_RETURN : DOLAR ID
-            | DOLAR ID PARAMETROS
-            | PARA OPERADORES PARC
-            | ID DOSPUNTOS ID PARA PARAMETROS PARC
-            | DATA PARA DOLAR ID PARAMETROS  PARC CONCATENA
-            | SENTENCIAS
-;
 
+instruccion: ASIGNACION {$$=$1;} 
+            | RETORNO   {$$=$1;};
+
+RETORNO : RETURN OPERADORES {$$ = new Print.default($2, @1.first_line, @1.last_column); } ;
+
+ASIGNACION:  LET DOLAR ID  DOSPUNTOS IGUAL OPERADORES {$$ = new declaracion.default(new tipo.default('LET'),new simbolo.default(1,null,$3, $6), @1.first_line, @1.last_column);};
+
+
+INSTRUCCIONESF : INSTRUCCIONESF SENTENCIASF     {$$ = $1; $$.push($2); }
+            |   SENTENCIASF                     { $$= new Array(); $$.push($1); }
+            ;
+
+SENTENCIASF:  WHERE DOLAR ID BARRA OPERADORES        {$$=new whereXquery.default($3,$5)} 
+              |RETURN DOLAR ID BARRA PARAMETROS      {$$= new returnXquery.default($3,$5)}
+              |RETURN DOLAR ID                       {$$= new returnXquery.default($3)}
+              ;
+
+lista_exp : lista_exp COMA OPERADORES        { $$ = $1; $$.push($3); }
+        |   OPERADORES                       { $$ = new Array(); $$.push($1); }
+        ;
+
+lista_expc : lista_expc COMA valorcabeza { $$ = $1; $$.push($3); }
+            |valorcabeza                { $$ = new Array(); $$.push($1); }  
+            ;
+
+valorcabeza :DOLAR ID AS XS DOSPUNTOS ID INTERROG { $$=new simbolo.default(6,new tipo.default('LET'),$2, null)};
+ 
 SENT_ELSE : DATA PARA DOLAR ID PARAMETROS  PARC
         | PARA PARC
         | SENTENCIAS  
         ;
 
-PARAMETROS: LISTA_PARAMETROS PARAMETROS     {  }
-    | LISTA_PARAMETROS                      {  }
+PARAMETROS: PARAMETROS  LISTA_PARAMETROS          {$1.sig=$2; $$ = $1; }
+    |       LISTA_PARAMETROS                      {$$= $1; }
     ;
 
 LISTA_PARAMETROS : BARRA e                          {  $$ = new acceso.default($2,null);}
@@ -207,7 +230,7 @@ LISTA_PARAMETROS : BARRA e                          {  $$ = new acceso.default($
     | RESERV DOSPUNTOS e                            {  $$ =  new axes.default($1,$3,null);}
     | BARRA RESERV DOSPUNTOS e                      {  $$ =  new axes.default($2,$4,null);}
     | BARRA PUNTOPUNTO                              {  $$ =  new puntopunto.default($1,null);}
-    | BARRABARRA RESERV DOSPUNTOS e                 {  $$ =  new axesbarrabarra.default($2,$4,null)}     
+    | BARRABARRA RESERV DOSPUNTOS e                 {  $$ =  new axesbarrabarra.default($2,$4,null)}    
     | PARA OPERADORES TO OPERADORES PARC
     | PARA OPERADORES COMA OPERADORES PARC
     | LISTA_PARAMETROS MENORQUE LISTA_PARAMETROS
@@ -260,15 +283,13 @@ RESERVLARGE :   MENOS OR MENOS SELF {$$ = $1+$2+$3+$4}
     |   MENOS SIBLING               {$$ = $1+$2}
     ;
 
-e :   ID                        {$$=new informacion.default($1,null,1);}
-    | ARROBA ID                 {$$=new informacion.default($2,null,2);}
-    | ARROBA POR                {$$=new informacion.default($2,null,2);}
-    | POR                       {$$=new informacion.default($1,null,1);}
-    | ID CORA OPERADORES CORC   {$$=new informacion.default($1,null,1);}
-    | ENTERO                    {$$=new informacion.default($1,null,1);} //Validar
-    | DECIMAL                   {$$=new informacion.default($1,null,1);} //Validar
-    | CADENA                    {$$=new informacion.default($1,null,1);} //Validar
+e :   ID                         {$$=new informacion.default($1,null,1);}
+    | ARROBA ID                  {$$=new informacion.default($2,null,2);}
+    | ARROBA ASTERISCO           {$$=new informacion.default($2,null,2);}
+    | ASTERISCO                  {$$=new informacion.default($1,null,1);}
+    | ID CORA OPERADORES CORC    {$$=new informacion.default($1,$3,1);}
     ;
+ 
  
     
 OPERADORES :  OPERADORES MAS OPERADORES     {$$ = new aritmetica.default($1, '+', $3, $1.first_line, $1.last_column, false);}
@@ -287,13 +308,27 @@ OPERADORES :  OPERADORES MAS OPERADORES     {$$ = new aritmetica.default($1, '+'
     | MENOS OPERADORES %prec UNARIO         {$$ = new aritmetica.default($2, 'UNARIO', null, $1.first_line, $1.last_column, true);}
     | DATA PARA OPERADORES PARC             {$$ = $2;}
     | PARA OPERADORES PARC                  {$$ = $2;}
-    | DOLAR ID                              //AGREGAR DONDE SE LLENA
+    | DOLAR ID                              {$$ = new identificador.default($2 , @1.first_line, @1.last_column,1,2);}
     | DECIMAL                               {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}
     | ENTERO                                {$$ = new primitivo.default(Number(yytext), $1.first_line, $1.last_column,-1);}
-    | ID                                    {$$ = new identificador.default($1 , @1.first_line, @1.last_column,1); }
+    | ID                                    {$$ = new identificador.default($1 , @1.first_line, @1.last_column,1,1); }
     | LAST                                  {$$ = new last.default();}
     | POSITION                              {$$ = new position.default();}
     | CADENA                                {$1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1, $1.first_line, $1.last_column);}
     | ARROBA ID                             {$$ = new identificador.default($2 , @1.first_line, @1.last_column,2); }
             
     ;
+
+    /*              
+SENT_RETURN : DOLAR ID
+            | PARA OPERADORES PARC
+            | ID DOSPUNTOS ID PARA PARAMETROS PARC
+            | DATA PARA DOLAR ID PARAMETROS  PARC CONCATENA
+            | SENTENCIAS
+;*/
+
+/*| LET DOLAR ID DOSPUNTOS IGUAL PARAMETROS
+    | IF PARA DOLAR ID PARAMETROS  PARC
+    | THEN DATA PARA DOLAR ID PARAMETROS  PARC
+    | ELSE SENT_ELSE
+    | AS ID DOSPUNTOS ID LLAVEA INSTRUCCIONES LLAVEC */

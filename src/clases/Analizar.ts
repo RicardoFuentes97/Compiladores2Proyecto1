@@ -39,10 +39,24 @@ export class Analizador {
         
     }
     
-    public ejecutarXquery(entradaxquery:string):any {
-        console.log("vamos a analizar la entrada");
-        //Ejecutar Xquery
-       xquery.parse(entradaxquery);
+    public ejecutarXquery(entradaxml:string,entradaxpath:string):any {
+        let controlador = new Controlador();
+        let ts_globla;
+        if(entradaxml.length>0){
+            let astxml= xml.parse(entradaxml);
+            controlador = new Controlador();
+            ts_globla =new TablaSimbolos(null,"Global");
+            astxml.ejecutar(controlador,ts_globla);   
+        }
+
+        if(entradaxpath.length>0){
+           let astxquery=xquery.parse(entradaxpath);
+           astxquery.ejecutarXQuery(controlador,ts_globla);
+           console.log(astxquery);
+        }
+        let ts_html =controlador.graficar_ts(controlador,ts_globla);
+        let retorno = {"ts": ts_html ,"consola":controlador.consola };
+        return retorno;
         //x.ejecutarX(controlador,ts_for);
 
     }
@@ -90,6 +104,26 @@ export class Analizador {
        let x = opt3d.parse(entradaC3D);
         
         return x;
+    }
+    
+    public traducirXquery(entradaxml:string,entradaxpath:string){
+        let controlador = new Controlador();
+        let ts_globla;
+        if(entradaxml.length>0){
+            let astxml= xml.parse(entradaxml);
+            ts_globla =new TablaSimbolos(null,"Global");
+            controlador.generador.clearCode();
+            astxml.ejecutar(controlador,ts_globla);   
+        }
+
+        if(entradaxpath.length>0){
+           let astxquery=xquery.parse(entradaxpath);
+           astxquery.ejecutarXQuery(controlador,ts_globla);
+           console.log(astxquery);
+        }
+        let ts_html =controlador.graficar_ts(controlador,ts_globla);
+        let retorno = {"ts": ts_html ,"consola":controlador.generador.getCode() };
+        return retorno;
     }
     
     public recorrer(input){
