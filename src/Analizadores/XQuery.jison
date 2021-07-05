@@ -199,14 +199,15 @@ instrucciones : instrucciones instruccion   { $$ = $1; $$.push($2); }
             | instruccion                   {$$= new Array(); $$.push($1); }
             ; 
 
+instrucciones1 :  instruccion                   {$$= new Array(); $$.push($1); }
+            ; 
 
 instruccion: DECLARACION {$$=$1;} 
             | RETORNO    {$$=$1;}
             | ASIGNACION {$$=$1;}
             | SENT_IF    {$$=$1};
 
-SENT_IF:   IF PARA OPERADORES PARC  THEN instrucciones { $$ = new Ifs.default($3, $6, [], @1.first_line, @1.last_column); }
-          |IF PARA OPERADORES PARC  THEN instrucciones ELSE instrucciones {$$ = new Ifs.default($3, $6, $8, @1.first_line, @1.last_column);};
+SENT_IF:  IF PARA OPERADORES PARC  THEN instrucciones1 ELSE instrucciones1  {$$ = new Ifs.default($3, $6, $8, @1.first_line, @1.last_column);};
 
 
 RETORNO : RETURN OPERADORES {$$ = new Print.default($2, @1.first_line, @1.last_column); } ;
