@@ -231,4 +231,22 @@ export class AppComponent {
       //this.cadenaASTgrafica[5] = codigoOptimizado; // Salida del C3D optimizado
     }
   }
+
+  optimizarCodPasadas(){
+    ListaRepoOptimizacion.getLista().length = 0;
+    let ana = new Analizador.Analizador();
+
+    const optimizacion = ana.ejecutarOptimizacionC3D(this.consola);
+    console.log(optimizacion);
+    if (optimizacion instanceof Array){
+      let codigoOptimizado = optimizacion[0];
+
+      for (const funcion of optimizacion[1]){
+        codigoOptimizado += funcion.optimizar();
+      }
+      
+      this.salidaC3Doptimizado = codigoOptimizado;
+      //this.cadenaASTgrafica[5] = codigoOptimizado; // Salida del C3D optimizado
+    }
+  }
 }
