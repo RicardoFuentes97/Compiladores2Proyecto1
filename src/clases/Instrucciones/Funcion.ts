@@ -34,13 +34,7 @@ export default class Funcion extends Simbolos implements Instruccion{
             
             console.log(ins);
             let r = ins.ejecutar(controlador,ts_local);
-
-           /* if(r != null){
-                controlador.ambito="Funcion: \n"+this.identificador;
-                controlador.graficarEntornos(controlador,ts_local,"");
-                return r;
-            }*/
-
+           
         }
        /* controlador.ambito="Funcion: \n"+this.identificador;
         controlador.graficarEntornos(controlador,ts_local,"");*/

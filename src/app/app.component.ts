@@ -27,7 +27,7 @@ export class AppComponent {
   reporteGramatical: string = "";
   xpathRG: string = "";
   salidaC3Doptimizado: string = "";
-  
+  htmlop:string ="";
 
 
   recorrer(): void{
@@ -186,6 +186,8 @@ export class AppComponent {
       document.getElementById("tablasimbols").innerHTML = this.htmlerrores;
     }else if(valor==3){
       this.recorrer();
+    }else if( valor==4){
+      document.getElementById("tablasimbols").innerHTML = this.htmlop;
     }
     
     // Hide all elements with class="tabcontent" by default */
@@ -220,6 +222,7 @@ export class AppComponent {
 
     const optimizacion = ana.ejecutarOptimizacionC3D(this.consola);
     console.log(optimizacion);
+    console.log(ListaRepoOptimizacion.getLista());
     if (optimizacion instanceof Array){
       let codigoOptimizado = optimizacion[0];
 
@@ -230,6 +233,18 @@ export class AppComponent {
       this.salidaC3Doptimizado = codigoOptimizado;
       //this.cadenaASTgrafica[5] = codigoOptimizado; // Salida del C3D optimizado
     }
+    this.htmlop=this.graficar_ts(ListaRepoOptimizacion.getLista());
+  }
+
+  graficar_ts(listaOP):string{
+    var cuerpohtml = "<thead class=\"black white-text\"><tr><td colspan=\"6\">Tabla de OP </td></tr><tr><th>No.Regla</th><th>Codigo Agregado</th><th>Codigo Elimando</th><th>Fila</th></tr></thead>";
+    for(let lista of listaOP){
+      cuerpohtml += "<tr mdbTableCol class=\"grey lighten-1 black-text\"><th scope=\"row\">" + lista.reglaAplicada+ "</th><td>" + lista.codigoAgregado + 
+      "</td>"+ 
+      "</td><td>" + lista.codigoEliminado + 
+      "</td><td>" + lista.fila +  "</tr>";
+  }
+    return cuerpohtml;
   }
 
   optimizarCodPasadas(){
