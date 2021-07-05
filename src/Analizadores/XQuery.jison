@@ -32,15 +32,22 @@ cadena      (\"({escape} | {aceptacion})*\")
 
 /* Operadores Relacionales */
 "<="                    { console.log("Reconocio : "+ yytext); return 'MENORIGUAL'}
+"le"                    { console.log("Reconocio : "+ yytext); return 'MENORIGUAL'}
 ">="                    { console.log("Reconocio : "+ yytext); return 'MAYORIGUAL'}
+"ge"                    { console.log("Reconocio : "+ yytext); return 'MAYORIGUAL'}
 "="                     { console.log("Reconocio : "+ yytext); return 'IGUAL'}
+"eq"                     { console.log("Reconocio : "+ yytext); return 'IGUAL'}
 "<"                     { console.log("Reconocio : "+ yytext); return 'MENORQUE'}
+"lt"                     { console.log("Reconocio : "+ yytext); return 'MENORQUE'}
 ">"                     { console.log("Reconocio : "+ yytext); return 'MAYORQUE'}
+"gt"                     { console.log("Reconocio : "+ yytext); return 'MAYORQUE'}
 "!="                    { console.log("Reconocio : "+ yytext); return 'DIFERENTE'}
+"ne"                    { console.log("Reconocio : "+ yytext); return 'DIFERENTE'}
 ":"                    { console.log("Reconocio : "+ yytext); return 'DOSPUNTOS'}
 ","                    { console.log("Reconocio : "+ yytext); return 'COMA'}
 "@"                     { console.log("Reconocio : "+ yytext); return 'ARROBA'}
 "?"                     { console.log("Reconocio : "+ yytext); return 'INTERROG'}
+
 
 /* Operadores Aritmeticos */
 "+"                     { console.log("Reconocio : "+ yytext); return 'MAS'}
@@ -69,6 +76,7 @@ cadena      (\"({escape} | {aceptacion})*\")
 "as"                    { console.log("Reconocio : "+ yytext); return 'AS'}
 "let"                   { console.log("Reconocio : "+ yytext); return 'LET'}
 "data"                   { console.log("Reconocio : "+ yytext); return 'DATA'}
+
 
 //XPATH
 "last()"                { console.log("Reconocio : "+ yytext); return 'LAST'}

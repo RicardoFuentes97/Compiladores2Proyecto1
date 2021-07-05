@@ -811,117 +811,129 @@ case 13: console.log("Reconocio : "+ yy_.yytext); return 23
 break;
 case 14: console.log("Reconocio : "+ yy_.yytext); return 51
 break;
-case 15: console.log("Reconocio : "+ yy_.yytext); return 52
+case 15: console.log("Reconocio : "+ yy_.yytext); return 51
 break;
-case 16: console.log("Reconocio : "+ yy_.yytext); return 32
+case 16: console.log("Reconocio : "+ yy_.yytext); return 52
 break;
-case 17: console.log("Reconocio : "+ yy_.yytext); return 49
+case 17: console.log("Reconocio : "+ yy_.yytext); return 52
 break;
-case 18: console.log("Reconocio : "+ yy_.yytext); return 50
+case 18: console.log("Reconocio : "+ yy_.yytext); return 32
 break;
-case 19: console.log("Reconocio : "+ yy_.yytext); return 60
+case 19: console.log("Reconocio : "+ yy_.yytext); return 32
 break;
-case 20: console.log("Reconocio : "+ yy_.yytext); return 14
+case 20: console.log("Reconocio : "+ yy_.yytext); return 49
 break;
-case 21: console.log("Reconocio : "+ yy_.yytext); return 36
+case 21: console.log("Reconocio : "+ yy_.yytext); return 49
 break;
-case 22: console.log("Reconocio : "+ yy_.yytext); return 80
+case 22: console.log("Reconocio : "+ yy_.yytext); return 50
 break;
-case 23: console.log("Reconocio : "+ yy_.yytext); return 40
+case 23: console.log("Reconocio : "+ yy_.yytext); return 50
 break;
-case 24: console.log("Reconocio : "+ yy_.yytext); return 53
+case 24: console.log("Reconocio : "+ yy_.yytext); return 60
 break;
-case 25: console.log("Reconocio : "+ yy_.yytext); return 54
+case 25: console.log("Reconocio : "+ yy_.yytext); return 60
 break;
-case 26: console.log("Reconocio : "+ yy_.yytext); return 55
+case 26: console.log("Reconocio : "+ yy_.yytext); return 14
 break;
-case 27: console.log("Reconocio : "+ yy_.yytext); return 56
+case 27: console.log("Reconocio : "+ yy_.yytext); return 36
 break;
-case 28: console.log("Reconocio : "+ yy_.yytext); return 57
+case 28: console.log("Reconocio : "+ yy_.yytext); return 80
 break;
-case 29: console.log("Reconocio : "+ yy_.yytext); return 58
+case 29: console.log("Reconocio : "+ yy_.yytext); return 40
 break;
-case 30: console.log("Reconocio : "+ yy_.yytext); return 59
+case 30: console.log("Reconocio : "+ yy_.yytext); return 53
 break;
-case 31: console.log("Reconocio : "+ yy_.yytext); return 7
+case 31: console.log("Reconocio : "+ yy_.yytext); return 54
 break;
-case 32: console.log("Reconocio : "+ yy_.yytext); return 10
+case 32: console.log("Reconocio : "+ yy_.yytext); return 55
 break;
-case 33: console.log("Reconocio : "+ yy_.yytext); return 31
+case 33: console.log("Reconocio : "+ yy_.yytext); return 56
 break;
-case 34: console.log("Reconocio : "+ yy_.yytext); return 34
+case 34: console.log("Reconocio : "+ yy_.yytext); return 57
 break;
-case 35: console.log("Reconocio : "+ yy_.yytext); return 'ORDER'
+case 35: console.log("Reconocio : "+ yy_.yytext); return 58
 break;
-case 36: console.log("Reconocio : "+ yy_.yytext); return 29
+case 36: console.log("Reconocio : "+ yy_.yytext); return 59
 break;
-case 37: console.log("Reconocio : "+ yy_.yytext); return 48
+case 37: console.log("Reconocio : "+ yy_.yytext); return 7
 break;
-case 38: console.log("Reconocio : "+ yy_.yytext); return 'IF'
+case 38: console.log("Reconocio : "+ yy_.yytext); return 10
 break;
-case 39: console.log("Reconocio : "+ yy_.yytext); return 'THEN'
+case 39: console.log("Reconocio : "+ yy_.yytext); return 31
 break;
-case 40: console.log("Reconocio : "+ yy_.yytext); return 'ELSE'
+case 40: console.log("Reconocio : "+ yy_.yytext); return 34
 break;
-case 41: console.log("Reconocio : "+ yy_.yytext); return 18
+case 41: console.log("Reconocio : "+ yy_.yytext); return 'ORDER'
 break;
-case 42: console.log("Reconocio : "+ yy_.yytext); return 19
+case 42: console.log("Reconocio : "+ yy_.yytext); return 29
 break;
-case 43: console.log("Reconocio : "+ yy_.yytext); return 38
+case 43: console.log("Reconocio : "+ yy_.yytext); return 48
 break;
-case 44: console.log("Reconocio : "+ yy_.yytext); return 31
+case 44: console.log("Reconocio : "+ yy_.yytext); return 'IF'
 break;
-case 45: console.log("Reconocio : "+ yy_.yytext); return 42
+case 45: console.log("Reconocio : "+ yy_.yytext); return 'THEN'
 break;
-case 46: console.log("Reconocio : "+ yy_.yytext); return 84
+case 46: console.log("Reconocio : "+ yy_.yytext); return 'ELSE'
 break;
-case 47: console.log("Reconocio : "+ yy_.yytext); return 65
+case 47: console.log("Reconocio : "+ yy_.yytext); return 18
 break;
-case 48: console.log("Reconocio : "+ yy_.yytext); return 66
+case 48: console.log("Reconocio : "+ yy_.yytext); return 19
 break;
-case 49: console.log("Reconocio : "+ yy_.yytext); return 68
+case 49: console.log("Reconocio : "+ yy_.yytext); return 38
 break;
-case 50: console.log("Reconocio : "+ yy_.yytext); return 77
+case 50: console.log("Reconocio : "+ yy_.yytext); return 31
 break;
-case 51: console.log("Reconocio : "+ yy_.yytext); return 70
+case 51: console.log("Reconocio : "+ yy_.yytext); return 42
 break;
-case 52: console.log("Reconocio : "+ yy_.yytext); return 71
+case 52: console.log("Reconocio : "+ yy_.yytext); return 84
 break;
-case 53: console.log("Reconocio : "+ yy_.yytext); return 72
+case 53: console.log("Reconocio : "+ yy_.yytext); return 65
 break;
-case 54: console.log("Reconocio : "+ yy_.yytext); return 73
+case 54: console.log("Reconocio : "+ yy_.yytext); return 66
 break;
-case 55: console.log("Reconocio : "+ yy_.yytext); return 74
+case 55: console.log("Reconocio : "+ yy_.yytext); return 68
 break;
-case 56: console.log("Reconocio : "+ yy_.yytext); return 75
+case 56: console.log("Reconocio : "+ yy_.yytext); return 77
 break;
-case 57: console.log("Reconocio : "+ yy_.yytext); return 76
+case 57: console.log("Reconocio : "+ yy_.yytext); return 70
 break;
-case 58: console.log("Reconocio : "+ yy_.yytext); return 78
+case 58: console.log("Reconocio : "+ yy_.yytext); return 71
 break;
-case 59: console.log("Reconocio : "+ yy_.yytext); return 79
+case 59: console.log("Reconocio : "+ yy_.yytext); return 72
 break;
-case 60: console.log("Reconocio : "+ yy_.yytext); return 84
+case 60: console.log("Reconocio : "+ yy_.yytext); return 73
 break;
-case 61: console.log("Reconocio : "+ yy_.yytext); return 65
+case 61: console.log("Reconocio : "+ yy_.yytext); return 74
 break;
-case 62: console.log("Reconocio : "+ yy_.yytext); return 13
+case 62: console.log("Reconocio : "+ yy_.yytext); return 75
 break;
-case 63: console.log("Reconocio : "+ yy_.yytext); return 39
+case 63: console.log("Reconocio : "+ yy_.yytext); return 76
 break;
-case 64: console.log("Reconocio : "+ yy_.yytext+" numero"); return 62
+case 64: console.log("Reconocio : "+ yy_.yytext); return 78
 break;
-case 65: console.log("Reconocio : "+ yy_.yytext); return 61
+case 65: console.log("Reconocio : "+ yy_.yytext); return 79
 break;
-case 66: console.log("Reconocio id : "+ yy_.yytext); return 9
+case 66: console.log("Reconocio : "+ yy_.yytext); return 84
 break;
-case 67: console.log("Reconocio : "+ yy_.yytext); return 63
+case 67: console.log("Reconocio : "+ yy_.yytext); return 65
 break;
-case 68: /* skip whitespace */ 
+case 68: console.log("Reconocio : "+ yy_.yytext); return 13
 break;
-case 69:return 5
+case 69: console.log("Reconocio : "+ yy_.yytext); return 39
 break;
-case 70: console.log("Error Lexico "+yy_.yytext
+case 70: console.log("Reconocio : "+ yy_.yytext+" numero"); return 62
+break;
+case 71: console.log("Reconocio : "+ yy_.yytext); return 61
+break;
+case 72: console.log("Reconocio id : "+ yy_.yytext); return 9
+break;
+case 73: console.log("Reconocio : "+ yy_.yytext); return 63
+break;
+case 74: /* skip whitespace */ 
+break;
+case 75:return 5
+break;
+case 76: console.log("Error Lexico "+yy_.yytext
                         +" linea "+yy_.yylineno
                         +" columna "+(yyl
                         .last_column+1));        
@@ -929,8 +941,8 @@ case 70: console.log("Error Lexico "+yy_.yytext
 break;
 }
 },
-rules: [/^(?:\()/i,/^(?:\/\/)/i,/^(?:\/)/i,/^(?:\))/i,/^(?:\$)/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\[)/i,/^(?:\])/i,/^(?:\.\.)/i,/^(?:\.)/i,/^(?:\|)/i,/^(?:::)/i,/^(?:;)/i,/^(?:<=)/i,/^(?:>=)/i,/^(?:=)/i,/^(?:<)/i,/^(?:>)/i,/^(?:!=)/i,/^(?::)/i,/^(?:,)/i,/^(?:@)/i,/^(?:\?)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:div\b)/i,/^(?:mod\b)/i,/^(?:and\b)/i,/^(?:or\b)/i,/^(?:for\b)/i,/^(?:in\b)/i,/^(?:let\b)/i,/^(?:where\b)/i,/^(?:order by\b)/i,/^(?:return\b)/i,/^(?:to\b)/i,/^(?:if\b)/i,/^(?:then\b)/i,/^(?:else\b)/i,/^(?:declare\b)/i,/^(?:function\b)/i,/^(?:as\b)/i,/^(?:let\b)/i,/^(?:data\b)/i,/^(?:last\(\))/i,/^(?:position\(\))/i,/^(?:ancestor\b)/i,/^(?:attribute\b)/i,/^(?:self\b)/i,/^(?:child\b)/i,/^(?:descendant\b)/i,/^(?:following\b)/i,/^(?:sibling\b)/i,/^(?:namespace\b)/i,/^(?:parent\b)/i,/^(?:preceding\b)/i,/^(?:text\(\))/i,/^(?:node\(\))/i,/^(?:last\(\))/i,/^(?:position\(\))/i,/^(?:local\b)/i,/^(?:XS\b)/i,/^(?:[0-9]+(\.[0-9]+)?\b)/i,/^(?:([0-9]+))/i,/^(?:([a-zñA-ZÑ_][a-zñA-ZÑ0-9_]*))/i,/^(?:(("((\\([\'\"\\ntr]))|([^\"\\]+))*")))/i,/^(?:[\s\r\n\t])/i,/^(?:$)/i,/^(?:.)/i],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70],"inclusive":true}}
+rules: [/^(?:\()/i,/^(?:\/\/)/i,/^(?:\/)/i,/^(?:\))/i,/^(?:\$)/i,/^(?:\{)/i,/^(?:\})/i,/^(?:\[)/i,/^(?:\])/i,/^(?:\.\.)/i,/^(?:\.)/i,/^(?:\|)/i,/^(?:::)/i,/^(?:;)/i,/^(?:<=)/i,/^(?:le\b)/i,/^(?:>=)/i,/^(?:ge\b)/i,/^(?:=)/i,/^(?:eq\b)/i,/^(?:<)/i,/^(?:lt\b)/i,/^(?:>)/i,/^(?:gt\b)/i,/^(?:!=)/i,/^(?:ne\b)/i,/^(?::)/i,/^(?:,)/i,/^(?:@)/i,/^(?:\?)/i,/^(?:\+)/i,/^(?:-)/i,/^(?:\*)/i,/^(?:div\b)/i,/^(?:mod\b)/i,/^(?:and\b)/i,/^(?:or\b)/i,/^(?:for\b)/i,/^(?:in\b)/i,/^(?:let\b)/i,/^(?:where\b)/i,/^(?:order by\b)/i,/^(?:return\b)/i,/^(?:to\b)/i,/^(?:if\b)/i,/^(?:then\b)/i,/^(?:else\b)/i,/^(?:declare\b)/i,/^(?:function\b)/i,/^(?:as\b)/i,/^(?:let\b)/i,/^(?:data\b)/i,/^(?:last\(\))/i,/^(?:position\(\))/i,/^(?:ancestor\b)/i,/^(?:attribute\b)/i,/^(?:self\b)/i,/^(?:child\b)/i,/^(?:descendant\b)/i,/^(?:following\b)/i,/^(?:sibling\b)/i,/^(?:namespace\b)/i,/^(?:parent\b)/i,/^(?:preceding\b)/i,/^(?:text\(\))/i,/^(?:node\(\))/i,/^(?:last\(\))/i,/^(?:position\(\))/i,/^(?:local\b)/i,/^(?:XS\b)/i,/^(?:[0-9]+(\.[0-9]+)?\b)/i,/^(?:([0-9]+))/i,/^(?:([a-zñA-ZÑ_][a-zñA-ZÑ0-9_]*))/i,/^(?:(("((\\([\'\"\\ntr]))|([^\"\\]+))*")))/i,/^(?:[\s\r\n\t])/i,/^(?:$)/i,/^(?:.)/i],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76],"inclusive":true}}
 });
 return lexer;
 })();
