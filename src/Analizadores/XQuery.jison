@@ -189,12 +189,16 @@ instrucciones : instrucciones instruccion   { $$ = $1; $$.push($2); }
             ;
 
 
-instruccion: ASIGNACION {$$=$1;} 
-            | RETORNO   {$$=$1;};
+instruccion: DECLARACION {$$=$1;} 
+            | RETORNO   {$$=$1;}
+            | ASIGNACION {$$=$1;};
 
 RETORNO : RETURN OPERADORES {$$ = new Print.default($2, @1.first_line, @1.last_column); } ;
 
-ASIGNACION:  LET DOLAR ID  DOSPUNTOS IGUAL OPERADORES {$$ = new declaracion.default(new tipo.default('LET'),new simbolo.default(1,null,$3, $6), @1.first_line, @1.last_column);};
+DECLARACION:  LET DOLAR ID  DOSPUNTOS IGUAL OPERADORES {$$ = new declaracion.default(new tipo.default('LET'),new simbolo.default(1,null,$3, $6), @1.first_line, @1.last_column);}
+             |LET DOLAR ID   {$$ = new declaracion.default(new tipo.default('LET'),new simbolo.default(1,null,$3,null), @1.first_line, @1.last_column);};
+             
+ASIGNACION:   DOLAR ID  DOSPUNTOS IGUAL OPERADORES {$$ = new asignacion.default($2 ,$5, @1.first_line, @1.last_column);};
 
 
 INSTRUCCIONESF : INSTRUCCIONESF SENTENCIASF     {$$ = $1; $$.push($2); }

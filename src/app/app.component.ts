@@ -262,6 +262,7 @@ export class AppComponent {
       
       this.salidaC3Doptimizado = codigoOptimizado;
       //this.cadenaASTgrafica[5] = codigoOptimizado; // Salida del C3D optimizado
+      this.htmlop=this.graficar_ts(ListaRepoOptimizacion.getLista());
     }
   }
 }
