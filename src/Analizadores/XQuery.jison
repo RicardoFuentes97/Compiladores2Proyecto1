@@ -188,18 +188,26 @@ INSTRUCCIONES : INSTRUCCIONES SENTENCIAS    { $$ = $1; $$.push($2); }
 SENTENCIAS: FOR DOLAR ID IN PARAMETROS  INSTRUCCIONESF  { $$=new ForXquery.default($3,$5,@1.first_line,@1.first_column,$6); }  
     | LOCAL DOSPUNTOS ID PARA  PARC     { $$ = new llamada.default($3 , [],@1.first_line, @1.last_column ); }
     | LOCAL DOSPUNTOS ID PARA lista_exp PARC { $$ = new llamada.default($3 , $5 ,@1.first_line, @1.last_column ); }
-    | DECLARE FUNCTION LOCAL DOSPUNTOS ID PARA  PARC LLAVEA instrucciones LLAVEC PUNTOCOMA { $$ = new funcion.default(3,new tipo.default('VOID'), $5 , [], [], $9, @1.first_line, @1.last_column ); }
-    | DECLARE FUNCTION LOCAL DOSPUNTOS ID PARA lista_expc PARC LLAVEA instrucciones LLAVEC PUNTOCOMA { $$ = new funcion.default(3,new tipo.default('VOID'), $5 , $7, $7, $10, @1.first_line, @1.last_column ); }
+    | DECLARE FUNCTION LOCAL DOSPUNTOS ID PARA  PARC  TIPOF LLAVEA instrucciones LLAVEC PUNTOCOMA { $$ = new funcion.default(3,new tipo.default('VOID'), $5 , [], [], $10, @1.first_line, @1.last_column ); }
+    | DECLARE FUNCTION LOCAL DOSPUNTOS ID PARA lista_expc PARC TIPOF LLAVEA instrucciones LLAVEC PUNTOCOMA { $$ = new funcion.default(3,new tipo.default('VOID'), $5 , $7, $7, $11, @1.first_line, @1.last_column ); }
     ;
+
+TIPOF : AS XS DOSPUNTOS ID INTERROG {}
+        |;
 
 instrucciones : instrucciones instruccion   { $$ = $1; $$.push($2); }
             | instruccion                   {$$= new Array(); $$.push($1); }
-            ;
+            ; 
 
 
 instruccion: DECLARACION {$$=$1;} 
-            | RETORNO   {$$=$1;}
-            | ASIGNACION {$$=$1;};
+            | RETORNO    {$$=$1;}
+            | ASIGNACION {$$=$1;}
+            | SENT_IF    {$$=$1};
+
+SENT_IF:   IF PARA OPERADORES PARC  THEN instrucciones { $$ = new Ifs.default($3, $6, [], @1.first_line, @1.last_column); }
+          |IF PARA OPERADORES PARC  THEN instrucciones ELSE instrucciones {$$ = new Ifs.default($3, $6, $8, @1.first_line, @1.last_column);};
+
 
 RETORNO : RETURN OPERADORES {$$ = new Print.default($2, @1.first_line, @1.last_column); } ;
 
@@ -207,6 +215,7 @@ DECLARACION:  LET DOLAR ID  DOSPUNTOS IGUAL OPERADORES {$$ = new declaracion.def
              |LET DOLAR ID   {$$ = new declaracion.default(new tipo.default('LET'),new simbolo.default(1,null,$3,null), @1.first_line, @1.last_column);};
              
 ASIGNACION:   DOLAR ID  DOSPUNTOS IGUAL OPERADORES {$$ = new asignacion.default($2 ,$5, @1.first_line, @1.last_column);};
+
 
 
 INSTRUCCIONESF : INSTRUCCIONESF SENTENCIASF     {$$ = $1; $$.push($2); }
